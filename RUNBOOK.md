@@ -42,9 +42,10 @@ Contoh naskah yang benar (B&M, 19 Nov 2026): "Mau ubah tata letak toko, tapi tak
 
 ## Reel (1080x1920)
 1. `python3 tools/timing.py narration.wav naskah_bersih.txt > timing.json` (timing kalimat).
+   Lalu `python3 tools/word_timing.py timing.json narration.wav > words.txt` (perkiraan waktu tiap kata). Setiap cue visual (writeOn, pop, sfx) memakai waktu kata yang sedang diucapkan dari words.txt, jangan ditebak. Visual muncul paling cepat bersamaan dengan katanya, bukan sebelumnya.
 2. Tulis scenes.mjs.txt mengikuti pola `examples/*_scenes.mjs.txt` (scene(V(a), V(b), fn), sfx(...)). Cover berjudul di 1,2 detik pertama. Layar penuh animasi. Tanpa subtitle, tanpa chip sumber, tanpa logo merek asli, tanpa wajah tokoh nyata.
 3. `python3 build.py scenes.mjs.txt narration.wav render.mjs`, salin sfx.py dan narration.wav ke folder render.
-4. `node render.mjs frames t1,t2,...` untuk QA visual (baca PNG: tumpang tindih, teks terpotong, ruang kosong). Perbaiki.
+4. `node render.mjs frames t1,t2,...` untuk QA visual. Ambil frame tepat di waktu kata kunci (V(waktu kata) + 0,3) dan pastikan visualnya sudah muncul dan sesuai yang diucapkan (baca PNG: tumpang tindih, teks terpotong, ruang kosong). Perbaiki.
 5. `node render.mjs video out.mp4`.
 
 ## Carousel (1080x1350, gaya v2 gambar tangan)
