@@ -1,0 +1,8 @@
+{
+  "voice": "Leda",
+  "models": [
+    "gemini-3.8-flash-tts",
+    "gemini-3.1-flash-tts-preview"
+  ],
+  "style": "Bacakan seperti host podcast perempuan muda yang ramah berbahasa Indonesia: jelas, artikulasi rapi, tempo sedang. Intonasi hidup dan ekspresif sejak kalimat pertama, tidak datar. Beri jeda alami di setiap koma, titik, dan tanda tanya."
+}
