@@ -1,0 +1,132 @@
+// ---------- Chipotle-specific props
+const CREW = {hair: 'cap', capCol: BLUE, shirt: '#ffffff', apron: '#7a5a3a', mood: 'ok'};
+const RESTO = {hair: 'short', shirt: ORANGE, glasses: true, apron: '#ffffff', mood: 'ok'};
+function food(c, x, y, k, col) { if (k % 3 === 0) circ(c, x, y, 16, col, 3); else if (k % 3 === 1) shape(c, [[x - 18, y + 8], [x, y - 16], [x + 18, y + 8]], col, 3); else rect(c, x - 16, y - 10, 32, 20, col, 3); }
+function tray(c, x, y, w, level, col = '#e9b04a', spoil = 0) { rect(c, x, y, w, 70, '#c9ced4', 6); const n = Math.round(level * Math.floor(w / 30)); for (let i = 0; i < n; i++) food(c, x + 22 + i * 30, y + 26 - (i % 2) * 12, i, mix(col, '#8b8455', spoil)); }
+function bin(c, x, y, s = 1, full = 0) { at(c, x, y, s, c => { shape(c, [[-70, -120], [70, -120], [56, 60], [-56, 60]], '#8a9aa6', 6); rect(c, -84, -140, 168, 28, '#6d7c87', 5); for (let i = 0; i < 3; i++) line(c, [[-30 + i * 30, -90], [-26 + i * 30, 36]], 4, '#6d7c87'); if (full > 0) for (let i = 0; i < 6 * full; i++) food(c, -50 + i * 20, -150 - (i % 2) * 14, i, '#8b8455'); }); }
+function drumstick(c, x, y, s = 1, col = '#d9963a') { at(c, x, y, s, c => { c.beginPath(); c.ellipse(0, 0, 30, 22, -.5, 0, 7); c.fillStyle = col; c.fill(); c.lineWidth = 4; c.strokeStyle = INK; c.stroke(); line(c, [[18, 14], [40, 34]], 8, '#f4ece0'); circ(c, 44, 38, 7, '#f4ece0', 3); }); }
+function screenK(c, x, y, w, h, lines, prog, title = 'Rekomendasi') { card(c, x, y, w, h, 20, '#2a2a30', 7); c.save(); c.beginPath(); c.roundRect(x + 16, y + 16, w - 32, h - 32, 10); c.fillStyle = '#f7f9fc'; c.fill(); c.clip();
+  rect(c, x + 16, y + 16, w - 32, 66, GREEN, 0); text(c, title, x + 40, y + 62, 34, '#fff', {font: 'Noto', align: 'left'});
+  lines.forEach((t, i) => { const k = clamp(prog * lines.length - i); if (k <= 0) return; text(c, typed(t, k), x + 40, y + 140 + i * 66, 38, INK, {font: 'Noto', align: 'left'}); if (k >= 1) check(c, x + w - 70, y + 128 + i * 66, 16, 7); }); c.restore(); }
+function stove(c, x, y, w) { rect(c, x, y, w, 220, '#9aa6ad', 6); rect(c, x - 10, y - 16, w + 20, 22, '#6d7c87', 5); for (let i = 0; i < 2; i++) { circ(c, x + w * (.28 + i * .44), y + 110, 26, '#555', 4); } }
+function pan(c, x, y, s, T, steam = 1) { at(c, x, y, s, c => { shape(c, [[-90, -20], [90, -20], [76, 30], [-76, 30]], '#555', 6); line(c, [[90, -10], [170, -26]], 10); for (let i = 0; i < 3; i++) drumstick(c, -50 + i * 50, -24, .7);
+  if (steam) { c.save(); c.globalAlpha = .6 * steam; for (let i = 0; i < 3; i++) { c.beginPath(); for (let k = 0; k < 7; k++) c.lineTo(-40 + i * 40 + Math.sin(T * 5 + k + i) * 10, -60 - k * 18); c.lineWidth = 5; c.strokeStyle = '#9aa6ad'; c.stroke(); } c.restore(); } }); }
+function resto(c, x, y, w, h, name) { rect(c, x, y, w, h, '#f4ece0', 7); for (let i = 0; i < 7; i++) shape(c, [[x + i * w / 7, y - 10], [x + (i + 1) * w / 7, y - 10], [x + (i + 1) * w / 7 - 6, y + 64], [x + i * w / 7 + 6, y + 64]], i % 2 ? '#fff' : '#8a3b2b', 4);
+  rect(c, x + w * .22, y - 140, w * .56, 110, '#8a3b2b', 6); text(c, name, x + w / 2, y - 58, 84, '#fff'); rect(c, x + 40, y + 110, w * .4, h - 160, '#dff0fb', 6); rect(c, x + w * .58, y + 110, w * .34, h - 50, '#c49a6c', 6); }
+function burrito(c, x, y, s = 1) { at(c, x, y, s, c => { c.beginPath(); c.ellipse(0, 0, 90, 46, -.3, 0, 7); c.fillStyle = '#f2d9a8'; c.fill(); c.lineWidth = 6; c.strokeStyle = INK; c.stroke(); c.beginPath(); c.ellipse(70, -22, 26, 34, -.3, 0, 7); c.fillStyle = '#5cc17b'; c.fill(); c.stroke(); circ(c, 74, -26, 8, RED, 3); }); }
+function moon(c, x, y, s = 1) { at(c, x, y, s, c => { c.beginPath(); c.arc(0, 0, 50, .7, 5.6); c.arc(24, -10, 40, 5.0, 1.2, true); c.closePath(); c.fillStyle = YEL; c.fill(); c.lineWidth = 5; c.strokeStyle = INK; c.stroke(); }); }
+function arrowDown(c, x, y, s = 1, col = GREEN) { at(c, x, y, s, c => { line(c, [[0, -40], [0, 40]], 14, col); line(c, [[-30, 12], [0, 44], [30, 12]], 14, col); }); }
+
+// COVER 0 - 1.2
+scene(0, LEAD, (c, T) => {
+  card(c, 80, 170, 920, 560, 56, ORANGE, 8);
+  text(c, 'Masak pas,', W / 2, 410, 180, '#fff'); text(c, 'tidak terbuang', W / 2, 600, 130, CREAM);
+  floor(c, 1640);
+  stove(c, 120, 1420, 420); pan(c, 330, 1400, 1, T, 1);
+  person(c, {...CREW, x: 720, y: 1640, s: .82, mood: 'happy', la: [.3, .1], ra: [2.6, .2]});
+  screenK(c, 600, 820, 420, 330, ['Ayam: 3 nampan', 'Nasi: 2 panci'], 1);
+  bot(c, 940, 1480, .6, T);
+});
+sfx(0.05, 'whoosh', .12);
+
+// C1 v0 - 5.65 : kebanyakan sampai terbuang / kehabisan pas jam ramai
+scene(V(0), V(5.65), (c, T) => {
+  writeOn(c, 'Kebanyakan?', 290, 300, 92, RED, pe(T, V(.3), .5));
+  const a = pe(T, V(.3), .5);
+  if (a > 0) at(c, 0, 0, 1, c => { card(c, 50, 380, 470, 1060, 40, '#fff7e8', 6);
+    tray(c, 90, 520, 390, 1, '#e9b04a', pe(T, V(1.6), 1.0)); tray(c, 90, 640, 390, 1, '#5cc17b', pe(T, V(1.8), 1.0));
+    bin(c, 285, 1150, 1.1, pe(T, V(2.3), .8)); if (T > V(2.6)) at(c, 285, 1350, pop(T, V(2.6), .3), c => { pill(c, -130, -40, 260, 76, RED, 5); text(c, 'terbuang', 0, 16, 52, '#fff'); }); }, a);
+  const b = pe(T, V(3.0), .5);
+  if (b > 0) at(c, 0, 0, 1, c => { writeOn(c, 'Kehabisan?', 790, 300, 92, BLUE, pe(T, V(3.0), .5)); card(c, 560, 380, 470, 1060, 40, '#eaf2ff', 6);
+    tray(c, 600, 520, 390, .1); tray(c, 600, 640, 390, 0);
+    at(c, 795, 790, pop(T, V(3.6), .3), c => { pill(c, -110, -40, 220, 76, RED, 5); text(c, 'HABIS', 0, 16, 56, '#fff'); });
+    for (let i = 0; i < 5; i++) { const s = pe(T, V(3.9) + i * .12, .3); if (s > 0) person(c, {hair: i % 2 ? 'bun' : 'short', shirt: [PURPLE, BLUE, ORANGE, '#3aa5a0', GREEN][i], x: 640 + i * 78, y: 1400, s: .38 * s, mood: 'worry'}); }
+    if (T > V(4.4)) clockI(c, 940, 960, .7 * pop(T, V(4.4), .3), T, T * 3); }, b);
+  floor(c, 1460, 50, 1030);
+});
+sfx(V(.3), 'scribble', .06); sfx(V(2.3), 'thud', .09); sfx(V(2.6), 'pop', .07); sfx(V(3.0), 'scribble', .06); sfx(V(3.6), 'alarm', .04); sfx(V(4.4), 'tap', .06);
+
+// C2 v5.65 - 12.45 : Chipotle, restoran burrito Amerika, pakai AI
+scene(V(5.65), V(12.45), (c, T) => {
+  const r = pe(T, V(5.84), .5);
+  at(c, 0, (1 - r) * 80, 1, c => resto(c, 170, 560, 740, 520, 'Chipotle'), r);
+  if (T > V(6.6)) at(c, 260, 1300, pop(T, V(6.6), .4), c => burrito(c, 0, 0, 1.1));
+  if (T > V(7.3)) at(c, W / 2, 300, pop(T, V(7.3), .35), c => { pill(c, -290, -48, 580, 90, '#fff', 5); text(c, 'restoran burrito, Amerika', 0, 18, 54, INK); });
+  floor(c, 1640);
+  if (T > V(9.7)) { const bk = pop(T, V(9.7), .45); bot(c, 760, 1400, 1.1 * bk, T); for (let i = 0; i < 5; i++) { const a = i / 5 * Math.PI * 2 + T; sparkle(c, 760 + Math.cos(a) * 200 * bk, 1360 + Math.sin(a) * 140 * bk, .8); } }
+  if (T > V(10.3)) writeOn(c, 'pakai AI', 760, 1180, 96, BLUE, pe(T, V(10.3), .5), {under: ORANGE});
+});
+sfx(V(5.84), 'whoosh', .08); sfx(V(6.6), 'pop', .07); sfx(V(7.3), 'pop', .07); sfx(V(9.7), 'chime', .08); sfx(V(10.3), 'scribble', .05);
+
+// C3 v12.45 - 25.6 : kru tidak mengira-ngira, rekomendasi berapa & kapan, tinggal ikuti
+scene(V(12.45), V(25.6), (c, T) => {
+  writeOn(c, 'Di dapur', W / 2, 240, 104, INK, pe(T, V(12.64), .5), {under: ORANGE});
+  floor(c, 1640);
+  stove(c, 80, 1420, 400);
+  const follow = T > V(22.63);
+  pan(c, 280, 1400, 1, T, follow ? 1 : 0);
+  person(c, {...CREW, x: 640, y: 1640, s: .8, mood: follow ? 'happy' : (T > V(15.83) ? 'ok' : 'think'), la: [.3, .1], ra: follow ? [1.6, .6] : (T < V(15.6) ? [2.4, .5] : [.3, .1])});
+  if (T > V(12.9) && T < V(16.2)) { const s = pop(T, V(12.9), .35); at(c, 520, 900, s, c => { bubble(c, -10, -60, ['Berapa ya?', 'Kira-kira...'], 'l', '#fff', MUTED, 44); }); if (T > V(14.6)) at(c, 680, 900, pop(T, V(14.6), .25), c => X(c, 0, 0, 90, 16)); }
+  if (T > V(15.83)) { const s = pop(T, V(15.83), .45);
+    at(c, 0, 0, s, c => screenK(c, 470, 400, 560, 470, ['Ayam: 3 nampan', 'Nasi: 2 panci', 'Salsa: 1 wadah', 'Mulai masak: 10.30'], P(T, V(16.4), V(21.6)), 'Rekomendasi'));
+    if (T > V(19.8)) clockI(c, 940, 960, .7 * pop(T, V(19.8), .3), T, (T - V(19.8)) * 3); }
+  if (follow) { at(c, 790, 1000, pop(T, V(22.8), .35), c => { circ(c, 0, 0, 46, GREEN, 5); check(c, 2, 2, 22, 10, '#fff'); }); }
+  if (T > V(23.98)) at(c, 200, 960, pop(T, V(23.98), .35), c => { rect(c, -80, -100, 160, 200, '#fff', 6); for (let i = 0; i < 4; i++) line(c, [[-56, -60 + i * 40], [50, -60 + i * 40]], 4, '#c9bca6'); text(c, 'catat manual', 0, 150, 44, MUTED); X(c, 0, 0, 90, 16); });
+});
+sfx(V(12.64), 'scribble', .06); sfx(V(12.9), 'pop', .06); sfx(V(14.6), 'tap', .09); sfx(V(15.83), 'whoosh', .07); for (let i = 0; i < 4; i++) sfx(V(16.4) + i * 1.3 + 1.2, 'ding', .04); sfx(V(22.8), 'chime', .07); sfx(V(23.98), 'thud', .09);
+
+// C4 v25.6 - 41.5 : 500 restoran, seluruh Amerika awal tahun depan, menurut CEO: 3 hasil
+scene(V(25.6), V(41.5), (c, T) => {
+  const n = Math.floor(40 * pe(T, V(27.2), 2.2));
+  for (let i = 0; i < 40; i++) { const x = 120 + (i % 8) * 120, y = 250 + Math.floor(i / 8) * 100; shop(c, x - 40, y, 80, 54, i < n ? '#fff7e8' : '#e5e0d4', i < n ? '#8a3b2b' : '#c9bca6'); }
+  if (T > V(27.2)) { const v = Math.round(500 * pe(T, V(27.2), 2.0)); at(c, 300, 860, pop(T, V(27.2), .4), c => { card(c, -240, -100, 480, 180, 40, CREAM, 6); text(c, `${v} restoran`, 0, 26, 86, '#8a3b2b'); }); }
+  if (T > V(29.8)) at(c, 790, 860, pop(T, V(29.8), .4), c => { card(c, -240, -100, 480, 180, 40, '#fff', 6); text(c, 'seluruh Amerika', 0, -10, 52, INK); text(c, 'awal tahun depan', 0, 52, 48, BLUE); });
+  if (T > V(33.36)) writeOn(c, 'Menurut CEO Chipotle:', W / 2, 1080, 70, MUTED, pe(T, V(33.36), .7), {under: ORANGE});
+  const res = [[V(35.0), 'input manual', 'berkurang', c => { rect(c, -50, -60, 100, 120, '#fff', 5); for (let i = 0; i < 3; i++) line(c, [[-32, -30 + i * 30], [32, -30 + i * 30]], 4, '#c9bca6'); }],
+    [V(37.0), 'persiapan', 'lebih efisien', c => { circ(c, 0, 0, 56, GREEN, 5); check(c, 2, 2, 28, 12, '#fff'); }],
+    [V(38.7), 'makanan terbuang', 'turun', c => bin(c, 0, 20, .55, .5)]];
+  res.forEach(([t0, a, b, icon], i) => { const s = pop(T, t0, .4); if (s <= 0) return; const x = 190 + i * 350;
+    at(c, x, 1420, s, c => { card(c, -160, -230, 320, 430, 36, '#fff', 6); at(c, 0, -110, 1, icon); arrowDown(c, 100, -150, .55, i === 1 ? GREEN : GREEN); text(c, a, 0, 60, 42, INK); text(c, b, 0, 118, 46, GREEN); }); });
+});
+sfx(V(27.2), 'pop', .09); for (let i = 0; i < 8; i++) sfx(V(27.3) + i * .27, 'tap', .04); sfx(V(29.8), 'pop', .08); sfx(V(33.36), 'scribble', .06); [35.0, 37.0, 38.7].forEach(v => sfx(V(v), 'pop', .09));
+
+// C5 v41.5 - 53.9 : bayangkan di restoran milikmu
+scene(V(41.5), V(53.9), (c, T) => {
+  writeOn(c, 'Di restoran milikmu', W / 2, 240, 100, INK, pe(T, V(41.8), .8), {under: ORANGE});
+  const night = T > V(50.4);
+  floor(c, 1640);
+  if (!night) {
+    if (T > V(43.9)) at(c, 860, 470, pop(T, V(43.9), .35), c => { pill(c, -150, -42, 300, 80, CREAM, 5); text(c, 'sebelum buka', 0, 16, 48, MUTED); });
+    person(c, {...RESTO, x: 220, y: 1640, s: .8, mood: T > V(48.8) ? 'happy' : 'think', la: [.3, .1], ra: [1.3, 1.1]});
+    at(c, 0, 0, pop(T, V(44.7), .45), c => screenK(c, 400, 600, 620, 430, ['Siapkan 30 potong ayam', 'untuk makan siang', 'Mulai goreng 11.00'], P(T, V(45.5), V(50.2)), 'Hari ini'));
+    if (T > V(46.2)) for (let i = 0; i < 10; i++) { if (T < V(46.2) + i * .18) break; drumstick(c, 470 + (i % 5) * 110, 1200 + Math.floor(i / 5) * 90, .9); }
+    if (T > V(48.7)) clockI(c, 900, 1450, .9 * pop(T, V(48.7), .3), T, lerp(0, Math.PI * 1.83, pe(T, V(48.8), 1.2)));
+  } else {
+    moon(c, 880, 420, pop(T, V(50.4), .4));
+    text(c, 'malam hari', 540, 560, 64, MUTED);
+    rect(c, 200, 1060, 680, 90, '#c9ced4', 6);
+    const left = Math.round(lerp(10, 2, pe(T, V(51.0), 1.6)));
+    for (let i = 0; i < left; i++) drumstick(c, 260 + i * 62, 1080, .8);
+    if (T > V(51.2)) at(c, 540, 1300, pop(T, V(51.2), .35), c => { pill(c, -220, -46, 440, 90, '#fff', 5); text(c, 'sisa bisa ditekan', 0, 18, 56, GREEN); });
+    if (T > V(51.6)) arrowDown(c, 940, 1100, 1.1 * pop(T, V(51.6), .3));
+    person(c, {...RESTO, x: 160, y: 1640, s: .7, mood: 'happy', la: [.3, .1], ra: [2.6, .2]});
+  }
+});
+sfx(V(41.8), 'scribble', .06); sfx(V(43.9), 'pop', .07); sfx(V(44.7), 'whoosh', .06); for (let i = 0; i < 3; i++) sfx(V(46.2) + i * .6, 'tap', .05); sfx(V(48.7), 'ding', .06); sfx(V(50.4), 'whoosh', .07); sfx(V(51.2), 'chime', .07);
+
+// C6 v53.9 - end : kira-kira tertarik? ketik tertarik
+scene(V(53.9), TOTAL + .1, (c, T) => {
+  writeOn(c, 'Kira-kira,', W / 2, 240, 100, MUTED, pe(T, V(54.06), .5));
+  writeOn(c, 'tertarik ngga?', W / 2, 370, 120, BLUE, pe(T, V(55.0), .6), {under: ORANGE});
+  card(c, 110, 480, 860, 820, 40, '#fff', 7); text(c, 'Komentar', 160, 560, 52, MUTED, {align: 'left'}); line(c, [[140, 590], [940, 590]], 4, '#e4dccb');
+  const cols = [GREEN, ORANGE, PURPLE, BLUE, RED];
+  for (let i = 0; i < 5; i++) { const t0 = V(55.8) + i * .45, s = pe(T, t0, .3); if (s <= 0) continue; const y = 680 + i * 120;
+    c.save(); c.globalAlpha = s; c.translate(0, (1 - s) * 30); circ(c, 190, y, 38, cols[i], 5); text(c, 'tertarik!', 260, y + 16, 50, INK, {font: 'Noto', align: 'left'});
+    const lk = T > t0 + .5; c.beginPath(); const hx = 900, hy = y; c.moveTo(hx, hy + 14); c.bezierCurveTo(hx - 30, hy - 8, hx - 18, hy - 32, hx, hy - 16); c.bezierCurveTo(hx + 18, hy - 32, hx + 30, hy - 8, hx, hy + 14);
+    c.fillStyle = lk ? RED : '#fff'; c.fill(); c.lineWidth = 4; c.strokeStyle = lk ? RED : MUTED; c.stroke(); c.restore(); }
+  if (T > V(58.09)) { const pulse = 1 + Math.sin((T - V(58.09)) * 8) * .03;
+    at(c, W / 2, 1450, pop(T, V(58.09), .4) * pulse, c => { card(c, -430, -90, 860, 170, 50, ORANGE, 7); text(c, 'ketik "tertarik"', -30, 30, 92, '#fff'); line(c, [[330, -20], [330, 40]], 10, '#fff'); line(c, [[302, 14], [330, 44], [358, 14]], 10, '#fff'); }); }
+  bot(c, 900, 1730, .62, T);
+});
+sfx(V(54.06), 'scribble', .06); for (let i = 0; i < 5; i++) sfx(V(55.8) + i * .45, 'pop', .06); sfx(V(58.09), 'chime', .09);
+

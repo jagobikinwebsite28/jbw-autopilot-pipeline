@@ -1,0 +1,108 @@
+// ---------- Omnisend Social Capture
+const IGP = '#c13584';
+function igPost(c, x, y, s, T, comments = [], k = 1) { at(c, x, y, s, c => {
+  card(c, -230, -330, 460, 660, 30, '#fff', 6);
+  circ(c, -190, -290, 18, IGP, 3); text(c, 'tokokamu', -160, -278, 30, INK, {font: 'Noto', align: 'left'});
+  rect(c, -210, -250, 420, 260, '#f7e1c9', 4); shape(c, [[-60, -60], [0, -200], [60, -60]], '#f08a24', 4); circ(c, 0, -110, 20, '#fff', 3);
+  c.beginPath(); const hx = -190, hy = 40; c.moveTo(hx, hy + 12); c.bezierCurveTo(hx - 24, hy - 6, hx - 14, hy - 26, hx, hy - 12); c.bezierCurveTo(hx + 14, hy - 26, hx + 24, hy - 6, hx, hy + 12); c.fillStyle = RED; c.fill();
+  comments.forEach(([u, t, t0], i) => { const a = clamp((T - t0) / .3); if (a <= 0) return; c.save(); c.globalAlpha = a; const yy = 90 + i * 56; circ(c, -196, yy - 10, 14, ['#3aa56b', '#2f6fd0', '#8a5ac8', '#f08a24', '#e5533d'][i % 5], 0); text(c, u, -172, yy, 26, MUTED, {font: 'Noto', align: 'left'}); text(c, t, -172 + 26 * u.length * .58 + 12, yy, 28, INK, {font: 'Noto', align: 'left'}); c.restore(); });
+}); }
+function dmScreen(c, x, y, s, msgs, T) { at(c, x, y, s, c => { card(c, -200, -320, 400, 640, 36, '#26262c', 6); c.save(); c.beginPath(); c.roundRect(-182, -280, 364, 560, 18); c.fillStyle = '#f7f9fc'; c.fill(); c.clip();
+  rect(c, -182, -280, 364, 60, IGP, 0); text(c, 'DM', 0, -238, 34, '#fff', {font: 'Noto'});
+  let yy = -190; msgs.forEach(([side, lines, t0, bg]) => { if (T < t0) return; const a = clamp((T - t0) / .3); c.save(); c.globalAlpha = a; c.font = 'bold 26px Noto'; const w = Math.max(...lines.map(l => c.measureText(l).width)) + 30, h = lines.length * 32 + 20; const bx = side === 'r' ? 166 - w : -166; c.beginPath(); c.roundRect(bx, yy, w, h, 16); c.fillStyle = bg || (side === 'r' ? '#d7e7fb' : '#fff'); c.fill(); c.lineWidth = 3; c.strokeStyle = INK; c.stroke(); lines.forEach((l, i) => text(c, l, bx + 15, yy + 36 + i * 32, 26, INK, {font: 'Noto', align: 'left'})); c.restore(); yy += h + 16; });
+  c.restore(); }); }
+function emailIcon(c, x, y, s, col = '#fff') { at(c, x, y, s, c => { rect(c, -70, -46, 140, 92, col, 5); line(c, [[-70, -46], [0, 8], [70, -46]], 5); }); }
+function listCard(c, x, y, s, n, T) { at(c, x, y, s, c => { card(c, -200, -230, 400, 460, 30, '#fff', 6); rect(c, -200, -230, 400, 70, GREEN, 0); text(c, 'Daftar pelanggan', 0, -182, 40, '#fff');
+  for (let i = 0; i < Math.min(n, 5); i++) { const yy = -120 + i * 70; circ(c, -150, yy, 18, ['#3aa56b', '#2f6fd0', '#8a5ac8', '#f08a24', '#e5533d'][i], 3); line(c, [[-120, yy - 6], [100, yy - 6]], 5, '#c9bca6'); line(c, [[-120, yy + 12], [40, yy + 12]], 4, '#e4dccb'); check(c, 150, yy, 14, 6); } }); }
+function waIcon(c, x, y, s) { at(c, x, y, s, c => { circ(c, 0, 0, 56, '#25a244', 6); c.beginPath(); c.moveTo(-30, 40); c.lineTo(-40, 56); c.lineTo(-14, 48); c.closePath(); c.fillStyle = '#25a244'; c.fill(); phoneIcon(c, 0, 0, .5); }); }
+
+// COVER 0 - 1.2
+scene(0, LEAD, (c, T) => { performanceT = T;
+  card(c, 80, 170, 920, 560, 56, IGP, 8);
+  text(c, 'Komentar', W / 2, 400, 190, '#fff'); text(c, 'jadi pelanggan', W / 2, 590, 140, YEL);
+  igPost(c, 330, 1250, .95, 9, [['ani', 'mau kak', 0], ['budi', 'berapa?', 0], ['citra', 'DISKON', 0]]);
+  at(c, 600, 1250, 1, c => { line(c, [[0, 0], [120, 0]], 10, ORANGE); line(c, [[96, -24], [124, 0], [96, 24]], 10, ORANGE); });
+  listCard(c, 860, 1250, .62, 5, T);
+});
+sfx(0.05, 'whoosh', .12);
+
+// O1 v0 - 5.6 : ramai komentar tapi nggak beli
+scene(V(0), V(5.6), (c, T) => { performanceT = T;
+  igPost(c, 540, 820, 1.25, T, [['ani', 'mau kak', V(.6)], ['budi', 'berapa kak?', V(1.4)], ['citra', 'mau!', V(2.0)], ['dodi', 'info harga', V(2.4)]]);
+  for (let i = 0; i < 6; i++) { const t0 = V(.4) + i * .3; const k = P(T, t0, t0 + 1.6); if (k <= 0 || k >= 1) continue; c.save(); c.globalAlpha = 1 - k; bubble(c, 120 + (i % 3) * 300, lerp(1300, 1100, k), [['mau', 'berapa?', 'mau!'][i % 3]], 'l', '#fff', INK, 36); c.restore(); }
+  if (T > V(3.2)) { at(c, 540, 1560, pop(T, V(3.2), .4), c => { card(c, -280, -70, 560, 130, 40, '#fff', 6); text(c, 'Penjualan: 0', 0, 22, 70, RED); }); }
+  floor(c, 1800); person(c, {...OWNER, x: 900, y: 1800, s: .5, mood: T > V(3.4) ? 'worry' : 'think', la: [.3, .1], ra: [2.6, .9]});
+});
+sfx(V(.6), 'pop', .06); sfx(V(1.4), 'pop', .06); sfx(V(2.0), 'pop', .06); sfx(V(2.4), 'pop', .06); sfx(V(3.2), 'boing', .07);
+
+// O2 v5.6 - 12.8 : Omnisend, platform email marketing; fitur baru Social Capture
+scene(V(5.6), V(12.8), (c, T) => { performanceT = T;
+  writeOn(c, 'Omnisend', W / 2, 330, 150, INK, pe(T, V(5.61), .5), {under: ORANGE});
+  if (T > V(6.6)) tag(c, W / 2, 470, 'platform email marketing toko online', pop(T, V(6.6), .35), '#fff', MUTED, 44);
+  if (T > V(7.4)) { emailIcon(c, 330, 800, 1.3 * pop(T, V(7.4), .4)); at(c, 760, 800, pop(T, V(7.8), .4), c => { card(c, -170, -150, 340, 300, 30, '#fff', 6); rect(c, -170, -150, 340, 50, ORANGE, 0); for (let i = 0; i < 4; i++) line(c, [[-130, -60 + i * 50], [130, -60 + i * 50]], 5, '#c9bca6'); }); }
+  if (T > V(10.74)) { at(c, W / 2, 1300, pop(T, V(10.74), .45), c => { card(c, -380, -110, 760, 220, 60, IGP, 8); text(c, 'Social Capture', 0, 36, 110, '#fff'); }); for (let i = 0; i < 6; i++) { const a = i / 6 * Math.PI * 2 + T; sparkle(c, 540 + Math.cos(a) * 440, 1300 + Math.sin(a) * 160, .8); } tag(c, W / 2, 1520, 'fitur baru', pop(T, V(11.0), .3), CREAM, INK, 50); }
+});
+sfx(V(5.61), 'scribble', .06); sfx(V(6.6), 'pop', .06); sfx(V(7.4), 'pop', .07); sfx(V(10.74), 'chime', .09);
+
+// O3 v12.8 - 35.5 : cara kerja step by step
+scene(V(12.8), V(35.5), (c, T) => { performanceT = T;
+  writeOn(c, 'Caranya begini', W / 2, 200, 100, INK, pe(T, V(12.78), .5), {under: ORANGE});
+  const steps = [[V(13.78), 1, 'Pilih kata kunci'], [V(16.57), 2, 'Ajak di caption'], [V(20.99), 3, 'Sistem balas DM'], [V(28.07), 4, 'Masuk daftar + email diskon']];
+  steps.forEach(([t0, n, lab], i) => { const s = pop(T, t0, .35); if (s <= 0) return; const on = (i === steps.length - 1 || T < steps[i + 1][0]); at(c, 70, 300 + i * 80, s, c => { circ(c, 30, 0, 28, on ? ORANGE : '#c9bca6', 4); text(c, String(n), 30, 14, 40, '#fff'); text(c, lab, 76, 14, 46, on ? INK : MUTED, {align: 'left'}); }); });
+  // stage area y 700..1700
+  if (T < V(20.99)) { // keyword + caption
+    if (T > V(15.83)) at(c, 300, 900, pop(T, V(15.83), .4), c => { card(c, -200, -80, 400, 160, 30, YEL, 7); text(c, 'DISKON', 0, 30, 100, INK); });
+    if (T > V(16.57)) at(c, 560, 1300, pe(T, V(16.57), .4), c => { igPost(c, 0, 0, .85, T, []); card(c, -200, 110, 400, 90, 18, CREAM, 4); text(c, typed('Komen DISKON untuk', P(T, V(17.4), V(18.6))), -184, 148, 28, INK, {font: 'Noto', align: 'left'}); text(c, typed('dapat kodenya!', P(T, V(18.6), V(19.6))), -184, 182, 28, INK, {font: 'Noto', align: 'left'}); });
+  } else {
+    igPost(c, 270, 1120, .78, T, [['ani', 'DISKON', V(21.6)], ['budi', 'DISKON', V(22.2)]]);
+    if (T > V(22.4)) { const k = P(T, V(22.4), V(23.4)); c.save(); c.setLineDash([14, 12]); c.lineDashOffset = -T * 60; line(c, [[460, 1100], [lerp(460, 600, k), 1100]], 6, IGP); c.restore(); }
+    if (T > V(23.0)) dmScreen(c, 800, 1120, .9, [['l', ['Hai! Ini kode diskonmu.', 'Boleh minta emailnya?'], V(23.89)], ['r', ['ani@email.com'], V(26.6)], ['l', ['Terima kasih!'], V(27.6)]], T);
+    if (T > V(28.07)) { c.save(); c.globalAlpha = pe(T, V(28.07), .3); c.drawImage(paper, 0, 680, W, 1240, 0, 680, W, 1240); c.restore();
+      listCard(c, 300, 1150, .95 * pop(T, V(28.3), .4), Math.min(5, 1 + Math.floor(P(T, V(28.5), V(30.5)) * 5)), T);
+      if (T > V(30.85)) { const k = pe(T, V(31.0), .9); emailIcon(c, lerp(500, 800, k), 1100 - Math.sin(k * Math.PI) * 120, .8);
+        if (k >= 1) at(c, 800, 1150, pop(T, V(32.0), .4), c => { card(c, -200, -170, 400, 340, 30, '#fff', 6); rect(c, -200, -170, 400, 60, GREEN, 0); text(c, 'Selamat datang!', 0, -128, 36, '#fff'); text(c, 'Kode diskonmu:', 0, -40, 40, INK); card(c, -150, 0, 300, 90, 20, YEL, 5); text(c, 'DISKON10', 0, 60, 60, INK); }); } }
+  }
+});
+sfx(V(12.78), 'scribble', .05); [13.78, 16.57, 20.99, 28.07].forEach(v => sfx(V(v), 'pop', .07)); sfx(V(15.83), 'thud', .08); sfx(V(17.4), 'tap', .05); sfx(V(21.6), 'pop', .05); sfx(V(22.2), 'pop', .05); sfx(V(23.89), 'ding', .06); sfx(V(26.6), 'tap', .06); sfx(V(28.3), 'whoosh', .06); sfx(V(31.0), 'whoosh', .06); sfx(V(32.0), 'chime', .07);
+
+// O4 v35.5 - 48.7 : diluncurkan akhir Oktober; bisa dihubungi lagi tanpa admin balas satu-satu
+scene(V(35.5), V(48.7), (c, T) => { performanceT = T;
+  at(c, 270, 470, pop(T, V(35.51), .4), c => { rect(c, -110, -100, 220, 200, '#fff', 6); rect(c, -110, -100, 220, 56, RED, 6); text(c, 'Oktober', 0, -60, 42, '#fff'); text(c, 'akhir', 0, 50, 64, INK); });
+  if (T > V(37.68)) at(c, 720, 470, pop(T, V(37.68), .4), c => { card(c, -270, -90, 540, 180, 34, '#fff', 6); text(c, 'semua pengguna', 0, -14, 50, INK); text(c, 'Omnisend berbayar', 0, 50, 46, MUTED); });
+  if (T > V(40.87)) { const k = pe(T, V(41.0), 1.4);
+    for (let i = 0; i < 5; i++) { const x0 = 160 + i * 80; person(c, {hair: i % 2 ? 'bun' : 'short', shirt: ['#3aa56b', '#2f6fd0', '#8a5ac8', '#f08a24', '#e5533d'][i], x: lerp(x0, x0 + 40, k), y: 1180, s: .32, mood: 'ok', walk: k < 1 ? T * 8 + i : null}); }
+    tag(c, 330, 1260, 'tadinya cuma lewat', pop(T, V(41.2), .35), '#fff', MUTED, 40);
+    if (T > V(43.63)) { arrow(c, [560, 1050], [700, 1050], GREEN, 8, pe(T, V(43.63), .4)); listCard(c, 860, 1050, .55 * pop(T, V(43.8), .4), 5, T); tag(c, 860, 1260, 'bisa dihubungi lagi', pop(T, V(44.2), .35), '#fff', GREEN, 40); } }
+  if (T > V(45.76)) { floor(c, 1800); person(c, {...OWNER, x: 540, y: 1800, s: .5, mood: 'happy', la: [.3, .1], ra: [2.6, .2]}); at(c, 760, 1520, pop(T, V(45.9), .35), c => { tag(c, 0, 0, 'admin balas satu-satu', 1, '#fff', INK, 40); X(c, 0, 0, 160, 10); }); }
+});
+sfx(V(35.51), 'pop', .07); sfx(V(37.68), 'pop', .07); sfx(V(41.0), 'tap', .04); sfx(V(43.63), 'whoosh', .06); sfx(V(43.8), 'chime', .06); sfx(V(45.9), 'thud', .08);
+
+// O5 v48.7 - 65.5 : contoh Indonesia: komen mau nanti DM; sistem vs admin begadang; data tersimpan; WhatsApp
+scene(V(48.7), V(65.5), (c, T) => { performanceT = T;
+  writeOn(c, 'Di Indonesia', W / 2, 220, 110, INK, pe(T, V(48.75), .5), {under: ORANGE});
+  if (T > V(49.5)) at(c, W / 2, 400, pop(T, V(49.5), .35), c => { card(c, -360, -70, 720, 140, 40, CREAM, 6); text(c, '"komen mau, nanti kami DM"', 0, 20, 58, INK); });
+  if (T > V(53.48)) {
+    const L = pop(T, V(53.85), .4), R = pop(T, V(56.04), .4);
+    if (L > 0) at(c, 290, 950, L, c => { card(c, -230, -300, 460, 560, 36, '#e9f7ee', 6); text(c, 'sistem', 0, -230, 64, GREEN); bot(c, 0, -40, 1.1, T); check(c, 0, 160, 34, 12); });
+    if (R > 0) at(c, 790, 950, R, c => { card(c, -230, -300, 460, 560, 36, '#fdecea', 6); text(c, 'admin begadang', 0, -230, 54, RED); moon(c, 140, -140, .7); person(c, {...OWNER, x: 0, y: 180, s: .45, mood: 'worry', la: [.3, .1], ra: [1.4, 1.0]}); X(c, 0, -20, 170, 10); });
+  }
+  if (T > V(57.8)) { c.save(); c.globalAlpha = pe(T, V(57.8), .3); c.drawImage(paper, 0, 1280, W, 640, 0, 1280, W, 640); c.restore();
+    listCard(c, 280, 1500, .5 * pop(T, V(57.9), .35), 5, T); tag(c, 280, 1680, 'data tersimpan', pop(T, V(58.2), .35), '#fff', GREEN, 40);
+    if (T > V(58.9)) tag(c, 280, 1760, 'buat promo berikutnya', pop(T, V(58.9), .35), '#fff', MUTED, 36);
+    if (T > V(61.66)) { at(c, 780, 1480, pop(T, V(62.0), .35), c => { emailIcon(c, -110, 0, .8); X(c, -110, 0, 50, 12); }); if (T > V(64.0)) { waIcon(c, 880, 1480, .9 * pop(T, V(64.0), .4)); tag(c, 800, 1640, 'nomor WhatsApp', pop(T, V(64.2), .35), '#fff', '#25a244', 46); } } }
+});
+sfx(V(48.75), 'scribble', .06); sfx(V(49.5), 'pop', .07); sfx(V(53.85), 'pop', .08); sfx(V(56.04), 'pop', .08); sfx(V(57.9), 'whoosh', .05); sfx(V(62.0), 'thud', .08); sfx(V(64.0), 'chime', .08);
+
+// O6 v65.5 - end : tertarik? ketik tertarik
+scene(V(65.5), TOTAL + .1, (c, T) => { performanceT = T;
+  writeOn(c, 'Kira-kira,', W / 2, 240, 100, MUTED, pe(T, V(65.54), .5));
+  writeOn(c, 'tertarik ngga?', W / 2, 370, 120, IGP, pe(T, V(66.3), .6), {under: ORANGE});
+  card(c, 110, 480, 860, 820, 40, '#fff', 7); text(c, 'Komentar', 160, 560, 52, MUTED, {align: 'left'}); line(c, [[140, 590], [940, 590]], 4, '#e4dccb');
+  const cols = [GREEN, ORANGE, PURPLE, BLUE, RED];
+  for (let i = 0; i < 5; i++) { const t0 = V(67.0) + i * .4, s = pe(T, t0, .3); if (s <= 0) continue; const y = 680 + i * 120;
+    c.save(); c.globalAlpha = s; c.translate(0, (1 - s) * 30); circ(c, 190, y, 38, cols[i], 5); text(c, 'tertarik!', 260, y + 16, 50, INK, {font: 'Noto', align: 'left'}); c.restore(); }
+  if (T > V(69.1)) at(c, W / 2, 1450, pop(T, V(69.1), .4) * (1 + Math.sin(T * 8) * .03), c => { card(c, -430, -90, 860, 170, 50, ORANGE, 7); text(c, 'ketik "tertarik"', -30, 30, 92, '#fff'); line(c, [[330, -20], [330, 40]], 10, '#fff'); line(c, [[302, 14], [330, 44], [358, 14]], 10, '#fff'); });
+  bot(c, 900, 1730, .62, T);
+});
+sfx(V(65.54), 'scribble', .05); for (let i = 0; i < 5; i++) sfx(V(67.0) + i * .4, 'pop', .06); sfx(V(69.1), 'chime', .09);
+

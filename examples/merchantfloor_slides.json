@@ -1,0 +1,82 @@
+{
+ "slides": [
+  {
+   "type": "hook",
+   "title": "Upload 1 produk masih makan waktu sejam?",
+   "sub": "Ada toko yang sekarang cukup 5 menit.",
+   "swipe": "Geser"
+  },
+  {
+   "tag": "Masalahnya",
+   "title": "Foto, edit, nulis deskripsi, upload.",
+   "sub": "Pemilik toko perhiasan Outfit Additions bilang, satu produk bisa makan 60 sampai 90 menit.",
+   "icon": "clock",
+   "big": "60–90 menit",
+   "bigColor": "#e5533d",
+   "bigNote": "per produk, menurut pengalaman satu pemilik toko"
+  },
+  {
+   "tag": "Kenalan dulu",
+   "title": "MerchantFloor: agen AI untuk toko Shopify",
+   "sub": "Kamu cukup kasih foto produk dan catatan singkat.",
+   "icon": "camera",
+   "big": "Foto + catatan",
+   "bigNote": "itu saja yang perlu kamu siapkan"
+  },
+  {
+   "tag": "Langkah 1",
+   "title": "AI bikin foto produknya",
+   "sub": "Foto latar putih, foto lifestyle, sampai foto dipakai model.",
+   "icon": "photos",
+   "iconScale": 2.0
+  },
+  {
+   "tag": "Langkah 2",
+   "title": "AI nulis semua teksnya",
+   "list": [
+    "Deskripsi produk",
+    "Judul dan meta deskripsi untuk SEO",
+    "FAQ produk",
+    "Alt text gambar"
+   ]
+  },
+  {
+   "tag": "Langkah 3",
+   "title": "Kamu cek dulu, baru tayang",
+   "sub": "Semua hasil bisa kamu edit. Setelah oke, langsung masuk ke toko tanpa upload manual.",
+   "icon": "check",
+   "big": "Keputusan tetap di kamu",
+   "bigSize": 66,
+   "bigColor": "#2f9e5b"
+  },
+  {
+   "tag": "Hasilnya",
+   "title": "Sebelum vs sesudah",
+   "cards": [
+    {
+     "label": "Manual",
+     "color": "#e5533d",
+     "bg": "#fff",
+     "text": "Foto, edit, nulis, upload sendiri.",
+     "big": "60–90 mnt"
+    },
+    {
+     "label": "Pakai agen AI",
+     "color": "#2f9e5b",
+     "bg": "#fff",
+     "text": "Foto + catatan masuk, AI yang kerjakan. Sekitar $1 per listing.",
+     "big": "< 5 mnt"
+    }
+   ],
+   "sub": "Angka 5 menit adalah klaim MerchantFloor."
+  },
+  {
+   "tag": "Kalau di bisnismu",
+   "title": "Bayangin ini nyambung ke katalog atau toko online-mu sendiri.",
+   "sub": "Foto masuk, listing jadi, kamu tinggal setujui.",
+   "icon": "store",
+   "cta": "Ketik \"tertarik\" di komentar",
+   "brand": "Jago Bikin Website"
+  }
+ ]
+}

@@ -1,0 +1,179 @@
+// ---------- MediaMarkt-specific props
+const hs = i => { const x = Math.sin(i * 12.9898 + 3.7) * 43758.5453; return x - Math.floor(x); };
+const STAFF = {hair: 'short', shirt: RED, mood: 'ok'};
+const CUST = {hair: 'bun', shirt: GREEN, mood: 'ok'};
+const TOLLMAN = {hair: 'cap', capCol: BLUE, shirt: ORANGE, mood: 'ok'};
+function tv(c, x, y, w, h, on = true) { rect(c, x, y, w, h, '#2a2a30', 6); c.fillStyle = on ? '#9fd0ff' : '#44474f'; c.fillRect(x + 12, y + 12, w - 24, h - 24); if (on) { shape(c, [[x + 20, y + h - 20], [x + w * .35, y + h * .45], [x + w * .55, y + h * .7], [x + w * .7, y + h * .5], [x + w - 20, y + h - 20]], '#5cc17b', 0); circ(c, x + w * .78, y + h * .3, h * .1, YEL, 0); } line(c, [[x + w / 2, y + h], [x + w / 2, y + h + 26]], 6); line(c, [[x + w / 2 - 40, y + h + 26], [x + w / 2 + 40, y + h + 26]], 6); }
+function tvBox(c, x, y, s = 1) { at(c, x, y, s, c => { rect(c, -90, -70, 180, 120, '#d6b98a', 6); text(c, 'TV', 0, 10, 60, INK); }); }
+function handheld(c, x, y, s, scr) { at(c, x, y, s, c => { card(c, -70, -120, 140, 240, 22, '#2a2a30', 6); c.save(); c.beginPath(); c.roundRect(-56, -100, 112, 170, 10); c.fillStyle = '#f7f9fc'; c.fill(); c.clip(); if (scr) scr(c); c.restore(); circ(c, 0, 96, 9, '#555', 3); }); }
+function edc(c, x, y, s = 1) { at(c, x, y, s, c => { shape(c, [[-70, -130], [70, -130], [80, 130], [-80, 130]], '#3a3f45', 6); rect(c, -54, -110, 108, 70, '#9fe3b0', 4); for (let r = 0; r < 4; r++) for (let i = 0; i < 3; i++) rect(c, -46 + i * 34, -20 + r * 34, 24, 22, '#d9d0c0', 3); rect(c, -40, -150, 80, 26, '#fff', 4); }); }
+function bankCard(c, x, y, s = 1, rot = 0) { at(c, x, y, s, c => { card(c, -80, -50, 160, 100, 14, BLUE, 5); rect(c, -60, -22, 34, 26, YEL, 3); line(c, [[-60, 26], [40, 26]], 5, '#fff'); }, 1, rot); }
+function watch(c, x, y, s = 1) { at(c, x, y, s, c => { rect(c, -20, -70, 40, 140, '#555', 4); card(c, -36, -40, 72, 80, 18, '#2a2a30', 5); c.fillStyle = '#9fd0ff'; c.fillRect(-26, -30, 52, 60); }); }
+function nfc(c, x, y, k, col = BLUE) { for (let i = 1; i <= 3; i++) { c.save(); c.globalAlpha = clamp(k * 3 - i + 1) * .8; c.beginPath(); c.arc(x, y, 18 * i, -Math.PI * .3, Math.PI * .3); c.lineWidth = 6; c.strokeStyle = col; c.lineCap = 'round'; c.stroke(); c.restore(); } }
+function receipt(c, x, y, len, s = 1) { at(c, x, y, s, c => { c.beginPath(); c.moveTo(-60, 0); c.lineTo(60, 0); c.lineTo(60, len); for (let i = 0; i <= 6; i++) c.lineTo(60 - i * 20, len + (i % 2 ? 12 : 0)); c.closePath(); c.fillStyle = '#fff'; c.fill(); c.lineWidth = 5; c.strokeStyle = INK; c.stroke(); for (let i = 0; i < Math.floor(len / 30); i++) line(c, [[-40, 24 + i * 30], [i % 2 ? 20 : 40, 24 + i * 30]], 4, '#c9bca6'); }); }
+function clockI(c, x, y, s, T, spin = 0) { at(c, x, y, s, c => { circ(c, 0, 0, 70, '#fff', 6); for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2; line(c, [[Math.cos(a) * 56, Math.sin(a) * 56], [Math.cos(a) * 64, Math.sin(a) * 64]], 4); } const a1 = -Math.PI / 2 + spin * 12, a2 = -Math.PI / 2 + spin; line(c, [[0, 0], [Math.cos(a1) * 48, Math.sin(a1) * 48]], 5, RED); line(c, [[0, 0], [Math.cos(a2) * 32, Math.sin(a2) * 32]], 8); circ(c, 0, 0, 7, INK, 0); }); }
+function counter(c, x, y, s = 1) { at(c, x, y, s, c => { rect(c, -150, -60, 300, 160, '#d6c3a5', 6); register(c, -40, -60, .8); text(c, 'KASIR', 60, 60, 50, MUTED); }); }
+function car(c, x, y, s, col, win) { at(c, x, y, s, c => { shape(c, [[-120, 0], [-120, -50], [-80, -56], [-50, -100], [50, -100], [86, -56], [120, -50], [120, 0]], col, 6); rect(c, -42, -92, 40, 34, '#dff0fb', 4); rect(c, 6, -92, 40, 34, '#dff0fb', 4); circ(c, -70, 4, 24, '#333', 5); circ(c, 70, 4, 24, '#555', 5); if (win) win(c); }); }
+function tollBooth(c, x, y, s, open) { at(c, x, y, s, c => { rect(c, -70, -230, 140, 230, '#f4ece0', 6); rect(c, -90, -270, 180, 50, BLUE, 6); text(c, 'TOL', 0, -232, 44, '#fff'); rect(c, -44, -190, 88, 70, '#dff0fb', 5);
+  c.save(); c.translate(70, -90); c.rotate(-open * 1.3); rect(c, 0, -10, 300, 20, '#fff', 5); for (let i = 0; i < 5; i++) c.fillStyle = RED, c.fillRect(20 + i * 60, -8, 26, 16); c.restore(); }); }
+function flagDE(c, x, y, s = 1) { at(c, x, y, s, c => { line(c, [[-70, -50], [-70, 140]], 7); rect(c, -70, -50, 150, 34, '#222', 4); rect(c, -70, -16, 150, 34, '#dd2b2b', 4); rect(c, -70, 18, 150, 34, '#f5c518', 4); }); }
+function stepTag(c, x, y, n, label, s) { if (s <= 0) return; at(c, x, y, s, c => { circ(c, 0, 0, 40, ORANGE, 5); text(c, String(n), 0, 18, 56, '#fff'); text(c, label, 60, 18, 58, INK, {align: 'left'}); }); }
+
+// COVER 0 - 1.2
+scene(0, LEAD, (c, T) => {
+  card(c, 80, 170, 920, 560, 56, ORANGE, 8);
+  text(c, 'Bayar tanpa', W / 2, 410, 180, '#fff'); text(c, 'ke kasir', W / 2, 600, 160, CREAM);
+  floor(c, 1640);
+  for (let i = 0; i < 4; i++) person(c, {hair: i % 2 ? 'bun' : 'short', shirt: [PURPLE, BLUE, ORANGE, '#3aa5a0'][i], x: 120 + i * 70, y: 1640, s: .42, mood: 'worry'});
+  c.save(); c.globalAlpha = .9; counter(c, 230, 1380, .7); c.restore();
+  person(c, {...CUST, x: 640, y: 1640, s: .78, mood: 'happy', la: [.3, .1], ra: [1.4, 1.0]});
+  person(c, {...STAFF, x: 900, y: 1640, s: .78, mood: 'happy', flip: true, la: [.3, .1], ra: [1.3, 1.1]});
+  handheld(c, 790, 1080, .65, c => { c.fillStyle = '#e9f7ee'; c.fillRect(-56, -100, 112, 170); check(c, 0, -20, 26, 10); });
+  bankCard(c, 720, 1110, .55, -.3); nfc(c, 760, 1080, 1);
+});
+sfx(0.05, 'whoosh', .12);
+
+// M1 v0 - 3.6 : antrean kasir panjang, batal beli
+scene(V(0), V(3.6), (c, T) => {
+  writeOn(c, 'Antre kasir panjang?', W / 2, 260, 104, INK, pe(T, V(.2), .8), {under: ORANGE});
+  floor(c, 1600);
+  counter(c, 200, 1340, 1);
+  for (let i = 0; i < 6; i++) { const s = pe(T, V(0) + i * .08, .3); person(c, {hair: i % 2 ? 'bun' : 'short', shirt: [PURPLE, BLUE, ORANGE, '#3aa5a0', '#c98b5a', BLUE][i], x: 380 + i * 95, y: 1600, s: .5 * s + .001, mood: 'worry'}); }
+  clockI(c, 860, 620, .9 * pop(T, V(1.0), .35), T, T * 2);
+  const leave = pe(T, V(2.2), 1.3), lx = lerp(980, 1180, leave);
+  person(c, {...CUST, x: lx, y: 1600, s: .58, mood: 'worry', flip: leave > 0, walk: leave > 0 && leave < 1 ? T * 9 : null});
+  if (T > V(1.6) && leave < .3) at(c, 980, 1000, pop(T, V(1.6), .3), c => text(c, '...', 0, 0, 90, MUTED));
+  if (leave > 0) { tvBox(c, 900, 1550, .8); at(c, 900, 1400, pop(T, V(2.4), .3), c => X(c, 0, 0, 50, 14)); }
+});
+sfx(V(.2), 'scribble', .06); sfx(V(1.0), 'tap', .08); sfx(V(2.4), 'boing', .07);
+
+// M2 v3.6 - 13.3 : Jerman, MediaMarktSaturn, bayar di dekat rak tanpa kasir
+scene(V(3.6), V(13.3), (c, T) => {
+  flagDE(c, 170, 330, pop(T, V(3.85), .4)); writeOn(c, 'Jerman', 520, 360, 120, INK, pe(T, V(3.9), .5), {under: ORANGE});
+  if (T > V(4.6)) writeOn(c, 'MediaMarktSaturn', W / 2, 520, 100, RED, pe(T, V(4.6), 1.0));
+  if (T > V(6.32)) at(c, W / 2, 610, pop(T, V(6.32), .35), c => { pill(c, -260, -42, 520, 80, '#fff', 5); text(c, 'toko elektronik besar', 0, 16, 50, MUTED); });
+  // TV wall
+  floor(c, 1600);
+  const wall = pe(T, V(6.6), .5);
+  [[140, 760], [430, 760], [720, 760]].forEach(([x, y], i) => { const s = pe(T, V(6.6) + i * .2, .4); if (s > 0) at(c, x + 110, y + 80, s, c => tv(c, -110, -80, 220, 150, true)); });
+  if (T > V(8.4)) { const k = pe(T, V(8.4), .9);
+    person(c, {...CUST, x: lerp(-120, 360, k), y: 1600, s: .7, walk: k < 1 ? T * 9 : null, mood: 'happy', la: [.3, .1], ra: [1.4, 1.0]});
+    person(c, {...STAFF, x: lerp(1200, 640, k), y: 1600, s: .7, flip: true, walk: k < 1 ? T * 9 : null, mood: 'happy', la: [.3, .1], ra: [1.3, 1.1]});
+    if (k >= 1) { handheld(c, 545, 1070, .5, c => { c.fillStyle = '#e9f7ee'; c.fillRect(-56, -100, 112, 170); }); }
+    if (T > V(9.8)) at(c, 500, 900, pop(T, V(9.8), .35), c => { pill(c, -200, -44, 400, 84, GREEN, 5); text(c, 'bayar di sini', 0, 16, 56, '#fff'); }); }
+  if (T > V(11.4)) at(c, 900, 1380, pop(T, V(11.4), .35), c => { counter(c, 0, 0, .7); X(c, 0, -20, 100, 16); });
+});
+sfx(V(3.85), 'pop', .08); sfx(V(4.6), 'scribble', .06); sfx(V(6.32), 'pop', .07); sfx(V(6.6), 'tap', .06); sfx(V(8.4), 'whoosh', .06); sfx(V(9.8), 'ding', .06); sfx(V(11.4), 'thud', .11);
+
+// M3a v13.3 - 23.4 : pilih TV, jadi beli, staf input tagihan
+scene(V(13.3), V(23.4), (c, T) => {
+  writeOn(c, 'Cara kerjanya', W / 2, 220, 100, INK, pe(T, V(13.74), .6), {under: ORANGE});
+  floor(c, 1640);
+  tv(c, 130, 560, 340, 220, true);
+  const said = T > V(17.70);
+  person(c, {...CUST, x: 280, y: 1640, s: .8, mood: said ? 'happy' : 'think', la: [.3, .1], ra: T < V(17.7) ? [2.4, .4] : [.3, .1]});
+  person(c, {...STAFF, x: 690, y: 1640, s: .8, flip: true, mood: 'ok', la: [.3, .1], ra: [1.3, 1.15]});
+  stepTag(c, 120, 380, 1, 'Pilih barang', pop(T, V(13.9), .35));
+  if (said) at(c, 430, 900, pop(T, V(17.70), .35), c => bubble(c, -10, -50, ['Jadi beli!'], 'l', '#fff', GREEN, 50));
+  stepTag(c, 120, 480, 2, 'Staf input tagihan', pop(T, V(19.97), .35));
+  // device in staff hand + zoom panel
+  handheld(c, 585, 1080, .5, null);
+  if (T > V(19.97)) { const z = pop(T, V(20.2), .45);
+    at(c, 830, 1000, z, c => { handheld(c, 0, 0, 1.6, c => { rect(c, -56, -100, 112, 30, RED, 0); text(c, 'Tagihan', 0, -78, 22, '#fff', {font: 'Noto'});
+      const k = P(T, V(20.6), V(22.6)); text(c, 'TV', -44, -40, 22, INK, {font: 'Noto', align: 'left'}); if (k > .3) text(c, '1 x', 20, -40, 22, INK, {font: 'Noto', align: 'left'});
+      if (k > .6) { line(c, [[-44, -20], [44, -20]], 3, '#c9bca6'); text(c, 'Total', -44, 6, 22, INK, {font: 'Noto', align: 'left'}); } if (k > .9) check(c, 30, 0, 12, 5); }); });
+    c.save(); c.globalAlpha = pe(T, V(20.2), .3); c.setLineDash([10, 10]); line(c, [[620, 1060], [720, 1020]], 4, MUTED); c.restore(); }
+});
+sfx(V(13.74), 'scribble', .06); sfx(V(13.9), 'pop', .07); sfx(V(17.70), 'pop', .08); sfx(V(19.97), 'pop', .07); sfx(V(20.2), 'whoosh', .06); for (let i = 0; i < 4; i++) sfx(V(20.7) + i * .45, 'tap', .07);
+
+// M3b v23.4 - 37.6 : aplikasi -> mesin EDC, tempel kartu/jam, lunas, struk
+scene(V(23.4), V(37.6), (c, T) => {
+  stepTag(c, 120, 230, 3, 'Jadi mesin EDC', pop(T, V(23.6), .35));
+  const k = P(T, V(23.9), V(25.6));
+  handheld(c, 300, 760, 1.7, c => { if (k < 1) { text(c, 'memasang aplikasi', 0, -40, 16, MUTED, {font: 'Noto'}); rect(c, -44, -20, 88, 16, '#eee', 2); c.fillStyle = GREEN; c.fillRect(-44, -20, 88 * k, 16); }
+    else { c.fillStyle = '#e9f7ee'; c.fillRect(-56, -100, 112, 170); text(c, 'TEMPEL', 0, -40, 20, GREEN, {font: 'Noto'}); text(c, 'KARTU', 0, -14, 20, GREEN, {font: 'Noto'}); if (T > V(32.5)) { c.fillStyle = GREEN; c.fillRect(-56, -100, 112, 170); check(c, 0, -10, 30, 10, '#fff'); } } });
+  if (T > V(26.24)) { const s = pop(T, V(26.24), .4); at(c, 700, 760, s, c => { text(c, '=', -170, 30, 130, INK); edc(c, 70, 0, 1.15); }); at(c, 760, 1030, s, c => { pill(c, -150, -40, 300, 78, '#fff', 5); text(c, 'mesin EDC', 0, 16, 54, INK); }); }
+  stepTag(c, 120, 1180, 4, 'Tempel kartu', pop(T, V(29.47), .35));
+  if (T > V(29.47)) { const ck = pe(T, V(29.7), .8); bankCard(c, lerp(560, 360, ck), lerp(1400, 900, ck), 1.0, -.3); if (ck >= 1) nfc(c, 300, 780, P(T, V(30.5), V(31.3)) * ((T * 2) % 1 + .2), BLUE); }
+  if (T > V(30.8)) at(c, 760, 1420, pop(T, V(30.8), .35), c => { text(c, 'atau', -120, 10, 50, MUTED); watch(c, 20, 0, 1.0); });
+  if (T > V(32.6)) at(c, 300, 1080, pop(T, V(32.6), .35), c => { pill(c, -150, -46, 300, 90, GREEN, 6); text(c, 'LUNAS', 0, 20, 70, '#fff'); });
+  if (T > V(34.0)) { const len = 300 * pe(T, V(34.0), 1.6); at(c, 780, 1130, 1, c => { rect(c, -110, -60, 220, 70, '#55555f', 6); receipt(c, 0, 10, len, 1); }); text(c, 'struk', 780, 1100 - 80, 48, MUTED); }
+});
+sfx(V(23.6), 'pop', .07); sfx(V(25.6), 'ding', .06); sfx(V(26.24), 'pop', .09); sfx(V(29.47), 'pop', .07); sfx(V(30.5), 'tap', .08); sfx(V(30.8), 'pop', .06); sfx(V(32.6), 'chime', .09); sfx(V(34.0), 'scribble', .05);
+
+// M4 v37.6 - 51.6 : fakta: 400+ toko, 48 jam, kasir tetap, hasil belum
+scene(V(37.6), V(51.6), (c, T) => {
+  writeOn(c, 'Menurut Channelpartner', W / 2, 230, 88, MUTED, pe(T, V(38.07), .7), {under: ORANGE});
+  // grid of stores lighting up
+  const n = Math.floor(48 * pe(T, V(40.4), 3.4));
+  for (let i = 0; i < 48; i++) { const x = 110 + (i % 8) * 110, y = 360 + Math.floor(i / 8) * 95; shop(c, x - 40, y, 80, 54, i < n ? '#e9f7ee' : '#e5e0d4', i < n ? GREEN : '#c9bca6'); }
+  if (T > V(41.4)) { const v = Math.round(400 * pe(T, V(41.4), 1.6)); at(c, 310, 1050, pop(T, V(41.4), .4), c => { card(c, -230, -110, 460, 200, 40, CREAM, 6); text(c, `${v}+ toko`, 0, 30, 100, GREEN); }); }
+  if (T > V(43.6)) at(c, 790, 1050, pop(T, V(43.6), .4), c => { card(c, -230, -110, 460, 200, 40, '#fff', 6); clockI(c, -130, -6, .9, T, (T - V(43.6)) * 6); text(c, '48 jam', 70, 30, 96, RED); });
+  if (T > V(46.30)) at(c, 310, 1420, pop(T, V(46.30), .4), c => { card(c, -230, -150, 460, 290, 40, '#fff', 6); counter(c, 0, -30, .65); text(c, 'tetap ada', 0, 116, 56, INK); text(c, 'untuk tunai', 0, 166, 44, MUTED); });
+  if (T > V(49.03)) at(c, 790, 1420, pop(T, V(49.03), .4), c => { card(c, -230, -150, 460, 290, 40, '#fff', 6);
+    line(c, [[-140, 40], [-140, -100]], 5); line(c, [[-140, 40], [150, 40]], 5); text(c, '?', 10, 10, 150, ORANGE); text(c, 'hasil belum', 0, 116, 52, INK); text(c, 'diumumkan', 0, 166, 52, INK); });
+});
+sfx(V(38.07), 'scribble', .07); for (let i = 0; i < 8; i++) sfx(V(40.4) + i * .42, 'tap', .05); sfx(V(41.4), 'pop', .09); sfx(V(43.6), 'pop', .09); sfx(V(46.3), 'pop', .08); sfx(V(49.03), 'boing', .06);
+
+// M5 v51.6 - 68.5 : contoh Indonesia: gerbang tol
+scene(V(51.6), V(68.5), (c, T) => {
+  writeOn(c, 'Di Indonesia:', W / 2, 220, 100, INK, pe(T, V(52.12), .6));
+  if (T > V(54.4)) writeOn(c, 'gerbang tol', W / 2, 330, 110, ORANGE, pe(T, V(54.4), .6), {under: INK});
+  const split = T > V(65.01);
+  if (!split) {
+    floor(c, 1320, 30, 1050);
+    const open = pe(T, V(62.81), .5);
+    tollBooth(c, 150, 1320, 1, open);
+    // queue of cars; drive off after cleared
+    const go = pe(T, V(63.0), 1.8);
+    const cols = [BLUE, '#3aa5a0', PURPLE, ORANGE, '#c98b5a'];
+    for (let i = 0; i < 5; i++) { const qs = pe(T, V(56.24) + i * .2, .4); if (qs <= 0) continue; const x = 380 + i * 270 - go * 900, paid = T > V(60.2) + (4 - i) * .45;
+      if (x < -200) continue;
+      car(c, x, 1300, .95 * qs, cols[i], c => { if (paid) { circ(c, 0, -150, 30, GREEN, 4); check(c, 2, -148, 14, 7, '#fff'); } }); }
+    // officer walks along the queue from back to front, tapping
+    if (T > V(57.6)) { const wk = P(T, V(57.6), V(62.6)); const ox = lerp(1180, 420, wk);
+      person(c, {...TOLLMAN, x: ox, y: 1560, s: .62, flip: true, walk: (T > V(57.6) && wk < 1) ? T * 8 : null, mood: 'ok', la: [.3, .1], ra: [1.6, .6]});
+      handheld(c, ox - 70, 1300, .4, c => { c.fillStyle = '#e9f7ee'; c.fillRect(-56, -100, 112, 170); });
+      if (T > V(60.2)) nfc(c, ox - 70, 1220, (T * 2) % 1, GREEN);
+      if (T > V(57.8)) at(c, 760, 560, pop(T, V(57.8), .35), c => { pill(c, -260, -44, 520, 84, '#fff', 5); text(c, 'petugas tap ke belakang', 0, 16, 48, INK); }); }
+    if (T > V(62.81)) at(c, 760, 680, pop(T, V(62.81), .35), c => { pill(c, -240, -44, 480, 84, GREEN, 5); text(c, 'antrean terurai', 0, 16, 52, '#fff'); });
+  } else {
+    writeOn(c, 'Bedanya:', W / 2, 500, 90, MUTED, pe(T, V(65.01), .4));
+    const a = pop(T, V(65.4), .4), b = pop(T, V(66.6), .4);
+    if (a > 0) at(c, 290, 1050, a, c => { card(c, -230, -380, 460, 760, 40, '#fff7e8', 6); text(c, 'Tol', 0, -300, 70, ORANGE);
+      person(c, {...TOLLMAN, x: -70, y: 120, s: .45, flip: true, la: [.3, .1], ra: [1.6, .6]}); car(c, 90, 110, .5, BLUE); text(c, 'datangi mobil', 0, 270, 52, INK); });
+    if (b > 0) at(c, 790, 1050, b, c => { card(c, -230, -380, 460, 760, 40, '#e9f7ee', 6); text(c, 'Toko', 0, -300, 70, GREEN);
+      person(c, {...STAFF, x: 80, y: 120, s: .45, flip: true, la: [.3, .1], ra: [1.3, 1.1]}); person(c, {...CUST, x: -80, y: 120, s: .45, mood: 'happy', la: [.3, .1], ra: [.3, .1]}); text(c, 'datangi pelanggan', 0, 270, 48, INK); });
+  }
+});
+sfx(V(52.12), 'scribble', .06); sfx(V(54.4), 'pop', .08); for (let i = 0; i < 5; i++) sfx(V(56.24) + i * .2, 'tap', .05); sfx(V(57.8), 'pop', .06);
+for (let i = 0; i < 5; i++) sfx(V(60.2) + i * .45, 'ding', .04); sfx(V(62.81), 'chime', .08); sfx(V(63.0), 'whoosh', .08); sfx(V(65.4), 'pop', .08); sfx(V(66.6), 'pop', .08);
+
+// M6 v68.5 - end : pelajaran + dua kubu
+scene(V(68.5), TOTAL + .1, (c, T) => {
+  const camps = T > V(74.3);
+  if (!camps) {
+    writeOn(c, 'Pelajarannya', W / 2, 240, 120, ORANGE, pe(T, V(68.71), .6), {under: INK});
+    floor(c, 1500);
+    counter(c, 880, 1240, .9);
+    // long winding path; customer fades out midway
+    c.save(); c.setLineDash([16, 16]); line(c, [[140, 1480], [300, 1300], [520, 1420], [700, 1280], [800, 1260]], 6, MUTED); c.restore();
+    const k = pe(T, V(69.9), 3.0); const px = lerp(140, 640, k), fade = 1 - P(T, V(71.6), V(73.0));
+    c.save(); c.globalAlpha = Math.max(.05, fade); person(c, {...CUST, x: px, y: 1500, s: .6, walk: k < 1 ? T * 8 : null, mood: 'worry'}); tvBox(c, px + 10, 1300, .5); c.restore();
+    if (T > V(71.8)) at(c, 520, 1010, pop(T, V(71.8), .4), c => text(c, '?', 0, 0, 160, RED));
+    if (T > V(70.2)) writeOn(c, 'jangan hilang di jalan', W / 2, 520, 86, INK, pe(T, V(70.2), .9));
+    if (T > V(72.3)) writeOn(c, 'menuju kasir', W / 2, 630, 96, RED, pe(T, V(72.3), .7), {under: ORANGE});
+  } else {
+    writeOn(c, 'Kamu tim mana?', W / 2, 240, 116, INK, pe(T, V(74.5), .6), {under: ORANGE});
+    floor(c, 1560);
+    const camp = (x0, t0, cheer, title, icon, col, bg) => { const s = pop(T, t0, .4); if (s <= 0) return; const j = T > cheer ? Math.abs(Math.sin((T - cheer) * 7)) * -26 * (1 - P(T, cheer + 1.6, cheer + 2.2)) : 0;
+      at(c, x0, 760, s, c => { card(c, -230, -230, 460, 400, 40, bg, 6); at(c, 0, -40, 1, icon); title.forEach((t, i) => text(c, t, 0, 100 + i * 60 - (title.length - 1) * 30, 60, col)); });
+      at(c, x0, 1560, s, c => [-75, 75].forEach((dx, i) => person(c, {hair: i ? 'bun' : 'short', shirt: i ? BLUE : PURPLE, x: dx, y: j * (i ? .7 : 1), s: .5, mood: 'happy', la: T > cheer ? [2.8, .2] : [.3, .1], ra: T > cheer ? [2.8, .2] : [.3, .1]}))); };
+    camp(290, V(74.6), V(75.3), ['Bayar di', 'kasir saja'], c => counter(c, 0, 0, .55), BLUE, '#eaf2ff');
+    camp(790, V(76.6), V(77.3), ['Bayar langsung', 'di tempat'], c => handheld(c, 0, 0, .7, c => { c.fillStyle = '#e9f7ee'; c.fillRect(-56, -100, 112, 170); check(c, 0, -20, 26, 10); }), GREEN, '#e9f7ee');
+    if (T > V(79.16)) at(c, W / 2, 1720, pop(T, V(79.16), .35), c => { card(c, -330, -70, 660, 130, 44, ORANGE, 6); text(c, 'Tulis di komentar', -20, 24, 76, '#fff');
+      for (let i = 0; i < 3; i++) circ(c, 250 + i * 26, 0, 7 + 3 * Math.max(0, Math.sin(T * 8 - i)), '#fff', 0); });
+  }
+});
+sfx(V(68.71), 'scribble', .07); sfx(V(70.2), 'scribble', .05); sfx(V(71.8), 'boing', .06); sfx(V(74.5), 'scribble', .06); sfx(V(74.6), 'pop', .09); sfx(V(76.6), 'pop', .09); sfx(V(79.16), 'ding', .08);
+

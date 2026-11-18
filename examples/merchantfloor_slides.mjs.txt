@@ -1,0 +1,121 @@
+// MerchantFloor carousel v2 (hand-drawn style)
+function necklace(c, x, y, s = 1) { at(c, x, y, s, c => {
+  c.beginPath(); c.arc(0, -40, 70, .15 * Math.PI, .85 * Math.PI); c.lineWidth = 6; c.strokeStyle = '#c99a2e'; c.stroke();
+  for (let i = 0; i < 9; i++) { const a = (.18 + i * .08) * Math.PI; circ(c, Math.cos(a) * 70, -40 + Math.sin(a) * 70, 4, YEL, 2, '#8a6514'); }
+  shape(c, [[0, 30], [22, 56], [0, 84], [-22, 56]], YEL, 4, '#8a6514'); circ(c, 0, 57, 7, '#fff', 0);
+}); }
+
+// 1. hook (locked)
+slide(c => hookSlide(c, 'Upload 1 produk masih makan waktu sejam?', 'Ada toko yang sekarang cukup 5 menit.'), {light: true});
+
+// 2. problem
+slide(c => {
+  bgBlob(c, 840, 760, 260);
+  const y = rtitle(c, 'Satu produk aja bisa *makan sejam lebih*.', 80, 200);
+  csub(c, 'Foto, edit, nulis deskripsi, upload. Diulang untuk tiap produk.', 80, y + 50);
+  floor(c, 1150, 80, 1000);
+  boxPile(c, 560, 1150, 1);
+  person(c, {x: 300, y: 1150, s: .88, ...OWNER, mood: 'worry', la: [.5, .3], ra: [2.5, 1.6]});
+  sweat(c, 380, 640, 1.1);
+  clockI(c, 830, 640, 1.25, 0, 2.2);
+  hand(c, '60–90 menit', 830, 860, 84, RED, -.05);
+  hand(c, 'per produk!', 830, 930, 56, RED, -.05);
+  scribbleCircle(c, 830, 880, 235, 105, RED, 5);
+  cnote(c, 'Menurut pemilik toko perhiasan Outfit Additions');
+});
+
+// 3. intro
+slide(c => {
+  const y = rtitle(c, 'Kenalin *MerchantFloor*, agen AI buat toko Shopify.', 80, 200);
+  csub(c, 'Kamu cukup kirim foto produk dan catatan singkat.', 80, y + 50);
+  phone(c, 100, 530, 470, 700, (c, x, y, w, h) => {
+    c.fillStyle = '#e9eef8'; c.fillRect(x, y, w, h);
+    card(c, x + w - 250, y + 30, 220, 200, 22, '#fff', 5); necklace(c, x + w - 140, y + 120, 1);
+    bubble(c, x + w - 30, y + 250, ['Kalung emas,', 'buat kado'], 'r', '#d8f5d0', INK, 32);
+    bubble(c, x + 24, y + 400, ['Oke, listing-nya', 'aku siapin!'], 'l', '#fff', INK, 30);
+  });
+  bot(c, 840, 700, 1.05, 0);
+  hand(c, 'cuma ini yang', 830, 1000, 52, CBLUE, -.05);
+  hand(c, 'kamu kirim', 830, 1056, 52, CBLUE, -.05);
+  carrow(c, [700, 1050], [560, 860], -70, CBLUE, 6);
+});
+
+// 4. step 1: photos
+slide(c => {
+  stepNo(c, 1);
+  const y = rtitle(c, 'AI bikin *foto produknya*.', 80, 280);
+  csub(c, 'Foto latar putih, foto lifestyle, sampai foto dipakai model.', 80, y + 50);
+  const top = 530;
+  sticker(c, 70, top, 300, 430, -.07, '#ffffff', (c, x, y, w, h) => necklace(c, 0, -10, 1.5));
+  sticker(c, 390, top + 40, 300, 430, .03, '#fde9d2', (c, x, y, w, h) => { line(c, [[x, 90], [x + w, 90]], 5); rect(c, x + w - 100, 30, 60, 60, '#d98a5a', 4); shape(c, [[x + w - 70, 30], [x + w - 110, -40], [x + w - 70, -10], [x + w - 40, -50], [x + w - 70, 30]], '#5cc17b', 4); necklace(c, -40, 20, .9); });
+  sticker(c, 710, top, 300, 430, .07, '#e3f0ff', (c, x, y, w, h) => { c.save(); c.beginPath(); c.roundRect(x + 3, y + 3, w - 6, h - 6, 28); c.clip(); person(c, {x: 0, y: y + h + 250, s: .78, hair: 'bun', shirt: PURPLE, mood: 'happy'}); necklace(c, 0, y + h + 250 - 440 * .78 + 30, .7); c.restore(); });
+  hand(c, 'latar putih', 220, top + 520, 50, NAVY, -.06);
+  hand(c, 'lifestyle', 540, top + 560, 50, NAVY, .03);
+  hand(c, 'dipakai model', 860, top + 520, 50, NAVY, .06);
+});
+
+// 5. step 2: copy
+slide(c => {
+  stepNo(c, 2);
+  const y = rtitle(c, 'AI *nulis semua teksnya*.', 80, 280);
+  csub(c, 'Dari deskripsi sampai teks yang dibaca Google.', 80, y + 50);
+  browser(c, 80, 560, 640, 640, (c, x, y, w, h) => {
+    c.fillStyle = '#f4ecdf'; c.fillRect(x + 6, y, w - 12, 170); necklace(c, x + w / 2, y + 80, .9);
+    ['Deskripsi produk', 'Judul & meta SEO', 'FAQ produk', 'Alt text gambar'].forEach((t, i) => { const yy = y + 240 + i * 92; check(c, x + 60, yy - 12, 18, 9, GREEN); c.font = '36px PJS600'; c.fillStyle = NAVY; c.fillText(t, x + 100, yy); line(c, [[x + 100, yy + 30], [x + 100 + 300 + (i % 2) * 120, yy + 30]], 6, '#dfe5f1'); });
+  });
+  bot(c, 885, 760, 1, 0);
+  pencil(c, 980, 920, 1, -.5);
+  hand(c, '4 teks sekaligus', 870, 1080, 54, ORANGE, .04);
+});
+
+// 6. step 3: approve
+slide(c => {
+  stepNo(c, 3);
+  const y = rtitle(c, 'Kamu *cek dulu*, baru tayang.', 80, 280);
+  csub(c, 'Semua hasil bisa kamu edit. Setelah oke, langsung masuk ke toko.', 80, y + 50);
+  phone(c, 110, 520, 420, 620, (c, x, y, w, h) => {
+    c.fillStyle = '#f4ecdf'; c.fillRect(x, y, w, 220); necklace(c, x + w / 2, y + 110, 1.1);
+    c.font = '32px PJS800'; c.fillStyle = NAVY; c.fillText('Kalung Emas 18K', x + 24, y + 270);
+    for (let i = 0; i < 3; i++) line(c, [[x + 24, y + 310 + i * 30], [x + w - 40 - i * 60, y + 310 + i * 30]], 6, '#dfe5f1');
+    pill(c, x + 24, y + h - 100, 150, 70, '#fff', 4); c.font = '28px PJS600'; c.fillStyle = NAVY; c.fillText('Edit', x + 70, y + h - 55);
+    pill(c, x + 190, y + h - 100, w - 214, 70, GREEN, 4); c.fillStyle = '#fff'; c.font = '28px PJS800'; c.fillText('Setujui', x + 240, y + h - 55);
+  });
+  carrow(c, [560, 1000], [740, 960], -60, NAVY, 6);
+  hand(c, 'langsung masuk', 860, 740, 48, CBLUE, -.04);
+  hand(c, 'ke toko', 860, 790, 48, CBLUE, -.04);
+  shop(c, 760, 920, 220, 190, '#fff', CBLUE);
+  check(c, 960, 860, 30, 12, GREEN);
+  hand(c, 'keputusan tetap di kamu', W / 2, 1232, 58, GREEN, -.02);
+});
+
+// 7. result
+slide(c => {
+  const y = rtitle(c, 'Sebelum vs *sesudah*.', 80, 200);
+  const row = (top, col, label, desc, big, w, mood, extra) => {
+    sticker(c, 80, top, 920, 380, 0, '#fff');
+    c.save(); c.beginPath(); c.roundRect(84, top + 4, 912, 372, 28); c.clip(); person(c, {x: 200, y: top + 400, s: .55, ...OWNER, mood}); c.restore();
+    hand(c, label, 600, top + 75, 56, col, -.02);
+    c.font = '30px PJS600'; c.fillStyle = CMUTE; c.textAlign = 'left'; c.fillText(desc, 340, top + 140);
+    rect(c, 340, top + 185, 610, 46, '#eef1f7', 4); rect(c, 340, top + 185, w, 46, col, 4);
+    c.font = '58px PJS800'; c.fillStyle = col; c.fillText(big, 340, top + 310);
+    if (extra) { c.font = '28px PJS400'; c.fillStyle = CMUTE; c.fillText(extra, 340, top + 352); }
+  };
+  row(310, RED, 'Manual', 'Foto, edit, nulis, upload sendiri', '60–90 menit', 610, 'worry');
+  row(740, GREEN, 'Pakai agen AI', 'Foto + catatan masuk, AI yang kerjakan', '< 5 menit', 70, 'happy', 'sekitar $1 per listing');
+  cnote(c, 'Angka 5 menit dan $1 per listing adalah klaim MerchantFloor.', 1200);
+});
+
+// 8. CTA
+slide(c => {
+  const y = rtitle(c, 'Bayangin ini nyambung ke *toko online-mu sendiri*.', 80, 200, 70);
+  csub(c, 'Foto masuk, listing jadi, kamu tinggal setujui.', 80, y + 50);
+  const fy = 590;
+  phone(c, 90, fy, 210, 340, (c, x, y, w, h) => { c.fillStyle = '#f4ecdf'; c.fillRect(x, y, w, h); necklace(c, x + w / 2, y + h / 2 - 10, .8); });
+  carrow(c, [320, fy + 170], [430, fy + 170], -30, NAVY, 6);
+  bot(c, 540, fy + 200, .8, 0);
+  carrow(c, [650, fy + 170], [740, fy + 170], -30, NAVY, 6);
+  browser(c, 750, fy + 10, 250, 320, (c, x, y, w, h) => { for (let i = 0; i < 4; i++) { const tx = x + 22 + (i % 2) * 108, ty = y + 18 + Math.floor(i / 2) * 120; rect(c, tx, ty, 96, 100, '#f4ecdf', 3); necklace(c, tx + 48, ty + 46, .45); } });
+  hand(c, 'foto', 195, fy + 400, 50, NAVY); hand(c, 'agen AI', 540, fy + 400, 50, NAVY); hand(c, 'tokomu', 875, fy + 400, 50, NAVY);
+  ctaBtn(c, 'Ketik "tertarik" di komentar', 1080);
+  brand(c, 'Jago Bikin Website', 1252);
+});

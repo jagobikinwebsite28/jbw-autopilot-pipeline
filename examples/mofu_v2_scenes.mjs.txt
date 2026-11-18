@@ -1,0 +1,219 @@
+
+// ================= MOFU v2: "Mau bikin sistem custom?" (audio reused from iklan_jbw_2_v1) =================
+// LEAD = 0, so T == audio time.
+const NAVY = '#16326b', SOFTBLUE = '#e6efff', SOFTGREEN = '#e7f6ec', SOFTORANGE = '#fff0e0';
+
+function titleCard(c, T, a = 1) { at(c, W / 2, 250, 1, c => {
+  card(c, -430, -150, 860, 300, 46, BLUE, 7);
+  text(c, 'Mau bikin', 0, -24, 112, '#fff');
+  text(c, 'sistem custom?', 0, 96, 124, YEL);
+}, a); }
+
+function pchip(c, x, y, t, s, bg = '#fff', col = INK, size = 46, font = 'Noto') { if (s <= 0) return; at(c, x, y, s, c => {
+  c.font = `bold ${size}px ${font}`; const w = c.measureText(t).width + 64, h = size * 1.75;
+  card(c, -w / 2, -h / 2, w, h, h / 2, bg, 5); text(c, t, 0, size * .36, size, col, {font});
+}); }
+
+function signpost(c, x, y, T) {
+  line(c, [[x, y], [x, y - 620]], 10);
+  const arr = [['ERP?', BLUE, .25], ['Aplikasi?', GREEN, .6], ['Website?', PURPLE, .95]];
+  arr.forEach(([t, col, a], i) => { const s = pop(T, a), wob = T > 2.8 ? Math.sin(T * 7 + i * 2) * .07 : 0;
+    at(c, x, y - 560 + i * 130, s, c => { shape(c, [[-20, -48], [230, -48], [280, 0], [230, 48], [-20, 48]], '#fff', 6); text(c, t, 120, 18, 58, col); }, 1, (i % 2 ? .06 : -.05) + wob); });
+}
+
+// progress tracker for the 5 steps
+const STEPS = ['Chat', 'Konsultasi', 'Desain', 'Bayar', 'Jadi'];
+function tracker(c, y, cur, k = 1, T = 0) { // cur: 0..4 active index (float allowed for fill)
+  const x0 = 140, x1 = 940, n = STEPS.length;
+  line(c, [[x0, y], [x1, y]], 10, '#d9cdb6');
+  const fx = lerp(x0, x1, clamp(cur / (n - 1)));
+  if (cur > 0) line(c, [[x0, y], [fx, y]], 10, ORANGE);
+  STEPS.forEach((t, i) => { const x = lerp(x0, x1, i / (n - 1)), s = clamp(k * n - i);
+    if (s <= 0) return;
+    const done = i < Math.floor(cur + .001), act = i === Math.round(cur);
+    at(c, x, y, back(clamp(s)), c => {
+      circ(c, 0, 0, act ? 44 : 34, done ? GREEN : act ? ORANGE : '#fff', 6);
+      if (done) check(c, 0, 2, 16, 8, '#fff'); else text(c, String(i + 1), 0, act ? 20 : 16, act ? 60 : 46, act ? '#fff' : MUTED);
+      text(c, t, 0, 92, act ? 46 : 38, act ? INK : MUTED, {font: 'Noto'});
+    });
+  });
+}
+function stepHead(c, n, title, sub, T, a) {
+  at(c, 0, 0, 1, c => {
+    const s = pop(T, a); at(c, 150, 470, s, c => { circ(c, 0, 0, 62, ORANGE, 7); text(c, String(n), 0, 30, 92, '#fff'); });
+    writeOn(c, title, 600, 498, 100, INK, P(T, a + .1, a + .6), {});
+    if (sub) { const k = pe(T, a + .45, .4); at(c, 600, 572, 1, c => text(c, sub, 0, 0, 42, MUTED, {font: 'Noto', bold: false}), k); }
+  });
+}
+
+// ---------- 1) Hook 0 - 5.4
+scene(0, 5.4, (c, T) => {
+  titleCard(c, T);
+  floor(c, 1560);
+  signpost(c, 800, 1560, T);
+  const confused = T > 2.76;
+  person(c, {...OWNER, x: 330, y: 1560, s: 1.05, mood: confused ? 'worry' : 'think', la: [.3, .1], ra: confused ? [2.6, .9] : [.35, .2]});
+  if (confused) { for (let i = 0; i < 3; i++) { const k = pop(T, 2.8 + i * .12); at(c, 230 + i * 90, 820 - (i % 2) * 40 + Math.sin(T * 3 + i) * 8, k, c => text(c, '?', 0, 0, 96, ORANGE)); } }
+  // pain-point chips
+  const pains = [['Mulai dari mana?', 3.0, 300, 530], ['Biayanya berapa?', 3.5, 770, 620], ['Prosesnya gimana?', 4.0, 740, 790]];
+  pains.forEach(([t, a, x, y]) => pchip(c, x, y + Math.sin(T * 2 + a) * 5, t, pop(T, a), '#fff', INK, 42));
+});
+
+// ---------- 2) "Ini prosesnya" 5.4 - 7.05 : short tracker only (no long list), then it slides up and stays
+scene(5.4, 7.05, (c, T) => {
+  const up = pe(T, 6.65, .4);
+  at(c, W / 2, 0, 1, c => writeOn(c, 'Ini prosesnya', 0, lerp(720, 470, up), 120, INK, P(T, 5.45, 5.95), {under: ORANGE}), 1 - up);
+  tracker(c, lerp(960, 210, up), 0, P(T, 5.8, 6.5) , T);
+  const kn = pe(T, 6.1, .3) * (1 - up); if (kn > 0) at(c, W / 2, 1180, 1, c => text(c, '5 langkah, dari chat sampai sistem jadi', 0, 0, 42, MUTED, {font: 'Noto', bold: false}), kn);
+});
+
+// ---------- 3) Step 1: Chat kami 7.05 - 9.55
+scene(7.05, 9.55, (c, T) => {
+  tracker(c, 210, 0, pe(T, 7.05, .3), T);
+  stepHead(c, 1, 'Chat kami', 'Ceritakan kebutuhan bisnismu', T, 7.1);
+  phone(c, 210, 660, 660, 900, (c, x, y, w, h) => {
+    c.fillStyle = '#ece5dd'; c.fillRect(x, y, w, h);
+    c.fillStyle = GREEN; c.fillRect(x, y, w, 96); text(c, 'Jago Bikin Website', x + 30, y + 64, 40, '#fff', {font: 'Noto', align: 'left'});
+    const k1 = P(T, 7.5, 8.4), k2 = P(T, 8.6, 9.3);
+    if (k1 > 0) bubble(c, x + w - 24, y + 140, [typed('Halo, mau bikin', k1 * 2), typed('sistem buat usaha', k1 * 2 - 1)], 'r', '#dcf8c6', INK, 46);
+    if (k2 > 0) bubble(c, x + 24, y + 360, [typed('Siap! Ceritain dulu', k2 * 2), typed('alur bisnisnya ya', k2 * 2 - 1)], 'l', '#fff', INK, 46);
+    if (T > 8.4 && T < 8.7) for (let i = 0; i < 3; i++) circ(c, x + 70 + i * 30, y + 400, 10, MUTED, 0);
+  });
+});
+
+// ---------- 4) Step 2: Konsultasi 9.55 - 15.95
+scene(9.55, 15.95, (c, T) => {
+  tracker(c, 210, lerp(0, 1, pe(T, 9.6, .5)), 1, T);
+  stepHead(c, 2, 'Konsultasi', 'Diskusi alur bisnismu dulu', T, 9.7);
+  floor(c, 1240, 140, 940);
+  person(c, {...OWNER, x: 330, y: 1240, s: .8, mood: 'happy', ra: [1.1 + Math.sin(T * 5) * .15, .5]});
+  person(c, {...DEV, x: 750, y: 1240, s: .8, flip: true, ra: [1.0 + Math.sin(T * 4 + 1) * .15, .6]});
+  const talk = Math.floor(T * 1.3) % 2;
+  if (T > 10.6) at(c, talk ? 700 : 380, 660, 1, c => { c.beginPath(); c.ellipse(0, 0, 70, 46, 0, 0, 7); c.fillStyle = '#fff'; c.fill(); c.lineWidth = 5; c.strokeStyle = INK; c.stroke(); for (let i = 0; i < 3; i++) circ(c, -26 + i * 26, 0, 7, talk ? BLUE : ORANGE, 0); });
+  // the three ways
+  const opts = [['Chat', bubbleIcon, 12.74, SOFTGREEN], ['Telepon', phoneIcon, 13.42, SOFTGREEN], ['Ketemu langsung', meetIcon, 14.55, SOFTORANGE]];
+  writeOn(c, 'Bisa lewat:', W / 2, 1350, 60, MUTED, P(T, 12.2, 12.6));
+  opts.forEach(([t, ic, a, bg], i) => { const s = pop(T, a); const x = 220 + i * 320;
+    at(c, x, 1510, s, c => { card(c, -140, -110, 280, 220, 34, bg, 6); ic(c, 0, -40, .85); if (t.includes(' ')) { const [a1, b1] = t.split(' '); text(c, a1, 0, 52, 40, INK, {font: 'Noto'}); text(c, b1, 0, 92, 40, INK, {font: 'Noto'}); } else text(c, t, 0, 80, 48, INK, {font: 'Noto'}); }); });
+});
+
+// ---------- 5) Step 3: Desain awal + penawaran 15.95 - 23.55
+scene(15.95, 23.55, (c, T) => {
+  tracker(c, 210, lerp(1, 2, pe(T, 16.0, .5)), 1, T);
+  stepHead(c, 3, 'Desain awal', '+ surat penawaran harga', T, 16.1);
+  const kW = P(T, 17.1, 18.6);
+  at(c, 300, 900, pop(T, 17.0), c => { wireframe(c, 0, 0, 1.15, kW); });
+  at(c, 300, 1110, 1, c => text(c, 'Desain awal sistem', 0, 0, 44, INK, {font: 'Noto'}), pe(T, 17.2, .3));
+  at(c, 790, 900, pop(T, 18.4), c => { docIcon(c, 0, 0, 1.6); });
+  at(c, 790, 1110, 1, c => text(c, 'Surat penawaran', 0, 0, 44, INK, {font: 'Noto'}), pe(T, 18.6, .3));
+  // stamp + no obligation
+  const sg = pop(T, 20.54, .3); if (sg > 0) { stampText(c, W / 2, 1330, 1.6 - .6 * clamp(sg), 'GRATIS', GREEN, -.08); }
+  const k = pe(T, 21.82, .35); if (k > 0) at(c, W / 2, 1530, 1, c => { card(c, -380, -64, 760, 128, 64, '#fff', 6); check(c, -300, -4, 24, 10); text(c, 'Tanpa kewajiban lanjut', 30, 18, 52, INK, {font: 'Noto'}); }, k);
+});
+
+// ---------- 6) Step 4: Setelah cocok -> Pembayaran 23.55 - 27.55
+scene(23.55, 27.55, (c, T) => {
+  tracker(c, 210, lerp(2, 3, pe(T, 23.6, .5)), 1, T);
+  stepHead(c, 4, 'Kamu cocok?', 'Baru masuk ke pembayaran', T, 23.7);
+  floor(c, 1180, 200, 880);
+  const shake = T > 24.2 ? Math.sin(T * 18) * .08 : 0;
+  person(c, {...OWNER, x: 420, y: 1180, s: .78, mood: 'happy', ra: [1.45 + shake, .2]});
+  person(c, {...DEV, x: 680, y: 1180, s: .78, flip: true, ra: [1.45 - shake, .2]});
+  if (T > 24.3) { sparkle(c, 550, 760, 1 + .2 * Math.sin(T * 8)); sparkle(c, 470, 700, .7); sparkle(c, 630, 690, .7); }
+  // payment terms bar
+  const kb = pe(T, 25.86, .4);
+  if (kb > 0) at(c, 0, 0, 1, c => {
+    payIcon(c, 170, 1330, .8); text(c, 'Bayar bertahap', 260, 1350, 60, INK, {align: 'left'});
+    const parts = [[35, BLUE, 'Termin 1'], [35, ORANGE, 'Termin 2'], [30, GREEN, 'Termin 3']]; let x = 110; const tot = 860;
+    parts.forEach(([p, col, lab], i) => { const s = pe(T, 26.0 + i * .3, .35); const w = tot * p / 100;
+      if (s > 0) { c.save(); c.globalAlpha = s; card(c, x + 6, 1430, (w - 12) * s, 130, 26, col, 6); text(c, p + '%', x + w / 2, 1515, 72, '#fff'); text(c, lab, x + w / 2, 1620, 38, MUTED, {font: 'Noto'}); c.restore(); }
+      x += w; });
+  }, kb);
+});
+
+// ---------- 7) Step 5: Sistem jadi + garansi 27.55 - 32.7
+function dashboard(c, x, y, w, h, k, T) {
+  card(c, x, y, w, h, 24, '#2a2a30', 7);
+  c.save(); c.beginPath(); c.roundRect(x + 16, y + 16, w - 32, h - 32, 12); c.fillStyle = '#f7f9fc'; c.fill(); c.clip();
+  const ix = x + 16, iy = y + 16, iw = w - 32, ih = h - 32;
+  c.fillStyle = BLUE; c.fillRect(ix, iy, iw * .2, ih);
+  for (let i = 0; i < 5; i++) { c.fillStyle = 'rgba(255,255,255,.55)'; c.fillRect(ix + 16, iy + 40 + i * 44, iw * .2 - 32, 14); }
+  const kx = ix + iw * .2 + 24;
+  for (let i = 0; i < 3; i++) { const s = clamp(k * 4 - i); if (s <= 0) continue; c.globalAlpha = s; card(c, kx + i * (iw * .25), iy + 24, iw * .23, 80, 12, [SOFTBLUE, SOFTORANGE, SOFTGREEN][i], 3); c.fillStyle = [BLUE, ORANGE, GREEN][i]; c.fillRect(kx + i * (iw * .25) + 14, iy + 70, iw * .14, 14); c.globalAlpha = 1; }
+  const bk = clamp(k * 2 - .8); const bars = [.4, .65, .5, .8, .7, .95];
+  bars.forEach((b, i) => { const bh = (ih - 180) * b * bk; c.fillStyle = i % 2 ? ORANGE : BLUE; c.fillRect(kx + 10 + i * 66, iy + ih - 30 - bh, 40, bh); });
+  c.restore();
+}
+scene(27.55, 32.7, (c, T) => {
+  tracker(c, 210, lerp(3, 4, pe(T, 27.6, .5)), 1, T);
+  stepHead(c, 5, 'Sistem jadi', null, T, 27.7);
+  const kd = P(T, 27.9, 29.4);
+  at(c, W / 2, 900, pop(T, 27.8), c => dashboard(c, -380, -250, 760, 480, kd, T));
+  if (kd >= 1 && T < 30) check(c, W / 2 + 330, 640, 40, 14);
+  // guarantee
+  const kg = pop(T, 29.62);
+  at(c, 200, 1430, kg, c => shieldIcon(c, 0, 0, 1.3));
+  writeOn(c, 'Garansi maintenance', 640, 1330, 72, INK, P(T, 29.9, 30.6));
+  const months = ['Bulan 1', 'Bulan 2', 'Bulan 3'];
+  months.forEach((m, i) => pchip(c, 420 + i * 215, 1450, m, pop(T, 30.9 + i * .3), SOFTGREEN, GREEN, 40));
+  const k3 = pe(T, 31.6, .4); if (k3 > 0) at(c, 640, 1600, 1, c => text(c, '3 bulan', 0, 0, 110, GREEN), k3);
+});
+
+// ---------- 8) Modules 32.7 - 40.15
+const MODS = [
+  ['ERP', 'Keuangan, stok, pembelian', 0, 32.82, SOFTBLUE],
+  ['CRM', 'Data & riwayat pelanggan', 2, 33.98, CREAM],
+  ['Tim sales', 'Target & laporan sales', 1, 35.11, SOFTBLUE],
+  ['Gudang', 'Stok masuk & keluar', 3, 36.25, CREAM],
+  ['POS kasir', 'Transaksi di toko', 4, 37.41, SOFTBLUE],
+];
+scene(32.7, 40.15, (c, T) => {
+  writeOn(c, 'Sistem apa aja?', W / 2, 230, 104, INK, P(T, 32.72, 33.3), {under: ORANGE});
+  const conv = pe(T, 38.4, .6);
+  const pos = [[290, 560], [790, 560], [290, 900], [790, 900], [540, 1240]];
+  const hub = [W / 2, 1530];
+  // connectors to hub
+  if (conv > 0) MODS.forEach((m, i) => { const [x, y] = pos[i]; c.save(); c.setLineDash([16, 12]); line(c, [[x, y + 120], [lerp(x, hub[0], conv), lerp(y + 120, hub[1] - 90, conv)]], 7, GREEN); c.restore(); });
+  MODS.forEach(([t, d, ic, a, bg], i) => { const [x, y] = pos[i], s = pop(T, a);
+    at(c, x, y, s, c => { card(c, -230, -140, 460, 280, 36, bg, 6); at(c, 0, -52, 1.15, c => modIcon(c, ic)); text(c, t, 0, 52, 68, BLUE); text(c, d, 0, 104, 32, MUTED, {font: 'Noto', bold: false}); });
+    if (T > a && T < a + .5) sparkle(c, x + 200, y - 120, .8);
+  });
+  const ks = pop(T, 38.55);
+  at(c, hub[0], hub[1], ks, c => { card(c, -360, -90, 720, 180, 90, GREEN, 7); check(c, -260, -6, 34, 14, '#fff'); text(c, 'Semuanya bisa', 40, 26, 88, '#fff'); });
+  const kn = pe(T, 39.1, .4); if (kn > 0) at(c, hub[0], 1700, 1, c => text(c, 'dibuat sesuai alur bisnismu', 0, 0, 40, MUTED, {font: 'Noto', bold: false}), kn);
+});
+
+// ---------- 9) Price + recap 40.15 - 43.5
+scene(40.15, 43.5, (c, T) => {
+  writeOn(c, 'Harga mulai dari', W / 2, 460, 96, INK, P(T, 40.3, 41.2));
+  const kp = pop(T, 41.55, .45);
+  at(c, W / 2, 680, kp, c => { card(c, -380, -120, 760, 240, 50, ORANGE, 8); text(c, 'Rp7,5 juta', 0, 54, 150, '#fff'); });
+  if (kp > .9) { sparkle(c, 200, 560, 1.1); sparkle(c, 880, 800, 1.1); }
+  writeOn(c, 'Sudah termasuk:', W / 2, 1010, 60, MUTED, P(T, 41.9, 42.3));
+  const rec = [['Desain awal gratis', docIcon], ['Bayar bertahap', payIcon], ['Garansi 3 bulan', shieldIcon]];
+  rec.forEach(([t, ic], i) => { const s = pe(T, 42.1 + i * .22, .3); if (s <= 0) return; const y = 1140 + i * 170;
+    c.save(); c.globalAlpha = s; c.translate((1 - s) * 70, 0); card(c, 150, y - 70, 780, 140, 34, '#fff', 6); ic(c, 250, y, .62); check(c, 860, y, 22, 9); text(c, t, 340, y + 18, 56, INK, {align: 'left'}); c.restore(); });
+});
+
+// ---------- 10) CTA 43.5 - 45.25
+scene(43.5, 45.25, (c, T) => {
+  const pulse = 1 + .04 * Math.sin(T * 10);
+  at(c, W / 2, 560, pop(T, 43.6) * pulse, c => chatBtn(c, 0, 0, 1.15));
+  writeOn(c, 'untuk konsultasi', W / 2, 760, 84, INK, P(T, 44.1, 44.7));
+  floor(c, 1560, 160, 920);
+  person(c, {...OWNER, x: 380, y: 1560, s: 1.0, mood: 'happy', ra: [2.1, .9]});
+  at(c, 520, 900, pe(T, 43.9, .3), c => { const h = bubble(c, 0, 0, ['Halo, mau', 'konsultasi...'], 'l', '#dcf8c6', INK, 44); });
+});
+
+// ---------- 11) Brand 45.25 - end
+scene(45.25, TOTAL + 1, (c, T) => {
+  at(c, W / 2, 380, pop(T, 45.3), c => { card(c, -400, -190, 800, 380, 50, BLUE, 8); text(c, 'Jago Bikin', 0, -24, 140, '#fff'); text(c, 'Website', 0, 120, 150, YEL); });
+  writeOn(c, 'siap jadi partner bangun sistem', W / 2, 720, 64, INK, P(T, 47.2, 48.6));
+  writeOn(c, 'untuk bisnis kamu', W / 2, 810, 72, BLUE, P(T, 49.1, 50.3), {under: ORANGE});
+  floor(c, 1500, 180, 900);
+  const shake = T > 47.4 ? Math.sin(T * 14) * .07 : 0;
+  person(c, {...OWNER, x: 420, y: 1500, s: .82, mood: 'happy', ra: [1.45 + shake, .2]});
+  person(c, {...DEV, x: 680, y: 1500, s: .82, flip: true, ra: [1.45 - shake, .2]});
+  if (T > 47.4) { sparkle(c, 550, 1080, 1 + .2 * Math.sin(T * 8)); sparkle(c, 330, 980, .8); sparkle(c, 780, 990, .8); }
+  at(c, W / 2, 1650, pe(T, 49.6, .4), c => chatBtn(c, 0, 0, .8));
+});
