@@ -13,6 +13,27 @@ Runbook untuk scheduled task cloud. Semua jalan di sandbox cloud, tidak butuh la
 2. `bash setup.sh` (ffmpeg, numpy, @napi-rs/canvas).
 3. Folder kerja: buat folder baru per konten, salin `fonts/*.ttf` ke sana dan symlink `node_modules` dari repo. Font dimuat dari `./` saat render.
 
+## Naskah: alur wajib (reel dan carousel)
+Tujuan konten: pemilik bisnis paham apa yang terjadi, dapat pembelajaran, dan tahu apa yang bisa ditiru. Bukan sekadar menyampaikan berita.
+1. Hook: masalah sehari-hari pemilik bisnis, 1-2 kalimat pendek.
+2. Konteks: siapa perusahaannya dan apa yang mereka lakukan, dalam satu kalimat sederhana. Setiap istilah (nama program, "toko masa depan", dsb.) langsung dijelaskan isinya saat pertama kali disebut.
+3. Cara kerja: langkah berurutan. Tiap kalimat nyambung ke kalimat sebelumnya (lalu, karena itu, jadi).
+4. Fakta: hasil atau angka, selalu "menurut <pihak>".
+5. Pembelajaran: satu prinsip yang bisa ditiru plus manfaatnya bagi pemilik bisnis. Di reel diawali kata "Pembelajarannya:". Di carousel jadi satu slide berlabel "Pembelajaran". Bukan mengulang fakta.
+6. Contoh Indonesia: prinsip tadi diterapkan di bisnis lokal yang konkret, sampai langkah yang bisa dicoba minggu ini.
+7. Penutup: CTA sesuai aturan prompt.
+Carousel (8 slide): hook, konteks, 2-3 slide cara kerja, Pembelajaran, contoh Indonesia, CTA.
+
+### Cek naskah sebelum TTS (semua harus lolos, kalau tidak tulis ulang)
+- Tes satu kalimat: cerita bisa diringkas "X melakukan Y supaya Z". Butuh dua kalimat = dua cerita, buang salah satu. Hook harus tentang cerita utama, bukan detail pendukung.
+- Setiap istilah baru dijelaskan di kalimat yang sama atau kalimat berikutnya.
+- Tes sambungan: antar kalimat bisa disisipi "jadi" atau "karena". Kalau tidak, ada konteks yang hilang; tambahkan.
+- Pembelajaran berupa prinsip yang bisa dipakai (contoh: "uji di satu tempat dulu, baru tiru yang berhasil"), bukan "perusahaan X sukses".
+- Baca ulang sebagai pemilik toko yang belum tahu beritanya: paham, dan tahu harus ngapain besok?
+- Teks di layar memakai kata yang sama dengan yang sedang diucapkan. Visual tidak boleh memperkenalkan hal yang belum dijelaskan suara.
+
+Contoh naskah yang benar (B&M, 19 Nov 2026): "Mau ubah tata letak toko, tapi takut salah dan malah rugi? Di Inggris, B&M ... punya cara mengujinya dulu. Mereka bikin konsep toko baru yang mereka sebut toko masa depan: petunjuk arah lebih jelas, lampu lebih hangat, lorong lebih lebar, dan barang musiman di dekat pintu masuk. Konsep ini tidak langsung dipasang di semua toko. Mereka coba dulu di satu toko ... Renovasinya dibagi tujuh tahap, jadi selama pengerjaan toko tetap buka ... Menurut B&M, ... Pembelajarannya: jangan ubah semuanya sekaligus. Uji di satu tempat, lihat hasilnya, baru tiru yang berhasil. ... Punya tiga cabang minimarket? Coba tata letak baru di satu cabang dulu ..."
+
 ## Suara (TTS)
 `node tools/tts.mjs naskah_bersih.txt narration.wav`
 - Voice, model, dan gaya dari config.json (Leda). Jangan diubah tanpa izin Sasq.
@@ -27,7 +48,7 @@ Runbook untuk scheduled task cloud. Semua jalan di sandbox cloud, tidak butuh la
 5. `node render.mjs video out.mp4`.
 
 ## Carousel (1080x1350, gaya v2 gambar tangan)
-1. Tulis slides.mjs.txt mengikuti `examples/merchantfloor_slides.mjs.txt`. Slide 1 selalu hookSlide(...). Slide lain: rtitle (*kata kunci* distabilo), csub, ilustrasi gambar tangan, hand(...), carrow(...), stepNo(n), cnote(...) untuk sumber, ctaBtn + brand di slide terakhir. Variasikan layout. 6 sampai 8 slide.
+1. Tulis slides.mjs.txt mengikuti `examples/merchantfloor_slides.mjs.txt` dan alur naskah di atas (wajib ada slide Pembelajaran). Slide 1 selalu hookSlide(...). Slide lain: rtitle (*kata kunci* distabilo), csub, ilustrasi gambar tangan, hand(...), carrow(...), stepNo(n), cnote(...) untuk sumber, ctaBtn + brand di slide terakhir. Variasikan layout. 6 sampai 8 slide.
 2. `python3 build_car.py slides.mjs.txt render_car.mjs`, lalu `node render_car.mjs out`. QA tiap slide.
 
 ## Upload dan jadwal
