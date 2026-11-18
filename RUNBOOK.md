@@ -42,10 +42,12 @@ Contoh naskah yang benar (B&M, 19 Nov 2026): "Mau ubah tata letak toko, tapi tak
 
 ## Reel (1080x1920)
 1. `python3 tools/timing.py narration.wav naskah_bersih.txt > timing.json` (timing kalimat).
-   Lalu `python3 tools/word_timing.py timing.json narration.wav > words.txt` (perkiraan waktu tiap kata). Setiap cue visual (writeOn, pop, sfx) memakai waktu kata yang sedang diucapkan dari words.txt, jangan ditebak. Visual muncul paling cepat bersamaan dengan katanya, bukan sebelumnya.
+   SINKRON SUARA-VISUAL (wajib): tulis naskah_bersih.txt satu kalimat pendek per baris, satu kalimat = satu momen visual. Daftar (misal 4 ciri) dipecah jadi kalimat terpisah. Jangan taruh cue penting di tengah kalimat panjang.
+   Cek batas kalimat: kecepatan tiap kalimat (suku kata/detik) harus dalam ±35% dari median; kalau ada yang menyimpang, timing.json salah, ulangi TTS.
+   Di awal scenes.mjs.txt tempel `const ST = [<start tiap kalimat dari timing.json>]; const S = i => V(ST[i]);` lalu SEMUA cue memakai S(i) (atau S(i)+offset kecil di dalam kalimat yang sama). Jangan mengetik detik manual. Contoh: examples/bm_wigan_synced_scenes.mjs.txt dan examples/bm_wigan_naskah.txt.
 2. Tulis scenes.mjs.txt mengikuti pola `examples/*_scenes.mjs.txt` (scene(V(a), V(b), fn), sfx(...)). Cover berjudul di 1,2 detik pertama. Layar penuh animasi. Tanpa subtitle, tanpa chip sumber, tanpa logo merek asli, tanpa wajah tokoh nyata.
 3. `python3 build.py scenes.mjs.txt narration.wav render.mjs`, salin sfx.py dan narration.wav ke folder render.
-4. `node render.mjs frames t1,t2,...` untuk QA visual. Ambil frame tepat di waktu kata kunci (V(waktu kata) + 0,3) dan pastikan visualnya sudah muncul dan sesuai yang diucapkan (baca PNG: tumpang tindih, teks terpotong, ruang kosong). Perbaiki.
+4. `node render.mjs frames t1,t2,...` untuk QA visual. Ambil satu frame di setiap kalimat (V(ST[i]) + 0,5) dan pastikan visualnya sudah menampilkan isi kalimat itu (baca PNG: tumpang tindih, teks terpotong, ruang kosong). Perbaiki.
 5. `node render.mjs video out.mp4`.
 
 ## Carousel (1080x1350, gaya v2 gambar tangan)
