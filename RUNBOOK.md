@@ -35,7 +35,7 @@ Carousel (8 slide): hook, konteks, 2-3 slide cara kerja, Pembelajaran, contoh In
 Contoh naskah yang benar (B&M, 19 Nov 2026): "Mau ubah tata letak toko, tapi takut salah dan malah rugi? Di Inggris, B&M ... punya cara mengujinya dulu. Mereka bikin konsep toko baru yang mereka sebut toko masa depan: petunjuk arah lebih jelas, lampu lebih hangat, lorong lebih lebar, dan barang musiman di dekat pintu masuk. Konsep ini tidak langsung dipasang di semua toko. Mereka coba dulu di satu toko ... Renovasinya dibagi tujuh tahap, jadi selama pengerjaan toko tetap buka ... Menurut B&M, ... Pembelajarannya: jangan ubah semuanya sekaligus. Uji di satu tempat, lihat hasilnya, baru tiru yang berhasil. ... Punya tiga cabang minimarket? Coba tata letak baru di satu cabang dulu ..."
 
 ## Suara (TTS)
-`node tools/tts.mjs naskah_bersih.txt narration.wav`
+`node tools/tts.mjs naskah_bersih.txt narration.wav` (opsional `--voice Charon` untuk suara laki-laki di luar konten JBW harian)
 - Voice, model, dan gaya dari config.json (Leda). Jangan diubah tanpa izin Sasq.
 - Exit 3 = HTTP 402 (saldo Gemini habis): jangan posting apa pun, minta Sasq top up di https://ai.studio/projects.
 - Suara dipakai utuh satu file. QA: kalau 5 detik pertama datar, perpendek kalimat hook lalu buat ulang seluruh suara sekali.
