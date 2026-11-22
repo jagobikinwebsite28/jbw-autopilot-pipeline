@@ -8,7 +8,8 @@ Repo ini milik Sasq untuk konten Instagram JBW (Jago Bikin Website), akun @jagob
 - Jangan ubah config.json (voice Leda, model gemini-3.8-flash-tts dengan cadangan gemini-3.1-flash-tts-preview, gaya host podcast).
 - Naskah: angka, tahun, dan singkatan ditulis sesuai bunyi.
 - GEMINI_API_KEY sudah ada di environment JBW Autopilot. Jangan pernah mencetak, menulis, atau melaporkan isinya.
-- Exit 2: key tidak ada (sesi bukan di environment JBW Autopilot). Exit 3: HTTP 402, saldo Gemini habis, minta Sasq top up di https://ai.studio/projects.
+- Kalau saldo Gemini habis (HTTP 402), tts.mjs otomatis memakai model dan voice yang SAMA (google/gemini-3.8-flash-tts, Leda) lewat OpenRouter. Key OpenRouter disuntikkan proxy environment JBW Autopilot untuk host openrouter.ai, tidak ada di env var. Harga sama dengan Gemini langsung.
+- Exit 2: tidak ada jalur sama sekali (sesi bukan di environment JBW Autopilot). Exit 3: saldo Gemini DAN OpenRouter habis, minta Sasq top up di https://ai.studio/projects atau https://openrouter.ai/settings/credits.
 - Jangan cari cara TTS lain dan jangan minta Sasq menjalankan apa pun di laptop. Semua jalan di sesi cloud ini.
 
 ## Kalau Sasq minta suara untuk proyek lain

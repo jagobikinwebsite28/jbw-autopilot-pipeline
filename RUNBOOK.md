@@ -37,7 +37,8 @@ Contoh naskah yang benar (B&M, 19 Nov 2026): "Mau ubah tata letak toko, tapi tak
 ## Suara (TTS)
 `node tools/tts.mjs naskah_bersih.txt narration.wav` (opsional `--voice Charon` untuk suara laki-laki di luar konten JBW harian)
 - Voice, model, dan gaya dari config.json (Leda). Jangan diubah tanpa izin Sasq.
-- Exit 3 = HTTP 402 (saldo Gemini habis): jangan posting apa pun, minta Sasq top up di https://ai.studio/projects.
+- Saldo Gemini habis: tts.mjs otomatis pindah ke OpenRouter dengan model dan voice yang sama (Leda), tidak perlu tindakan. Laporkan di laporan bahwa suara dibuat lewat OpenRouter.
+- Exit 3 = saldo Gemini dan OpenRouter sama-sama habis: jangan posting apa pun, minta Sasq top up di https://ai.studio/projects atau https://openrouter.ai/settings/credits.
 - Suara dipakai utuh satu file. QA: kalau 5 detik pertama datar, perpendek kalimat hook lalu buat ulang seluruh suara sekali.
 
 ## Reel (1080x1920)
