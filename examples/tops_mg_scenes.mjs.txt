@@ -7,12 +7,12 @@ sc(0,S(2),(c,t)=>{
   hl(c,'keliling toko',540,1020,112,800,INK,OR,1,'center',WH);txt(c,'Cara supermarket TOPS di Thailand',540,1180,44,600,MUT);
   shaker(c,300,1430,1.2);bottle(c,540,1440,1.2);bar(c,790,1440,1.2);c.restore();}
  const hp=k(t,S(0),.45);if(t<S(1)+.6&&hp>0){const o=1-k(t,S(1),.4);c.save();c.globalAlpha=o;
-  rev(c,'Habis olahraga,',540,560,104,800,INK,hp);
-  rev(c,'mau beli',540,690,78,600,MUT,k(t,S(0)+.5,.4));
-  const a1=k(t,S(0)+.9,.5,eb),a2=k(t,S(0)+1.6,.5,eb);
+  rev(c,'Pembeli di tokomu',540,560,96,800,INK,hp);
+  rev(c,'harus keliling, cuma buat cari',540,690,64,600,MUT,k(t,S(0)+1.2,.4));
+  const a1=k(t,S(0)+2.5,.5,eb),a2=k(t,S(0)+3.1,.5,eb);
   if(a1>0){shaker(c,320,1050,1.6*a1);c.globalAlpha=o*cl(a1);txt(c,'protein',320,1290,60,800,INK);c.globalAlpha=o;}
   if(a2>0){bar(c,760,1030,1.6*a2);c.globalAlpha=o*cl(a2);txt(c,'camilan sehat',760,1290,60,800,INK);c.globalAlpha=o;}c.restore();}
- const mp=k(t,S(1),.5);if(mp>0){rev(c,'Tapi raknya terpencar',540,460,82,800,INK,mp);rev(c,'di mana-mana.',540,560,82,800,OR,k(t,S(1)+.25,.45));
+ const mp=k(t,S(1),.5);if(mp>0){rev(c,'Karena raknya terpencar',540,460,82,800,INK,mp);rev(c,'di mana-mana.',540,560,82,800,OR,k(t,S(1)+.25,.45));
   floor(c,S(1),t);ITEMS.forEach((f,i)=>{const q=k(t,S(1)+.3+i*.18,.5,eb);if(q>0)f(c,SPOTS[i][0],SPOTS[i][1],.85*q);});
   const pos=zig(c,k(t,S(1)+.6,2.4,eio));if(k(t,S(1)+.6,.1)>0)cart(c,pos[0],pos[1]-40,1.1);}
 });

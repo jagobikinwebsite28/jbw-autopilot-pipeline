@@ -13,9 +13,19 @@ Runbook untuk scheduled task cloud. Semua jalan di sandbox cloud, tidak butuh la
 2. `bash setup.sh` (ffmpeg, numpy, @napi-rs/canvas).
 3. Folder kerja: buat folder baru per konten, salin `fonts/*.ttf` ke sana dan symlink `node_modules` dari repo. Font dimuat dari `./` saat render.
 
+## Pola konten yang terbukti (analisis post di atas 300 views, 25 Nov 2026)
+Semua post di atas 300 views adalah reel non-AI tentang inovasi toko fisik (menurut insight Tebar: MediaMarkt 1.304, Budni 1.154, Waitrose 480). Reel topik AI tidak pernah lebih dari 149 views, carousel 0-20 views. Reel yang menang rata-rata ditonton 27 detik (reel lain 12 detik), skip rate 42% (lainnya 59%).
+1. SUDUT PANDANG SELALU PEMILIK BISNIS (aturan Sasq). Penonton = pemilik toko atau usaha. Hook bicara ke pemilik tentang masalah di bisnisnya; pembeli disebut "pembelimu" atau "pembeli di tokomu". Jangan menempatkan penonton sebagai pembeli.
+   Salah: "Habis olahraga, mau beli protein dan camilan sehat?" Benar: "Pembeli di tokomu harus keliling cuma buat cari protein dan camilan sehat?"
+   Berlaku juga untuk Pembelajaran, contoh Indonesia, caption, dan slide carousel: selalu "kamu, tokomu, bisnismu" = pemilik.
+2. Topik reel: inovasi non-AI yang kelihatan di toko fisik (tata letak, rak, layanan, antrean, kasir). Topik AI masuk carousel.
+3. Dua detik pertama: cover berisi janji manfaat untuk pemilik (contoh: "Rak yang bikin pembeli nggak keliling toko"), lalu langsung hook.
+4. Visual berganti di setiap kalimat supaya penonton bertahan sampai akhir.
+5. Penutup topik non-AI: pertanyaan dua kubu ("Kamu tim A, atau tim B? Tulis di komentar.").
+
 ## Naskah: alur wajib (reel dan carousel)
 Tujuan konten: pemilik bisnis paham apa yang terjadi, dapat pembelajaran, dan tahu apa yang bisa ditiru. Bukan sekadar menyampaikan berita.
-1. Hook: masalah sehari-hari pemilik bisnis, 1-2 kalimat pendek.
+1. Hook: masalah di bisnis si pemilik, dari sudut pandang pemilik (lihat Pola konten di atas), 1-2 kalimat pendek.
 2. Konteks: siapa perusahaannya dan apa yang mereka lakukan, dalam satu kalimat sederhana. Setiap istilah (nama program, "toko masa depan", dsb.) langsung dijelaskan isinya saat pertama kali disebut.
 3. Cara kerja: langkah berurutan. Tiap kalimat nyambung ke kalimat sebelumnya (lalu, karena itu, jadi).
 4. Fakta: hasil atau angka, selalu "menurut <pihak>".
