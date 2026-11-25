@@ -1,0 +1,89 @@
+// Contoh reel motion graphics: TOPS Fitness & Wellness (26 Nov 2026). Scene = sc(mulai, selesai, (c,t)=>{...}); semua cue pakai S(i).
+// A: cover, hook, rak terpencar
+sc(0,S(2),(c,t)=>{
+ const co=1-k(t,1.15,.35,eio); // cover keluar
+ if(co>0){c.save();c.globalAlpha=co;c.translate(0,-120*(1-co));chip(c,'INSIGHT BISNIS',540,560,INK,WH,1);
+  const L=['Rak yang bikin','pembeli nggak','keliling toko'];L.forEach((s,i)=>txt(c,s,540,760+i*130,112,800,INK));
+  hl(c,'keliling toko',540,1020,112,800,INK,OR,1,'center',WH);txt(c,'Cara supermarket TOPS di Thailand',540,1180,44,600,MUT);
+  shaker(c,300,1430,1.2);bottle(c,540,1440,1.2);bar(c,790,1440,1.2);c.restore();}
+ const hp=k(t,S(0),.45);if(t<S(1)+.6&&hp>0){const o=1-k(t,S(1),.4);c.save();c.globalAlpha=o;
+  rev(c,'Habis olahraga,',540,560,104,800,INK,hp);
+  rev(c,'mau beli',540,690,78,600,MUT,k(t,S(0)+.5,.4));
+  const a1=k(t,S(0)+.9,.5,eb),a2=k(t,S(0)+1.6,.5,eb);
+  if(a1>0){shaker(c,320,1050,1.6*a1);c.globalAlpha=o*cl(a1);txt(c,'protein',320,1290,60,800,INK);c.globalAlpha=o;}
+  if(a2>0){bar(c,760,1030,1.6*a2);c.globalAlpha=o*cl(a2);txt(c,'camilan sehat',760,1290,60,800,INK);c.globalAlpha=o;}c.restore();}
+ const mp=k(t,S(1),.5);if(mp>0){rev(c,'Tapi raknya terpencar',540,460,82,800,INK,mp);rev(c,'di mana-mana.',540,560,82,800,OR,k(t,S(1)+.25,.45));
+  floor(c,S(1),t);ITEMS.forEach((f,i)=>{const q=k(t,S(1)+.3+i*.18,.5,eb);if(q>0)f(c,SPOTS[i][0],SPOTS[i][1],.85*q);});
+  const pos=zig(c,k(t,S(1)+.6,2.4,eio));if(k(t,S(1)+.6,.1)>0)cart(c,pos[0],pos[1]-40,1.1);}
+});
+// B: TOPS bikin pojok khusus Fitness & Wellness
+sc(S(2),S(3),(c,t)=>{const a=S(2);chip(c,'THAILAND',540,470,INK,WH,k(t,a,.4));
+ rev(c,'Supermarket TOPS',540,640,96,800,INK,k(t,a+.25,.45));rev(c,'bikin pojok khusus',540,760,76,600,MUT,k(t,a+1.3,.45));
+ const p=k(t,a+1.6,.7,eio);c.save();c.strokeStyle=OR;c.lineWidth=16;c.lineCap='round';const x0=150,y0=880,w=780,h=560;
+ c.beginPath();c.moveTo(x0,y0+h*p);c.lineTo(x0,y0);c.lineTo(x0+w*p,y0);c.stroke();c.beginPath();c.moveTo(x0+w,y0+h-h*p);c.lineTo(x0+w,y0+h);c.lineTo(x0+w-w*p,y0+h);c.stroke();c.restore();
+ const q=k(t,a+2.3,.6);if(q>0){c.save();c.fillStyle=INK;c.globalAlpha=cl(q*1.3);rr(c,x0+40,y0+40+(1-q)*40,w-80,h-80,30);c.fill();c.restore();
+  rev(c,'Fitness',540,y0+230,128,800,WH,k(t,a+2.5,.5));rev(c,'& Wellness',540,y0+380,104,800,OR,k(t,a+2.8,.5));}
+});
+// C: kebutuhan dikumpulkan di satu tempat, 200+ produk, 50 merek
+sc(S(3),S(5),(c,t)=>{const a=S(3),b=S(4);const up=k(t,b,.6,eio);
+ c.save();c.globalAlpha=1-up;rev(c,'Kebutuhan orang',540,440,88,800,INK,k(t,a,.45));rev(c,'yang rajin olahraga',540,550,88,800,INK,k(t,a+.3,.45));c.restore();
+ const g=k(t,a+4.4,.8,eio); // dikumpulkan
+ const sx=330,sy=900-up*230,sw=420,sh=520;shelf(c,sx,sy,sw,sh,k(t,a+3.9,.6));
+ const from=[[180,800],[900,760],[150,1450],[930,1400]],to=[[sx+105,sy+150],[sx+315,sy+150],[sx+110,sy+325],[sx+310,sy+320]];
+ ITEMS.forEach((f,i)=>{const q=k(t,a+.6+i*.25,.5,eb);if(q<=0)return;const fx=from[i][0]+Math.sin(t*2+i)*10,fy=from[i][1]+Math.cos(t*2.2+i)*10;f(c,lerp(fx,to[i][0],g),lerp(fy,to[i][1],g),lerp(.95,.72,g)*q);});
+ if(g>.5&&up<1){c.save();c.globalAlpha=(1-up)*cl((g-.5)*2);hl(c,'di satu tempat',540,1580,84,800,INK,OR,k(t,a+4.9,.5),'center',WH);c.restore();}
+ if(up>0){const n=Math.round(200*k(t,b+.2,1.2,eo));c.save();c.globalAlpha=up;txt(c,(n>=200?'200+':String(n)),540,1520,230,800,OR);txt(c,'produk',540,1610,70,800,INK);c.restore();
+  const m=k(t,b+1.5,.5,eb);if(m>0)chip(c,'dari 50 merek',540,1740,INK,WH,m,52);}
+});
+// D: 15 toko -> 60+ toko sampai 2027
+sc(S(5),S(7),(c,t)=>{const a=S(5),b=S(6);const g=k(t,b+.3,.9,eio);
+ c.save();c.globalAlpha=1-k(t,b,.4);rev(c,'Dicoba dulu di',540,470,76,600,MUT,k(t,a,.4));rev(c,'15 toko',540,620,140,800,INK,k(t,a+.6,.5));c.restore();
+ if(k(t,b,.4)>0){rev(c,'Targetnya',540,450,70,600,MUT,k(t,b,.4));rev(c,'60+ toko',540,600,140,800,BL,k(t,b+.3,.5));}
+ for(let i=0;i<60;i++){const r=Math.floor(i/10),cc=i%10;const big=i<15;const bi=i%5,br=Math.floor(i/5);
+  const x1=180+bi*180,y1=820+br*190,x2=120+cc*93,y2=780+r*110;
+  let q;if(big){q=k(t,a+.3+i*.06,.4,eb);}else{q=k(t,b+.9+(i-15)*.025,.35,eb);}if(q<=0)continue;
+  const x=big?lerp(x1,x2,g):x2,y=big?lerp(y1,y2,g):y2,s=big?lerp(1.5,.85,g):.85;store(c,x,y,s*q,big?OR:WH,big?OR:BL);}
+ const yr=k(t,b+2.6,.5,eb);if(yr>0){chip(c,'sampai 2027',540,1560,INK,WH,yr,64);}
+});
+// E: penjualan protein naik 2x
+sc(S(7),S(8),(c,t)=>{const a=S(7);chip(c,'menurut Kaohoon International',540,430,SOFT,INK,k(t,a,.4),36);
+ rev(c,'Penjualan produk',540,600,84,800,INK,k(t,a+1.2,.45));rev(c,'tinggi protein',540,700,84,800,INK,k(t,a+1.5,.45));
+ const base=1500,x1=300,x2=780,bw=230,h1=300;const p1=k(t,a+2.2,.6),p2=k(t,a+3.3,1.0,eb);
+ c.fillStyle='#CFC6B4';rr(c,x1-bw/2,base-h1*p1,bw,h1*p1,18);c.fill();c.fillStyle=OR;rr(c,x2-bw/2,base-2*h1*p2,bw,2*h1*p2,18);c.fill();
+ c.fillStyle=INK;c.fillRect(140,base,800,8);txt(c,'sebelum',x1,base+80,46,600,MUT);txt(c,'sekarang',x2,base+80,46,800,INK);
+ shaker(c,x1,base-h1*p1-90,.7*p1,'#A89F8D');shaker(c,x2,base-2*h1*p2-90,.7*cl(p2));
+ const s2=k(t,a+4.1,.5,eb);if(s2>0){c.save();c.translate(330,930);c.rotate(-.12);c.scale(s2,s2);c.fillStyle=INK;rr(c,-210,-90,420,170,26);c.fill();c.fillStyle=WH;F(c,58,800);c.textAlign='center';c.fillText('naik 2x lipat',0,22);c.restore();}
+});
+// F: Pembelajaran + tidak perlu keliling
+sc(S(8),S(10),(c,t)=>{const a=S(8),b=S(9);
+ const sh=k(t,b,.6,eio);c.save();c.translate(0,-sh*120);chip(c,'PEMBELAJARAN',540,420,OR,WH,k(t,a,.45),44);
+ rev(c,'Susun produk berdasarkan',540,600,70,800,INK,k(t,a+.6,.45));
+ hl(c,'kebutuhan pembeli,',540,730,92,800,INK,OR,k(t,a+1.4,.6),'center',WH);
+ rev(c,'bukan cuma jenis barang.',540,870,70,600,MUT,k(t,a+2.7,.45));
+ const st=k(t,a+3.6,.4);if(st>0){F(c,70,600);const tw=c.measureText('jenis barang.').width;const x0=540+c.measureText('bukan cuma jenis barang.').width/2-tw;c.strokeStyle=INK;c.lineWidth=7;c.beginPath();c.moveTo(x0,848);c.lineTo(x0+tw*st,848);c.stroke();}
+ c.restore();
+ if(sh>0){c.save();c.globalAlpha=sh;const y0=1080;c.fillStyle=WH;rr(c,110,y0,860,560,40);c.fill();
+  // jalur lama berkelok (pudar) dan jalur baru lurus
+  const zz=[[190,y0+470],[300,y0+120],[470,y0+430],[640,y0+110],[800,y0+460]];c.globalAlpha=sh*(1-.75*k(t,b+.6,.5));zig(c,1,'#B9B0A0',zz);c.globalAlpha=sh;
+  const q=k(t,b+.8,.8,eio);c.strokeStyle=GR;c.lineWidth=14;c.lineCap='round';c.beginPath();c.moveTo(260,y0+300);c.lineTo(lerp(260,700,q),y0+300);c.stroke();
+  shelf(c,720,y0+150,180,300,k(t,b+.5,.5),INK);cart(c,lerp(260,660,q),y0+250,1.3);c.restore();
+  rev(c,'Tidak perlu keliling toko',540,1760-sh*30,70,800,INK,k(t,b+.2,.45));}
+});
+// G: minimarket dekat gym/kampus -> 1 rak khusus olahraga
+sc(S(10),S(12),(c,t)=>{const a=S(10),b=S(11);
+ rev(c,'Punya minimarket',540,450,92,800,INK,k(t,a,.45));rev(c,'dekat gym atau kampus?',540,560,70,600,MUT,k(t,a+.6,.45));
+ const mv=k(t,b,.6,eio);const ms=k(t,a+.2,.6,eb);store(c,lerp(540,330,mv),1080,lerp(3.2,2.4,mv)*ms,WH,INK);
+ if(mv<.34){c.save();c.globalAlpha=1-cl(mv*3);pin(c,230,900,k(t,a+1.0,.5,eb),BL,'gym');pin(c,860,900,k(t,a+1.6,.5,eb),GR,'kampus');c.restore();}
+ if(mv>0){c.save();c.globalAlpha=mv;rev(c,'Coba bikin',540,1380,64,600,MUT,k(t,b+.1,.4));hl(c,'1 rak khusus olahraga',540,1500,78,800,INK,OR,k(t,b+.5,.6),'center',WH);
+  shelf(c,620,880,300,380,k(t,b+.3,.7),OR);ITEMS.forEach((f,i)=>{const q=k(t,b+.8+i*.15,.4,eb);if(q>0)f(c,690+(i%2)*160,1000+Math.floor(i/2)*125,.5*q);});c.restore();}
+});
+// H: dua kubu, komentar, penutup
+sc(S(12),DUR+1,(c,t)=>{const a=S(12),b=S(13);const sh=k(t,b,.6,eio);
+ const card=(y,lab,s1,col,p)=>{if(p<=0)return;c.save();c.translate(540,y);const s=lerp(1,.78,sh);c.scale(s*eb(p),s*eb(p));c.fillStyle=col;rr(c,-430,-150,860,300,40);c.fill();txt(c,lab,0,-50,44,600,'#ffffffcc');txt(c,s1,0,60,76,800,WH,'center',780);c.restore();};
+ card(lerp(700,560,sh),'TIM RAK PER','jenis barang',BL,k(t,a+.2,.5));
+ const or=k(t,a+1.6,.4);if(or>0)txt(c,'atau',540,lerp(975,800,sh),60,800,MUT);
+ card(lerp(1250,1040,sh),'TIM RAK PER','kebutuhan',OR,k(t,a+1.9,.5));
+ if(sh>0){c.save();c.globalAlpha=sh;bubble(c,180,1260,720,190,INK);txt(c,'Tulis di komentar',540,1378,70,800,WH);c.restore();
+  const br=k(t,b+1.0,.6);if(br>0){c.save();c.globalAlpha=br;txt(c,'Jago Bikin Website',540,1620,54,800,INK);txt(c,'@jagobikinwebsite_official',540,1690,40,600,MUT);c.restore();}}
+});
+

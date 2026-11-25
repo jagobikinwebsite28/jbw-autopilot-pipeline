@@ -16,13 +16,13 @@ Repo ini milik Sasq untuk konten Instagram JBW (Jago Bikin Website), akun @jagob
 Dia akan melampirkan naskah. Buat WAV dengan perintah di atas (voice sesuai permintaan), kirim file WAV-nya ke Sasq lewat SendUserFile, selesai.
 
 ## Aturan tetap Sasq
-- TANPA HOST: tidak ada wajah, foto orang, atau video orang bicara di konten. Reel = animasi stickman.
+- TANPA HOST: tidak ada wajah, foto orang, atau video orang bicara di konten. Reel = motion graphics editorial buatan kode (lihat RUNBOOK, contoh examples/tops_mg_scenes.mjs.txt), maksimal 60 detik.
 - Jangan membuat video atau gambar lewat Gemini Omni atau model generatif lain kecuali Sasq minta. Gemini hanya untuk TTS.
 - Jangan posting langsung; selalu terjadwal lewat Tebar. Konfirmasi dulu ke Sasq sebelum menjadwalkan, kecuali run dari scheduled task harian.
 - Bahasa Indonesia santai, tanpa m-dash.
 
 ## Peralatan
 - `bash setup.sh` sekali di awal sesi (ffmpeg, numpy, @napi-rs/canvas).
-- Render: build.py (reel 1080x1920), build_car.py (carousel 1080x1350). Font di fonts/, salin ke folder render.
+- Render: tools/mg_build.sh (reel motion graphics 1080x1920, mg_head.mjs + scenes + mg_foot.mjs), build_car.py (carousel 1080x1350). build.py = gaya stickman lama. Font di fonts/, salin ke folder render.
 - Upload ke Tebar: mcp__Tebar__create_upload_link lalu `node tools/upload_tebar.mjs <upload_url> <ticket> file...`.
 - File MODE_TES di root = scheduled task hanya render, tanpa upload dan tanpa create_post.

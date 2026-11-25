@@ -3,7 +3,7 @@
 Runbook untuk scheduled task cloud. Semua jalan di sandbox cloud, tidak butuh laptop Sasq.
 
 ## ATURAN WAJIB
-- TANPA HOST. Tidak ada wajah, foto orang, atau video orang bicara. Reel = animasi stickman penuh.
+- TANPA HOST. Tidak ada wajah, foto orang, atau video orang bicara. Reel = motion graphics editorial (grafis vektor buatan kode: tipografi kinetik, ikon, diagram), tanpa figur manusia.
 - Jangan membuat video lewat Gemini Omni atau model video lain. Gemini hanya untuk TTS.
 - Jangan pernah posting langsung. Selalu terjadwal lewat mcp__Tebar__create_post.
 - Jangan pernah mencetak, menulis, atau melaporkan isi GEMINI_API_KEY.
@@ -41,15 +41,18 @@ Contoh naskah yang benar (B&M, 19 Nov 2026): "Mau ubah tata letak toko, tapi tak
 - Exit 3 = saldo Gemini dan OpenRouter sama-sama habis: jangan posting apa pun, minta Sasq top up di https://ai.studio/projects atau https://openrouter.ai/settings/credits.
 - Suara dipakai utuh satu file. QA: kalau 5 detik pertama datar, perpendek kalimat hook lalu buat ulang seluruh suara sekali.
 
-## Reel (1080x1920)
+## Reel (1080x1920): motion graphics editorial (gaya standar sejak 25 Nov 2026, disetujui Sasq)
+Gaya: latar krem, judul hitam tebal (Plus Jakarta Sans), aksen oranye dan biru, teks kunci muncul tepat saat diucapkan (reveal dari mask, stabilo), ikon dan diagram vektor (rak, produk, toko, grafik, jalur), kamera melayang halus, transisi scene naik dan memudar, musik latar sintetis pelan yang turun saat suara bicara. Tanpa wajah, tanpa figur manusia, tanpa logo merek asli, tanpa subtitle penuh (hanya kata kunci).
+Contoh lengkap: examples/tops_mg_scenes.mjs.txt + examples/tops_mg_naskah.txt.
+0. DURASI MAKSIMAL 60 DETIK: suara harus <= 57 detik (sekitar 110-120 kata, 12-15 kalimat pendek). Kalau lebih, pendekkan naskah lalu buat ulang suara. Jangan mempercepat atau memotong suara.
 1. `python3 tools/timing.py narration.wav naskah_bersih.txt > timing.json` (timing kalimat).
-   SINKRON SUARA-VISUAL (wajib): tulis naskah_bersih.txt satu kalimat pendek per baris, satu kalimat = satu momen visual. Daftar (misal 4 ciri) dipecah jadi kalimat terpisah. Jangan taruh cue penting di tengah kalimat panjang.
-   Cek batas kalimat: kecepatan tiap kalimat (suku kata/detik) harus dalam ±35% dari median; kalau ada yang menyimpang, timing.json salah, ulangi TTS.
-   Di awal scenes.mjs.txt tempel `const ST = [<start tiap kalimat dari timing.json>]; const S = i => V(ST[i]);` lalu SEMUA cue memakai S(i) (atau S(i)+offset kecil di dalam kalimat yang sama). Jangan mengetik detik manual. Contoh: examples/bm_wigan_synced_scenes.mjs.txt dan examples/bm_wigan_naskah.txt.
-2. Tulis scenes.mjs.txt mengikuti pola `examples/*_scenes.mjs.txt` (scene(V(a), V(b), fn), sfx(...)). Cover berjudul di 1,2 detik pertama. Layar penuh animasi. Tanpa subtitle, tanpa chip sumber, tanpa logo merek asli, tanpa wajah tokoh nyata.
-3. `python3 build.py scenes.mjs.txt narration.wav render.mjs`, salin sfx.py dan narration.wav ke folder render.
-4. `node render.mjs frames t1,t2,...` untuk QA visual. Ambil satu frame di setiap kalimat (V(ST[i]) + 0,5) dan pastikan visualnya sudah menampilkan isi kalimat itu (baca PNG: tumpang tindih, teks terpotong, ruang kosong). Perbaiki.
-5. `node render.mjs video out.mp4`.
+   SINKRON SUARA-VISUAL (wajib): tulis naskah_bersih.txt satu kalimat pendek per baris, satu kalimat = satu momen visual. Daftar dipecah jadi kalimat terpisah. Jangan taruh cue penting di tengah kalimat panjang.
+   Cek batas kalimat: kecepatan tiap kalimat (suku kata/detik) harus dalam ±35% dari median. Kalau ada yang menyimpang, cek jeda dengan `ffmpeg -af silencedetect` dan energi audio; kalau batasnya jelas, betulkan start kalimat itu, kalau tidak, ulangi TTS.
+   Simpan start tiap kalimat ke st.json (array detik). Di scenes, SEMUA cue memakai S(i) (= start kalimat i + 1,0 dtk) atau S(i)+offset kecil di dalam kalimat yang sama. Jangan mengetik detik manual.
+2. Folder kerja: salin fonts/*.ttf, symlink node_modules, taruh st.json dan narration.wav. Tulis scenes.mjs.txt: `sc(S(i), S(j), (c,t)=>{...})`, satu scene per 1-3 kalimat, scene terakhir `sc(S(n), DUR+1, ...)` berisi CTA lalu brand "Jago Bikin Website" + @jagobikinwebsite_official sampai detik terakhir. Cover berjudul (janji/manfaat) di 0-1,2 detik. Setiap scene punya satu ide visual sendiri; elemen penting jangan diam.
+3. QA: `cat mg_head.mjs scenes.mjs.txt mg_foot.mjs > mg_render.mjs` lalu `QD=qa1 node mg_render.mjs frames t1,t2,...` (satu frame per kalimat di S(i)+1,5, buat folder qa baru tiap putaran). Gabung jadi contact sheet (ffmpeg xstack) dan baca: tumpang tindih, teks terpotong, teks layar = kata yang diucapkan. Perbaiki.
+4. Render + mix + verifikasi: `bash <repo>/tools/mg_build.sh scenes.mjs.txt narration.wav out.mp4 <indeks kalimat awal scene, untuk whoosh>`. Harus keluar `VERIFIKASI` dengan frame = durasi x 30, beku=0, hitam=0.
+Gaya lama (stickman, build.py + lib_head.mjs) hanya dipakai kalau Sasq minta.
 
 ## Carousel (1080x1350, gaya v2 gambar tangan)
 1. Tulis slides.mjs.txt mengikuti `examples/merchantfloor_slides.mjs.txt` dan alur naskah di atas (wajib ada slide Pembelajaran). Slide 1 selalu hookSlide(...). Slide lain: rtitle (*kata kunci* distabilo), csub, ilustrasi gambar tangan, hand(...), carrow(...), stepNo(n), cnote(...) untuk sumber, ctaBtn + brand di slide terakhir. Variasikan layout. 6 sampai 8 slide.
