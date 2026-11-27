@@ -1,0 +1,30 @@
+// A/B format 1: prompt siap salin. 6 prompt AI untuk kerjaan toko di balik layar
+const PRM = [
+  ['Tulis *deskripsi produk*', 'Kamu penjual [jenis produk]. Tulis deskripsi produk untuk [nama produk] dengan ciri: [bahan, ukuran, keunggulan]. Maksimal 80 kata, bahasa santai, akhiri dengan ajakan pesan.', 'Kemeja katun putih yang adem dipakai seharian. Bahannya tebal, nggak menerawang, ukuran S sampai XL. Cocok buat kerja atau kondangan. Pesan sekarang, kirim hari ini.', 'kasih ciri asli, jangan biarkan AI mengarang'],
+  ['Rencana *konten seminggu*', 'Kamu admin media sosial toko [jenis toko] untuk pembeli [siapa pembelinya]. Buat rencana 7 konten Instagram untuk minggu ini: hari, ide konten, dan satu kalimat pembuka.', 'Senin: foto proses packing, "Pesananmu disiapkan pagi ini." Selasa: tips merawat kemeja katun. Rabu: ...', 'pilih 3 yang paling gampang dibuat'],
+  ['Rangkum *ulasan pembeli*', 'Ini ulasan pembeli tokoku: [tempel 10 sampai 20 ulasan]. Kelompokkan jadi: yang paling disukai, keluhan yang sering muncul, dan 3 perbaikan yang bisa kulakukan bulan ini.', 'Disukai: bahan adem, pengiriman cepat. Keluhan: ukuran L kekecilan (5 ulasan). Perbaikan: tambah tabel ukuran di katalog.', 'hapus nama dan nomor pembeli dulu'],
+  ['Hitung *harga jual*', 'Modal produkku [rincian biaya: bahan, kemasan, ongkos kerja] per pcs. Biaya bulanan [sewa, listrik, gaji]. Target jual [jumlah] pcs per bulan dan untung [persen]. Hitung harga jual per pcs dan tunjukkan cara hitungnya.', 'Modal per pcs Rp62.000 + bagian biaya bulanan Rp18.000 = Rp80.000. Untung 40%: harga jual sekitar Rp112.000.', 'cek ulang angkanya pakai kalkulator'],
+  ['Bikin *SOP karyawan*', 'Buat checklist SOP buka toko untuk karyawan baru di [jenis toko]: urutan kerja dari datang sampai toko siap melayani, dengan bahasa sederhana dan maksimal 10 poin.', '1. Datang 15 menit sebelum buka. 2. Nyalakan lampu dan kasir. 3. Cek stok etalase depan. ...', 'tempel di dekat kasir'],
+  ['Susun *kalender promo*', 'Toko [jenis toko] di [kota]. Buat kalender promo untuk 3 bulan ke depan berdasarkan tanggal penting, gajian, dan musim. Tiap promo: nama, tanggal, ide penawaran.', 'Akhir bulan: "Gajian Hemat", beli 2 gratis ongkir. Awal bulan depan: ...', 'sesuaikan dengan modal promo'],
+];
+slide(c => {
+  note3(c, 'buat pemilik toko yang kerjaannya numpuk', 80, 150, 46, BL3, -.03);
+  c.font = '210px PJS800'; c.fillStyle = OR3; c.fillText('6', 80, 400);
+  t3(c, 'prompt AI', 230, 330, 96, 760); t3(c, 'buat kerjaan toko yang *makan waktu*', 80, 520, 90, 920);
+  phone3(c, 420, 760, 560, 520, -.04, (c, x, y, w, h) => { c.font = '28px PJS800'; c.fillStyle = '#fff'; c.fillText('Asisten AI', x + 30, y - 32);
+    let yy = bubble3(c, x + w - 22, y + 24, 420, 'Tulis deskripsi kemeja katun putih, S sampai XL, maksimal 80 kata.', 'r', 24);
+    bubble3(c, x + 22, yy + 18, 460, 'Kemeja katun putih yang adem dipakai seharian. Bahannya tebal, nggak menerawang...', 'l', 24); });
+  note3(c, 'deskripsi\nproduk jadi\ndalam semenit', 90, 860, 50, OR3, -.06); arrow3(c, [200, 1020], [400, 1080], -60);
+  c.font = '34px PJS600'; c.fillStyle = MUTE; c.fillText('Geser, lalu simpan', 80, H - 70);
+}, {noDots: true});
+PRM.forEach(([title, pr, res, tip], i) => slide(c => {
+  bigNo(c, i + 1, 80, 220);
+  note3(c, tip, 330, 190, 44, OR3, -.03);
+  const ty = t3(c, title, 80, 330, 74, 920);
+  const py = prompt3(c, 80, ty + 50, 920, pr, 'Prompt, salin lalu ganti [isi kurung]', 33);
+  note3(c, 'contoh hasil', 100, py + 80, 42, MUTE, 0);
+  const rh = (() => { c.font = '32px PJS400'; return wrapLines(c, res, 800).length * 32 * 1.38 + 60; })();
+  box3(c, 80, py + 105, 920, rh, '#eef3fd', BL3, 3, 24); b3(c, res, 115, py + 160, 32, NAVY, 850, 'PJS400');
+  if (i === 0) note3(c, 'tempel di ChatGPT, Gemini, atau AI favoritmu', 100, Math.min(py + 105 + rh + 70, H - 30), 40, BL3, -.02);
+}));
+slide(c => ctaSlide3(c, 'Simpan carousel ini. Buka lagi pas kerjaan toko numpuk.', 'Kirim ke teman yang punya usaha.', 'Mau kerjaan rutin tokomu *dibantu sistem*?'));

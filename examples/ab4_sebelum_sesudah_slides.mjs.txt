@@ -1,0 +1,28 @@
+// A/B format 4: sebelum vs sesudah. 6 tulisan toko
+const BA = [
+  ['Bio Instagram', 'Jual baju murah. Order DM.', 'Kemeja katun adem buat kerja. Dikirim dari Bandung tiap hari. Pesan lewat WA di link.', 'sebut produk, untuk siapa, dan cara pesan'],
+  ['Caption produk', 'Ready kak, harga murah, order sekarang!', 'Kemeja putih katun, adem dipakai seharian. Ukuran S sampai XL, Rp149 ribu. Ketik UKURAN di komentar, Kami bantu pilih.', 'ajakan yang gampang dibalas'],
+  ['Nama produk di katalog', 'Kemeja 01', 'Kemeja Katun Putih Lengan Panjang (S sampai XL)', 'nama yang dicari orang'],
+  ['Info ongkir', 'Ongkir tanya admin', 'Ongkir dihitung otomatis dari alamatmu. Pesan sebelum jam 2 siang, dikirim hari itu.', 'jawab pertanyaan sebelum ditanya'],
+  ['Status WhatsApp promo', 'PROMO!!! BURUAN!!!', 'Sabtu ini aja: beli 2 kemeja, gratis ongkir. Balas status ini buat pesan.', 'batas waktu jelas, cara pesan jelas'],
+  ['Pesan follow up', 'Kak jadi order?', 'Halo kak, kemarin sempat lihat kemeja putih ya. Ukuran M tinggal 2, mau Kami simpankan satu?', 'bantu, jangan menagih'],
+];
+const pair = (c, y0, before, after, sizeA = 40) => {
+  tag3(c, 80, y0, 'Sebelum', '#9aa3b5'); box3(c, 80, y0 + 30, 920, 0, null, null, 0);
+  const by = b3(c, before, 80, y0 + 100, 42, '#8b93a5', 920, 'PJS600');
+  tag3(c, 80, by + 110, 'Sesudah', OR3); box3(c, 80, by + 140, 920, 10, null, null, 0);
+  return b3(c, after, 80, by + 210, sizeA, NAVY, 920, 'PJS800'); };
+slide(c => {
+  note3(c, 'tulisan yang sama, hasil beda', 80, 150, 50, BL3, -.03);
+  t3(c, 'Tulisan toko: *sebelum vs sesudah*', 80, 310, 96, 920);
+  box3(c, 80, 600, 920, 230, '#eceef2', '#9aa3b5', 3, 24); c.font = '28px PJS800'; c.fillStyle = '#8b93a5'; c.fillText('Sebelum', 115, 660); b3(c, 'Jual baju murah. Order DM.', 115, 730, 44, '#8b93a5', 850, 'PJS600');
+  box3(c, 80, 880, 920, 300, '#fff', OR3, 5, 24); c.font = '28px PJS800'; c.fillStyle = OR3; c.fillText('Sesudah', 115, 940); b3(c, 'Kemeja katun adem buat kerja. Dikirim dari Bandung tiap hari. Pesan lewat WA di link.', 115, 1010, 40, NAVY, 850, 'PJS800');
+  c.font = '34px PJS600'; c.fillStyle = MUTE; c.fillText('Geser, ada 6 contoh', 80, H - 80);
+}, {noDots: true});
+BA.forEach(([t, before, after, why], i) => slide(c => {
+  bigNo(c, i + 1, 80, 220); note3(c, why, 330, 190, 44, OR3, -.03);
+  t3(c, t, 80, 340, 74, 920);
+  box3(c, 80, 420, 920, 250, '#eceef2', '#9aa3b5', 3, 24); c.font = '28px PJS800'; c.fillStyle = '#8b93a5'; c.fillText('Sebelum', 115, 480); b3(c, before, 115, 555, 44, '#8b93a5', 850, 'PJS600');
+  box3(c, 80, 720, 920, 440, '#fff', OR3, 5, 24); c.font = '28px PJS800'; c.fillStyle = OR3; c.fillText('Sesudah', 115, 780); b3(c, after, 115, 855, 42, NAVY, 850, 'PJS800', 1.36);
+}));
+slide(c => ctaSlide3(c, 'Simpan, contek pas nulis caption berikutnya.', 'Kirim ke teman yang jualan online.', 'Mau semua tulisan tokomu *rapi di satu website*?'));

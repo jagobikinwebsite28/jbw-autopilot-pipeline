@@ -1,0 +1,34 @@
+// A/B format 5: tutorial langkah. Katalog WhatsApp Business
+const ITEMS = [['Kemeja Putih', 'Rp149.000'], ['Kemeja Biru', 'Rp149.000'], ['Celana Chino', 'Rp179.000'], ['Kaos Polos', 'Rp69.000']];
+const catMock = (c, x, y, w) => { const cw = (w - 60) / 2; ITEMS.forEach(([n, p], i) => { const cx = x + 20 + (i % 2) * (cw + 20), cy = y + 20 + Math.floor(i / 2) * 250; c.beginPath(); c.roundRect(cx, cy, cw, 230, 16); c.fillStyle = '#fff'; c.fill(); c.fillStyle = ['#dfe7f5', '#cfdcf7', '#efe2cf', '#e6e6e6'][i]; c.beginPath(); c.roundRect(cx + 12, cy + 12, cw - 24, 120, 10); c.fill(); c.font = '24px PJS800'; c.fillStyle = NAVY; c.fillText(n, cx + 16, cy + 170); c.font = '22px PJS600'; c.fillStyle = '#1d7a46'; c.fillText(p, cx + 16, cy + 205); }); };
+const STEPS = [
+  ['Buka menu *Katalog*', 'Di aplikasi WhatsApp Business: ketuk titik tiga, pilih Pengaturan, lalu Alat bisnis, lalu Katalog.', ['Pengaturan', 'Alat bisnis', 'Katalog'], 'nama menu bisa sedikit beda di tiap versi aplikasi'],
+  ['Tambah *item baru*', 'Ketuk Tambah item baru, lalu pilih foto produk. Satu item bisa diisi sampai 10 foto.', null, 'foto pertama jadi sampul, pilih yang paling jelas'],
+  ['Isi *nama, harga, deskripsi*', 'Nama yang spesifik lebih gampang dipahami. Tulis bahan, ukuran, dan keunggulannya di deskripsi.', null, 'contoh: Kemeja Katun Putih (S sampai XL)'],
+  ['Kelompokkan jadi *koleksi*', 'Buat koleksi seperti "Paling laku" atau "Promo minggu ini", lalu pilih item yang masuk.', null, 'pembeli lebih cepat ketemu yang dicari'],
+  ['Bagikan *link katalog*', 'Salin link katalog, lalu pasang di bio Instagram, status WhatsApp, dan balasan cepat.', null, 'satu link, semua produk kelihatan'],
+];
+slide(c => {
+  note3(c, 'gratis, cukup dari HP', 80, 150, 50, BL3, -.03);
+  t3(c, 'Bikin *katalog* WhatsApp Business dalam 5 langkah', 80, 310, 88, 920);
+  phone3(c, 300, 640, 480, 520, .03, (c, x, y, w, h) => { c.font = '28px PJS800'; c.fillStyle = '#fff'; c.fillText('Katalog', x + 30, y - 32); catMock(c, x, y, w); });
+  c.font = '34px PJS600'; c.fillStyle = MUTE; c.textAlign = 'right'; c.fillText('Geser, lalu simpan', W - 80, H - 70); c.textAlign = 'left';
+}, {noDots: true});
+slide(c => {
+  t3(c, 'Hasil akhirnya: pembeli lihat *semua produk* tanpa nanya satu-satu', 80, 230, 70, 920);
+  phone3(c, 80, 560, 520, 680, -.03, (c, x, y, w, h) => { c.font = '28px PJS800'; c.fillStyle = '#fff'; c.fillText('Katalog', x + 30, y - 32); catMock(c, x, y, w); });
+  note3(c, 'harga langsung\nkelihatan', 650, 700, 52, OR3, -.05); arrow3(c, [700, 790], [560, 850], 40);
+  note3(c, 'pembeli tinggal\nketuk lalu chat', 650, 1000, 52, BL3, -.03);
+});
+STEPS.forEach(([t, d, path, tip], i) => slide(c => {
+  c.font = '44px PJS800'; c.fillStyle = OR3; c.fillText(`Langkah ${i + 1}`, 80, 190);
+  const ty = t3(c, t, 80, 300, 76, 920);
+  b3(c, d, 80, ty + 90, 38, NAVY, 920, 'PJS600');
+  if (path) { path.forEach((p, k) => { const y = 640 + k * 150; box3(c, 120 + k * 60, y, 600, 100, k === 2 ? '#fff1e6' : '#fff', k === 2 ? OR3 : NAVY, 4, 20); c.font = '40px PJS800'; c.fillStyle = NAVY; c.fillText(p, 160 + k * 60, y + 64); if (k < 2) arrow3(c, [400 + k * 60, y + 104], [440 + k * 60, y + 146], 10, NAVY, 4); }); }
+  else if (i === 1) { box3(c, 120, 620, 840, 420, '#fff', NAVY, 4, 24); c.font = '34px PJS800'; c.fillStyle = NAVY; c.fillText('Tambah item baru', 160, 690); for (let k = 0; k < 4; k++) { c.beginPath(); c.roundRect(160 + k * 195, 740, 170, 170, 14); c.fillStyle = ['#dfe7f5', '#cfdcf7', '#efe2cf', '#eceef2'][k]; c.fill(); } c.font = '60px PJS800'; c.fillStyle = MUTE; c.fillText('+', 728, 845); }
+  else if (i === 2) { box3(c, 120, 620, 840, 440, '#fff', NAVY, 4, 24); [['Nama', 'Kemeja Katun Putih (S sampai XL)'], ['Harga', 'Rp149.000'], ['Deskripsi', 'Katun adem, tidak menerawang']].forEach(([l, v], k) => { c.font = '26px PJS600'; c.fillStyle = MUTE; c.fillText(l, 160, 690 + k * 125); c.font = '32px PJS800'; c.fillStyle = NAVY; c.fillText(v, 160, 735 + k * 125); }); }
+  else if (i === 3) { ['Paling laku', 'Promo minggu ini', 'Kemeja'].forEach((p, k) => { box3(c, 120, 640 + k * 140, 840, 110, '#fff', NAVY, 3, 20); c.font = '38px PJS800'; c.fillStyle = NAVY; c.fillText(p, 160, 708 + k * 140); c.font = '30px PJS600'; c.fillStyle = MUTE; c.textAlign = 'right'; c.fillText(`${[6, 3, 8][k]} item`, 920, 708 + k * 140); c.textAlign = 'left'; }); }
+  else { box3(c, 120, 640, 840, 130, '#fff', NAVY, 4, 20); c.font = '34px PJS600'; c.fillStyle = BL3; c.fillText('wa.me/c/62812xxxxxxx', 160, 720); ['bio Instagram', 'status WhatsApp', 'balasan cepat'].forEach((p, k) => { tick3(c, 140, 830 + k * 90, .8, true); c.font = '38px PJS800'; c.fillStyle = NAVY; c.fillText(p, 210, 868 + k * 90); }); }
+  note3(c, tip, 80, 1200, 44, OR3, -.02);
+}));
+slide(c => ctaSlide3(c, 'Simpan, praktikkan pas lagi santai.', 'Kirim ke teman yang masih kirim foto satu-satu.', 'Mau katalogmu naik kelas jadi *website toko*?'));

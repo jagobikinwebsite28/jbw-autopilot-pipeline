@@ -1,0 +1,27 @@
+// A/B format 3: checklist cek diri. 6 hal yang bikin pembeli ragu transfer
+const CK = [
+  ['Harga ditulis *"cek DM"*', 'Pembeli malas bertanya duluan. Banyak yang langsung pindah ke toko yang harganya jelas.', 'Tulis harga di caption dan katalog.', ['Harga? Cek DM ya kak', 'Rp85.000, kirim hari ini']],
+  ['Foto *gelap* atau buram', 'Pembeli menilai barang dari foto. Foto gelap bikin barang terlihat murahan.', 'Foto siang hari dekat jendela, latar polos.', null],
+  ['Ukuran dan bahan *tidak ditulis*', 'Pembeli takut salah ukuran, lalu menunda beli.', 'Tulis ukuran, bahan, dan berat di deskripsi.', ['Kemeja ready kak', 'Katun, lingkar dada 104 cm (M)']],
+  ['Chat *lama dibalas*', 'Pembeli yang menunggu sering sudah beli di tempat lain.', 'Pasang pesan sambutan berisi jam balas.', ['Kak? Kak??', 'Halo kak, Kami balas maksimal 1 jam ya']],
+  ['Alamat dan kontak *tidak jelas*', 'Toko tanpa alamat atau jam buka terasa kurang meyakinkan.', 'Cantumkan alamat atau lokasi Google Maps, nomor WA, dan jam buka.', null],
+  ['Cara bayar *membingungkan*', 'Rekening atas nama pribadi tanpa keterangan bikin pembeli ragu.', 'Kirim satu pesan: total, ongkir, rekening dan nama pemiliknya.', ['Transfer ke sini aja', 'Total Rp95.000 (sudah termasuk ongkir). Rekening a.n. Toko Rina']],
+];
+slide(c => {
+  note3(c, 'cek tokomu sekarang', 80, 150, 52, BL3, -.03);
+  t3(c, 'Cek 6 hal ini sebelum pembeli *ragu transfer*', 80, 310, 92, 920);
+  box3(c, 120, 700, 840, 520, '#fff', NAVY, 4, 30);
+  CK.forEach(([t], i) => { tick3(c, 160, 735 + i * 78, .85, i < 2); c.font = '34px PJS600'; c.fillStyle = NAVY; c.fillText(t.replace(/\*/g, ''), 240, 772 + i * 78); });
+  c.font = '34px PJS600'; c.fillStyle = MUTE; c.fillText('Geser, lalu centang punyamu', 80, H - 80);
+}, {noDots: true});
+CK.forEach(([t, why, fix, ex], i) => slide(c => {
+  tick3(c, 80, 130, 1.6, false); bigNo(c, i + 1, 200, 230);
+  const ty = t3(c, t, 80, 360, 74, 920);
+  const wy = b3(c, why, 80, ty + 80, 38, MUTE, 920, 'PJS400');
+  let y = Math.max(620, wy + 110);
+  if (ex) { tag3(c, 80, y, 'bikin ragu', '#9aa3b5'); b3(c, ex[0], 80, y + 70, 40, '#9aa3b5', 920, 'PJS600'); c.font = '40px PJS600'; line(c, [[80, y + 56], [80 + Math.min(920, c.measureText(ex[0]).width), y + 56]], 4, '#9aa3b5');
+    tag3(c, 80, y + 190, 'lebih meyakinkan', '#1d7a46'); y = b3(c, ex[1], 80, y + 260, 42, NAVY, 920, 'PJS800') - 560; }
+  else { box3(c, 80, y - 20, 920, 250, '#fff', NAVY, 3, 24); note3(c, i === 1 ? 'jendela = lampu studio gratis' : 'pembeli bisa cek tokomu asli', 120, y + 80, 52, BL3, -.03); note3(c, i === 1 ? 'pagi atau siang, tanpa flash' : 'sebelum transfer', 120, y + 150, 46, MUTE, -.03); }
+  const fy = ex ? Math.max(1010, y + 640) : Math.max(1010, y + 290); box3(c, 80, fy, 920, 200, '#fff1e6', OR3, 4, 24); c.font = '30px PJS800'; c.fillStyle = OR3; c.fillText('Perbaiki hari ini', 115, fy + 58); b3(c, fix, 115, fy + 120, 36, NAVY, 850, 'PJS800');
+}));
+slide(c => ctaSlide3(c, 'Simpan, cek ulang tiap bulan.', 'Kirim ke teman yang jualan online.', 'Mau tokomu kelihatan *lebih meyakinkan* di internet?'));

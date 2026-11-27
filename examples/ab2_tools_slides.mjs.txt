@@ -1,0 +1,29 @@
+// A/B format 2: daftar tools gratis + mockup pemakaian
+const TOOLS = [
+  ['WhatsApp Business', 'Balasan otomatis di luar jam buka, balasan cepat, label chat, dan katalog produk.', 'pasang pesan di luar jam buka', c => { box3(c, 560, 470, 440, 420, '#efe7dc', NAVY, 4, 30); c.fillStyle = '#075e54'; c.fillRect(562, 472, 436, 70); c.font = '28px PJS800'; c.fillStyle = '#fff'; c.fillText('Toko Kamu', 590, 518); bubble3(c, 580, 570, 330, 'Kak, masih buka?', 'l', 26); bubble3(c, 985, 690, 380, 'Halo kak, toko lagi tutup. Kami balas besok jam 08.00 ya.', 'r', 26); }],
+  ['Google Bisnisku', 'Tokomu muncul di Google Search dan Maps, lengkap dengan jam buka, foto, dan produk.', 'lengkapi jam buka dan 5 foto terbaik', c => { box3(c, 560, 470, 440, 420, '#e8eef7', NAVY, 4, 30); for (let i = 0; i < 6; i++) line(c, [[560, 520 + i * 60], [1000, 500 + i * 70]], 3, 'rgba(22,33,58,.12)'); shape(c, [[780, 560], [820, 600], [780, 680], [740, 600]], OR3, 0); c.beginPath(); c.arc(780, 600, 40, Math.PI, 0); c.fillStyle = OR3; c.fill(); box3(c, 590, 720, 380, 140, '#fff', NAVY, 3, 18); c.font = '28px PJS800'; c.fillStyle = NAVY; c.fillText('Toko Kue (contoh)', 615, 770); c.font = '26px PJS400'; c.fillStyle = '#1d7a46'; c.fillText('Buka sampai 21.00', 615, 815); }],
+  ['Canva (paket gratis)', 'Bikin poster promo, menu, dan konten sosmed dari template, tanpa harus jago desain.', 'cari template "menu" lalu ganti foto dan harga', c => { box3(c, 600, 460, 380, 460, '#fff', NAVY, 4, 20); c.fillStyle = OR3; c.fillRect(604, 464, 372, 160); c.font = '44px PJS800'; c.fillStyle = '#fff'; c.fillText('Promo', 640, 540); c.fillText('akhir bulan', 640, 590); c.font = '30px PJS600'; c.fillStyle = NAVY; ['Kopi susu   Rp18rb', 'Roti bakar  Rp15rb', 'Es teh        Rp6rb'].forEach((t, i) => c.fillText(t, 640, 690 + i * 60)); }],
+  ['Google Formulir', 'Formulir pesanan atau pre-order. Jawabannya rapi masuk ke Google Spreadsheet.', 'bikin form pre-order, pasang link di bio', c => { box3(c, 560, 470, 440, 440, '#fff', NAVY, 4, 24); c.font = '30px PJS800'; c.fillStyle = NAVY; c.fillText('Form pre-order', 590, 530); ['Nama', 'Alamat', 'Jumlah'].forEach((t, i) => { c.font = '26px PJS600'; c.fillStyle = MUTE; c.fillText(t, 590, 600 + i * 100); c.beginPath(); c.roundRect(590, 615 + i * 100, 380, 50, 10); c.lineWidth = 3; c.strokeStyle = 'rgba(22,33,58,.3)'; c.stroke(); }); }],
+  ['ChatGPT atau Gemini', 'Draf caption, deskripsi produk, dan ide promo. Dua-duanya punya versi gratis.', 'minta 3 versi caption, pilih satu, edit sedikit', c => { box3(c, 560, 470, 440, 440, '#fff', NAVY, 4, 24); c.font = '26px PJS800'; c.fillStyle = BL3; c.fillText('Kamu', 590, 520); b3(c, 'Tulis 3 caption singkat untuk keripik pedas level 5.', 590, 560, 26, NAVY, 380); c.font = '26px PJS800'; c.fillStyle = '#1d7a46'; c.fillText('AI', 590, 690); b3(c, '1. Pedasnya bikin nagih, berani coba level 5?', 590, 730, 26, NAVY, 380); }],
+];
+slide(c => {
+  note3(c, 'semua ada versi gratisnya', 80, 150, 50, BL3, -.03);
+  c.font = '210px PJS800'; c.fillStyle = OR3; c.fillText('5', 80, 400);
+  t3(c, 'tools', 230, 330, 96, 760); t3(c, 'biar toko kecil kelihatan *rapi*', 80, 520, 96, 900);
+  TOOLS.forEach(([n], i) => { tick3(c, 100, 790 + i * 92, .9, true); c.font = '44px PJS800'; c.fillStyle = NAVY; c.fillText(n, 180, 832 + i * 92); });
+  c.font = '34px PJS600'; c.fillStyle = MUTE; c.fillText('Geser, lalu simpan', 80, H - 80);
+}, {noDots: true});
+TOOLS.forEach(([n, use, tryT, mock], i) => slide(c => {
+  bigNo(c, i + 1, 80, 220);
+  t3(c, n, 80, 340, 74, 920);
+  tag3(c, 80, 450, 'Pakai buat');
+  b3(c, use, 80, 530, 36, NAVY, 440, 'PJS600', 1.4);
+  mock(c);
+  box3(c, 80, 1010, 920, 200, '#fff1e6', OR3, 4, 24); c.font = '30px PJS800'; c.fillStyle = OR3; c.fillText('Coba dulu minggu ini', 115, 1068); b3(c, tryT, 115, 1130, 38, NAVY, 850, 'PJS800');
+}));
+slide(c => {
+  t3(c, 'Nggak harus *semua*', 80, 260, 84, 920);
+  b3(c, 'Mulai dari tempat pembelimu paling sering datang:', 80, 360, 38, MUTE, 920);
+  [['Pembeli lewat chat', 'WhatsApp Business'], ['Pembeli cari di Google', 'Google Bisnisku'], ['Butuh poster promo', 'Canva'], ['Sering pre-order', 'Google Formulir'], ['Bingung nulis caption', 'ChatGPT atau Gemini']].forEach(([a, b], i) => { const y = 470 + i * 150; box3(c, 80, y, 920, 120, '#fff', NAVY, 3, 20); c.font = '34px PJS600'; c.fillStyle = MUTE; c.fillText(a, 115, y + 72); c.font = '36px PJS800'; c.fillStyle = NAVY; c.textAlign = 'right'; c.fillText(b, 965, y + 72); c.textAlign = 'left'; });
+});
+slide(c => ctaSlide3(c, 'Simpan, biar gampang dicari pas mau mulai.', 'Kirim ke teman yang baru buka usaha.', 'Mau semua ini nyambung ke *website toko* sendiri?'));

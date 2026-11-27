@@ -64,6 +64,15 @@ Contoh terbaru (sudah pakai sudut pandang pemilik dan sinkron per kalimat): exam
 5. `node render.mjs video out.mp4`.
 (Pipeline motion graphics mg_head.mjs / tools/mg_build.sh masih ada di repo tapi tidak dipakai, kecuali Sasq minta.)
 
+## A/B test carousel (28 Nov sampai 2 Des 2026)
+Carousel berita gaya v2 hampir tidak dapat jangkauan (0 sampai 9 per post, 0 simpan, 0 kirim). Sedang diuji 5 format carousel praktis gaya v3 (`python3 build_car.py slides.mjs.txt render_car.mjs --v3`, helper di car3_helpers.mjs), semua jam 07.00, 8 slide, penutup "simpan + kirim + tertarik":
+- 28 Nov: prompt siap salin (examples/ab1_prompt_slides.mjs.txt), post 6e4f8c6f-8ad6-4146-b6f1-f6f2fc23bcfc
+- 29 Nov: daftar tools gratis (examples/ab2_tools_slides.mjs.txt), post f62930f6-cb8c-40ca-a440-8c9f89cba337
+- 30 Nov: checklist cek diri (examples/ab3_checklist_slides.mjs.txt), post 1520438b-04b8-438f-9587-1a91d781db85
+- 1 Des: sebelum vs sesudah (examples/ab4_sebelum_sesudah_slides.mjs.txt), post a39b1e65-28c8-497a-bf72-8d9f96e7b2cd
+- 2 Des: tutorial langkah (examples/ab5_tutorial_slides.mjs.txt), post b6dc4c6e-b4c2-4f58-b832-733346ba6cda
+Aturan Sasq: jangan ada konten AI untuk membalas chat pembeli. Pemenang dinilai dari simpan + kirim (lalu reach), diukur minimal 48 jam setelah tayang.
+
 ## Carousel (1080x1350, gaya v2 gambar tangan)
 1. Tulis slides.mjs.txt mengikuti `examples/merchantfloor_slides.mjs.txt` dan alur naskah di atas (wajib ada slide Pembelajaran). Slide 1 selalu hookSlide(...). Slide lain: rtitle (*kata kunci* distabilo), csub, ilustrasi gambar tangan, hand(...), carrow(...), stepNo(n), cnote(...) untuk sumber, ctaBtn + brand di slide terakhir. Variasikan layout. 6 sampai 8 slide.
 2. `python3 build_car.py slides.mjs.txt render_car.mjs`, lalu `node render_car.mjs out`. QA tiap slide.
