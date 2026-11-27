@@ -1,0 +1,134 @@
+// waktu mulai tiap kalimat (detik suara), dari timing.json
+const ST = [0.17, 4.32, 6.76, 11.82, 16.8, 20.63, 26.01, 30.06, 35.48, 40.68, 44.16, 47.37, 49.85, 52.93, 55.82];
+const S = i => V(ST[i]);
+// ---------- Asda Express Deepcut: area persiapan roti dan konter makanan panas di lantai toko (Asda, 19 Nov 2026), props ad*
+const AD_STAFF = {hair: 'cap', capCol: '#fff', shirt: GREEN, apron: ORANGE, mood: 'ok'};
+const AD_BUYER = {hair: 'bun', shirt: PURPLE, mood: 'ok'};
+const AD_BUYER2 = {hair: 'short', shirt: BLUE, mood: 'ok'};
+function adFlagUK(c, x, y, s = 1) { at(c, x, y, s, c => { line(c, [[-90, -60], [-90, 150]], 7);
+  c.save(); c.beginPath(); c.rect(-90, -60, 180, 110); c.clip(); c.fillStyle = '#1f3c88'; c.fillRect(-90, -60, 180, 110);
+  c.lineWidth = 22; c.strokeStyle = '#fff'; c.beginPath(); c.moveTo(-90, -60); c.lineTo(90, 50); c.moveTo(90, -60); c.lineTo(-90, 50); c.stroke();
+  c.lineWidth = 8; c.strokeStyle = '#d8443a'; c.beginPath(); c.moveTo(-90, -60); c.lineTo(90, 50); c.moveTo(90, -60); c.lineTo(-90, 50); c.stroke();
+  c.fillStyle = '#fff'; c.fillRect(-90, -16, 180, 22); c.fillRect(-14, -60, 28, 110); c.fillStyle = '#d8443a'; c.fillRect(-90, -11, 180, 12); c.fillRect(-8, -60, 16, 110); c.restore();
+  rect(c, -90, -60, 180, 110, null, 6); }); }
+function adStore(c, x, y, w, h, sign, signCol = GREEN) { rect(c, x, y - h, w, h, '#fff7e8', 6); rect(c, x - 14, y - h - 70, w + 28, 80, signCol, 6); text(c, sign, x + w / 2, y - h - 14, 48, '#fff');
+  rect(c, x + 30, y - h + 50, w * .32, h * .4, '#cfe8f6', 5); rect(c, x + w - 30 - w * .32, y - h + 50, w * .32, h * .4, '#cfe8f6', 5); rect(c, x + w * .38, y - h * .55, w * .24, h * .55, '#bfe3f2', 5); }
+function adMini(c, x, y, s, name, col = GREEN, dim = false) { at(c, x, y, s, c => adStore(c, -130, 0, 260, 220, name, dim ? '#a9a39a' : col), dim ? .45 : 1); }
+function adOven(c, x, y, s = 1, T = 0, hot = true) { at(c, x, y, s, c => { rect(c, -110, -230, 220, 230, '#4a4f57', 6); rect(c, -80, -190, 160, 110, hot ? '#ffb347' : '#666', 5);
+  if (hot) { c.save(); c.globalAlpha = .35 + .15 * Math.sin(T * 6); circ(c, 0, -135, 50, '#ffd27a', 0); c.restore(); } rect(c, -80, -60, 160, 20, '#888', 4); text(c, 'OVEN', 0, -12, 36, '#fff'); }); }
+function adLoaf(c, x, y, s = 1) { at(c, x, y, s, c => { shape(c, [[-70, 10], [-60, -26], [-20, -42], [30, -40], [64, -20], [70, 10]], '#d9963a', 6); line(c, [[-30, -30], [-16, -4]], 5); line(c, [[2, -34], [16, -8]], 5); line(c, [[32, -30], [44, -6]], 5); }); }
+function adHot(c, x, y, s = 1, T = 0) { at(c, x, y, s, c => { rect(c, -130, -70, 260, 140, '#e5533d', 6); rect(c, -110, -50, 220, 60, '#ffe1b8', 4); for (let i = 0; i < 3; i++) drumstick(c, -70 + i * 70, -20, .45); text(c, 'PANAS', 0, 54, 34, '#fff');
+  for (let i = 0; i < 3; i++) { const yy = -90 - ((T * 40 + i * 25) % 60); c.save(); c.globalAlpha = .5; line(c, [[-50 + i * 50, yy], [-40 + i * 50, yy - 20]], 4, '#bbb'); c.restore(); } }); }
+function adRoom(c) { // denah: dapur belakang kiri (dinding di x=430), lantai toko kanan
+  rect(c, 60, 860, 370, 740, '#e9e2d3', 6); text(c, 'dapur belakang', 245, 920, 46, MUTED); rect(c, 430, 860, 590, 740, '#fff7e8', 6); text(c, 'lantai toko', 725, 920, 46, MUTED); }
+
+// COVER 0 - LEAD
+scene(0, LEAD, (c, T) => {
+  card(c, 80, 170, 920, 560, 56, BLUE, 8);
+  text(c, 'Dapur pindah', W / 2, 380, 130, '#fff'); text(c, 'ke depan', W / 2, 560, 140, YEL);
+  floor(c, 1600); adOven(c, 330, 1600, 1.2, T); counter(c, 760, 1500, 1.3);
+  person(c, {...AD_STAFF, x: 540, y: 1600, s: .6, mood: 'happy', la: [2.4, .4], ra: [2.4, .4]}); sparkle(c, 540, 1050, 1.3);
+});
+sfx(0.05, 'whoosh', .12);
+
+// A s0-s1 : staf bolak-balik, pembeli menunggu
+scene(LEAD, S(2), (c, T) => {
+  writeOn(c, 'Staf bolak-balik?', W / 2, 250, 104, INK, pe(T, S(0), .8), {under: ORANGE});
+  adRoom(c); floor(c, 1600, 60, 1020);
+  adOven(c, 220, 1600, .9, T); counter(c, 760, 1500, 1.1);
+  const q = (1 - Math.cos(Math.max(0, T - S(0) - .4) * 2.2)) / 2; const x = lerp(320, 560, q);
+  c.save(); c.setLineDash([18, 16]); arrow(c, [320, 1660], [570, 1660], ORANGE, 6); arrow(c, [570, 1700], [320, 1700], ORANGE, 6); c.restore();
+  person(c, {...AD_STAFF, x, y: 1600, s: .55, mood: T > S(1) ? 'worry' : 'ok', la: [1.2, .6], ra: [1.2, .6]}); if (T > S(1)) sweat(c, x + 50, 1300, 1);
+  if (T > S(1)) { [[900, AD_BUYER], [990, AD_BUYER2]].forEach(([bx, o], i) => { const s = pop(T, S(1) + .2 + i * .25, .35); if (s > 0) person(c, {...o, x: bx, y: 1600, s: .48 * s, mood: 'worry', la: [.3, .1], ra: [.3, .1]}); });
+    at(c, 760, 680, pop(T, S(1) + .3, .35), c => { pill(c, -280, -50, 560, 100, RED, 6); text(c, 'pembeli menunggu', 0, 20, 62, '#fff'); }); clockI(c, 930, 1160, .6, T, 1); }
+});
+sfx(S(0), 'scribble', .06); sfx(S(0) + .5, 'whoosh', .05); sfx(S(1), 'boing', .07); sfx(S(1) + .3, 'pop', .07);
+
+// B s2 : Asda Express di Deepcut
+scene(S(2), S(3), (c, T) => {
+  adFlagUK(c, 190, 330, pop(T, S(2), .4)); writeOn(c, 'Inggris', 560, 380, 120, INK, pe(T, S(2), .5), {under: ORANGE});
+  if (T > S(2) + .8) writeOn(c, 'Asda Express', W / 2, 620, 150, GREEN, pe(T, S(2) + .8, .7));
+  if (T > S(2) + 1.8) at(c, W / 2, 760, pop(T, S(2) + 1.8, .35), c => { pill(c, -230, -44, 460, 88, '#fff', 5); text(c, 'toko kecil', 0, 18, 56, MUTED); });
+  floor(c, 1640); const s = pe(T, S(2) + 1.4, .5); if (s > 0) at(c, 540, 1640, s, c => adStore(c, -280, 0, 560, 560, 'ASDA EXPRESS', GREEN));
+  if (T > S(2) + 3.6) at(c, 860, 1000, pop(T, S(2) + 3.6, .35), c => tag(c, 0, 0, 'Deepcut', 1, '#fff', INK, 60));
+});
+sfx(S(2), 'pop', .08); sfx(S(2) + .8, 'scribble', .06); sfx(S(2) + 1.4, 'pop', .07); sfx(S(2) + 3.6, 'tap', .06);
+
+// C s3-s5 : area roti pindah ke lantai toko, konter panas di depan, staf bikin roti sambil melayani
+scene(S(3), S(6), (c, T) => {
+  const t1 = T < S(5);
+  writeOn(c, t1 ? 'Area roti pindah ke depan' : 'Bikin roti sambil melayani', W / 2, 250, 82, INK, pe(T, t1 ? S(3) : S(5), .8), {under: ORANGE});
+  adRoom(c); floor(c, 1600, 60, 1020);
+  const m = pe(T, S(3) + 1.6, 1.2); adOven(c, lerp(220, 560, m), 1600, .9, T); counter(c, 830, 1500, 1.0);
+  if (m > 0 && m < 1) { c.save(); c.setLineDash([14, 12]); arrow(c, [230, 1240], [560, 1240], GREEN, 6, m); c.restore(); }
+  if (m >= 1 && T < S(4)) at(c, 560, 1180, pop(T, S(3) + 2.9, .35), c => { pill(c, -200, -40, 400, 80, GREEN, 5); text(c, 'lantai toko', 0, 16, 50, '#fff'); });
+  if (T > S(4)) { const k = pe(T, S(4) + .3, .9); adHot(c, lerp(245, 640, k), 1180, .8, T);
+    if (T < S(5)) at(c, W / 2, 400, pop(T, S(4) + 1.2, .35), c => { pill(c, -330, -46, 660, 92, ORANGE, 6); text(c, 'konter panas di depan', 0, 18, 58, '#fff'); }); }
+  if (T > S(5)) { const sway = Math.sin((T - S(5)) * 2.4) * 40;
+    person(c, {...AD_STAFF, x: 700 + sway, y: 1600, s: .55, mood: 'happy', la: [1.6, .5], ra: [2.2, .5]});
+    for (let i = 0; i < 3; i++) { const s = pop(T, S(5) + .6 + i * .5, .35); if (s > 0) adLoaf(c, 470 + i * 90, 1060 - i * 10, .7 * s); }
+    person(c, {...AD_BUYER, x: 960, y: 1600, s: .48, mood: 'happy', la: [.3, .1], ra: [1.8, .6]});
+    at(c, W / 2, 400, pop(T, S(5) + 2.2, .35), c => { pill(c, -310, -46, 620, 92, GREEN, 6); text(c, 'roti segar seharian', 0, 18, 58, '#fff'); }); }
+  else person(c, {...AD_STAFF, x: 700, y: 1600, s: .55, mood: 'ok', la: [.3, .1], ra: [.3, .1]});
+});
+sfx(S(3), 'scribble', .06); sfx(S(3) + 1.6, 'whoosh', .07); sfx(S(3) + 2.9, 'pop', .07); sfx(S(4), 'pop', .07); sfx(S(4) + 1.2, 'pop', .07); sfx(S(5), 'scribble', .06); for (let i = 0; i < 3; i++) sfx(S(5) + .6 + i * .5, 'tap', .06); sfx(S(5) + 2.2, 'ding', .07);
+
+// D s6 : menurut Asda, pelayanan lebih efisien
+scene(S(6), S(7), (c, T) => {
+  writeOn(c, 'Menurut Asda', W / 2, 260, 110, MUTED, pe(T, S(6), .6), {under: ORANGE});
+  at(c, W / 2, 640, pop(T, S(6) + 1.4, .4), c => { card(c, -420, -150, 840, 300, 40, '#e9f7ee', 6); at(c, -300, 0, 1.3, c => shape(c, [[0, -60], [50, 0], [20, 0], [20, 60], [-20, 60], [-20, 0], [-50, 0]], GREEN, 5)); text(c, 'pelayanan', 70, -14, 76, INK); text(c, 'lebih efisien', 70, 70, 70, GREEN); });
+  floor(c, 1600); adOven(c, 330, 1600, .9, T); counter(c, 760, 1500, 1.0);
+  person(c, {...AD_STAFF, x: 560, y: 1600, s: .55, mood: 'happy', la: [2.5, .3], ra: [2.5, .3]}); person(c, {...AD_BUYER2, x: 960, y: 1600, s: .48, mood: 'happy', la: [.3, .1], ra: [2.4, .4]});
+});
+sfx(S(6), 'scribble', .06); sfx(S(6) + 1.4, 'chime', .08);
+
+// E s7 : 14 toko Express lagi di 2027
+scene(S(7), S(8), (c, T) => {
+  writeOn(c, 'Setelah Deepcut', W / 2, 240, 96, INK, pe(T, S(7), .6), {under: ORANGE});
+  if (T > S(7) + 1.2) writeOn(c, '+14 toko Express', W / 2, 380, 104, GREEN, pe(T, S(7) + 1.2, .7));
+  for (let i = 0; i < 14; i++) { const s = pe(T, S(7) + 1.6 + i * .1, .35); if (s <= 0) continue; adMini(c, 170 + (i % 5) * 185, 760 + Math.floor(i / 5) * 300, .62 * s, '', GREEN); }
+  if (T > S(7) + 3.6) at(c, W / 2, 1640, pop(T, S(7) + 3.6, .35), c => { rect(c, -170, -130, 340, 260, '#fff', 6); rect(c, -170, -130, 340, 80, RED, 6); text(c, 'TAHUN', 0, -74, 50, '#fff'); text(c, '2027', 0, 90, 100, INK); });
+});
+sfx(S(7), 'scribble', .06); sfx(S(7) + 1.2, 'scribble', .06); for (let i = 0; i < 14; i += 2) sfx(S(7) + 1.6 + i * .1, 'tap', .05); sfx(S(7) + 3.6, 'pop', .07);
+
+// F s8-s9 : PEMBELAJARAN
+scene(S(8), S(10), (c, T) => {
+  at(c, W / 2, 260, pop(T, S(8), .4), c => { card(c, -380, -90, 760, 170, 50, ORANGE, 7); text(c, 'Pembelajaran', 0, 34, 104, '#fff'); });
+  if (T > S(8) + 1.2) writeOn(c, 'Persiapan dan melayani', W / 2, 500, 84, INK, pe(T, S(8) + 1.2, .8));
+  if (T > S(8) + 2.6) writeOn(c, 'di tempat yang sama', W / 2, 620, 92, BLUE, pe(T, S(8) + 2.6, .7), {under: ORANGE});
+  floor(c, 1500); adOven(c, 330, 1500, .85, T); counter(c, 750, 1400, .95);
+  const q = T > S(9) ? (1 - Math.cos((T - S(9)) * 3)) / 2 : 0; person(c, {...AD_STAFF, x: lerp(470, 600, q), y: 1500, s: .52, mood: 'happy', la: [1.4, .5], ra: [1.4, .5]});
+  if (T > S(9)) { at(c, W / 2, 1680, pop(T, S(9), .35), c => { pill(c, -300, -46, 600, 92, GREEN, 6); text(c, '1 staf, 2 tugas', 0, 18, 62, '#fff'); });
+    if (T > S(9) + 1.6) at(c, W / 2, 800, pop(T, S(9) + 1.6, .35), c => { pill(c, -280, -44, 560, 88, '#fff', 5); text(c, 'tanpa bolak-balik', 0, 18, 56, RED); line(c, [[-250, 0], [250, 0]], 6, RED); }); }
+});
+sfx(S(8), 'chime', .09); sfx(S(8) + 1.2, 'scribble', .06); sfx(S(8) + 2.6, 'scribble', .06); sfx(S(9), 'pop', .08); sfx(S(9) + 1.6, 'thud', .07);
+
+// G s10-s12 : contoh Indonesia
+scene(S(10), S(13), (c, T) => {
+  writeOn(c, 'Punya toko roti atau kedai kopi?', W / 2, 230, 74, INK, pe(T, S(10), .8), {under: ORANGE});
+  floor(c, 1560); rect(c, 80, 760, 920, 800, '#fff7e8', 6);
+  counter(c, 760, 1460, 1.0);
+  const m = pe(T, S(11) + .4, 1.0); const tx = lerp(240, 520, m);
+  at(c, tx, 1460, 1, c => { rect(c, -110, -100, 220, 30, '#c9935a', 6); line(c, [[-90, -70], [-90, 100]], 7); line(c, [[90, -70], [90, 100]], 7); adLoaf(c, -40, -120, .5); circ(c, 50, -125, 20, '#fff', 5); });
+  if (T > S(11)) at(c, tx, 1250, pop(T, S(11), .35), c => tag(c, 0, 0, 'meja racik', 1, '#fff', INK, 50));
+  if (m > 0 && m < 1) { c.save(); c.setLineDash([14, 12]); arrow(c, [250, 1180], [520, 1180], GREEN, 6, m); c.restore(); }
+  person(c, {...OWNER, x: tx + 20, y: 1560, s: .5, mood: T > S(11) ? 'happy' : 'think', la: [.3, .1], ra: [1.6, .6]});
+  if (T > S(11) + 1.4) at(c, W / 2, 620, pop(T, S(11) + 1.4, .35), c => { pill(c, -260, -44, 520, 88, GREEN, 5); text(c, 'dekat kasir', 0, 18, 58, '#fff'); });
+  if (T > S(12)) { person(c, {...AD_BUYER, x: 930, y: 1560, s: .48, mood: 'happy', la: [.3, .1], ra: [.3, .1]}); sparkle(c, 640, 1150, 1.2);
+    at(c, W / 2, 1720, pop(T, S(12) + .3, .35), c => { pill(c, -330, -46, 660, 92, ORANGE, 6); text(c, 'pembeli lihat langsung', 0, 18, 56, '#fff'); }); }
+});
+sfx(S(10), 'scribble', .06); sfx(S(11), 'pop', .07); sfx(S(11) + .4, 'whoosh', .06); sfx(S(11) + 1.4, 'ding', .06); sfx(S(12), 'pop', .07);
+
+// H s13-end : dua kubu
+scene(S(13), TOTAL + .1, (c, T) => {
+  writeOn(c, 'Kamu tim mana?', W / 2, 240, 116, INK, pe(T, S(13), .6), {under: ORANGE});
+  floor(c, 1560);
+  const camp = (x0, t0, cheer, title, icon, col, bg) => { const s = pop(T, t0, .4); if (s <= 0) return; const j = T > cheer ? Math.abs(Math.sin((T - cheer) * 7)) * -26 * (1 - P(T, cheer + 1.6, cheer + 2.2)) : 0;
+    at(c, x0, 760, s, c => { card(c, -230, -270, 460, 500, 40, bg, 6); at(c, 0, -80, 1, icon); title.forEach((t, i) => text(c, t, 0, 110 + i * 60, 56, col)); });
+    at(c, x0, 1560, s, c => [-75, 75].forEach((dx, i) => person(c, {hair: i ? 'bun' : 'short', shirt: i ? BLUE : PURPLE, x: dx, y: j * (i ? .7 : 1), s: .5, mood: 'happy', la: T > cheer ? [2.8, .2] : [.3, .1], ra: T > cheer ? [2.8, .2] : [.3, .1]}))); };
+  camp(290, S(13) + .2, S(13) + .9, ['Dapur di', 'belakang'], c => { rect(c, -120, -120, 240, 160, '#e9e2d3', 5); adOven(c, -40, 30, .5, T); }, BLUE, '#eaf2ff');
+  camp(790, S(13) + 1.6, S(13) + 2.2, ['Dapur di', 'depan'], c => { adOven(c, -60, 30, .5, T); counter(c, 80, 0, .5); }, ORANGE, '#fff1e2');
+  if (T > S(14)) at(c, W / 2, 1720, pop(T, S(14), .35), c => { card(c, -330, -70, 660, 130, 44, ORANGE, 6); text(c, 'Tulis di komentar', -20, 24, 76, '#fff');
+    for (let i = 0; i < 3; i++) circ(c, 250 + i * 26, 0, 7 + 3 * Math.max(0, Math.sin(T * 8 - i)), '#fff', 0); });
+});
+sfx(S(13), 'scribble', .06); sfx(S(13) + .2, 'pop', .09); sfx(S(13) + 1.6, 'pop', .09); sfx(S(14), 'ding', .08);

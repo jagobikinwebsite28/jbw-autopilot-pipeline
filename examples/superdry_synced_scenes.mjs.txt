@@ -1,0 +1,151 @@
+// waktu mulai tiap kalimat (detik suara), dari timing.json
+const ST = [0.0, 3.67, 7.4, 11.12, 15.72, 19.86, 24.83, 29.69, 36.19, 37.96, 41.08, 45.42, 48.99];
+const S = i => V(ST[i]);
+// ---------- Superdry & Co King's Road: toko konsep uji coba 6 bulan (FashionUnited, 25 Nov 2026), props sd*
+const YOUNG = {hair: 'bun', shirt: PURPLE, mood: 'happy'};
+const YOUNG2 = {hair: 'short', shirt: GREEN, mood: 'happy'};
+function sdFlagUK(c, x, y, s = 1) { at(c, x, y, s, c => { line(c, [[-90, -60], [-90, 150]], 7);
+  c.save(); c.beginPath(); c.rect(-90, -60, 180, 110); c.clip(); c.fillStyle = '#1f3c88'; c.fillRect(-90, -60, 180, 110);
+  c.lineWidth = 22; c.strokeStyle = '#fff'; c.beginPath(); c.moveTo(-90, -60); c.lineTo(90, 50); c.moveTo(90, -60); c.lineTo(-90, 50); c.stroke();
+  c.lineWidth = 8; c.strokeStyle = '#d8443a'; c.beginPath(); c.moveTo(-90, -60); c.lineTo(90, 50); c.moveTo(90, -60); c.lineTo(-90, 50); c.stroke();
+  c.fillStyle = '#fff'; c.fillRect(-90, -16, 180, 22); c.fillRect(-14, -60, 28, 110); c.fillStyle = '#d8443a'; c.fillRect(-90, -11, 180, 12); c.fillRect(-8, -60, 16, 110); c.restore();
+  rect(c, -90, -60, 180, 110, null, 6); }); }
+function sdStore(c, x, y, w, h, sign, signCol = BLUE) { rect(c, x, y - h, w, h, '#fff7e8', 6); rect(c, x - 14, y - h - 70, w + 28, 80, signCol, 6); text(c, sign, x + w / 2, y - h - 14, 50, '#fff');
+  rect(c, x + 30, y - h + 50, w * .32, h * .4, '#cfe8f6', 5); rect(c, x + w - 30 - w * .32, y - h + 50, w * .32, h * .4, '#cfe8f6', 5); rect(c, x + w * .38, y - h * .55, w * .24, h * .55, '#bfe3f2', 5); }
+function sdMini(c, x, y, s, name, col = BLUE, dim = false) { at(c, x, y, s, c => sdStore(c, -130, 0, 260, 220, name, dim ? '#a9a39a' : col), dim ? .45 : 1); }
+function sdTee(c, x, y, s = 1, col = BLUE) { at(c, x, y, s, c => shape(c, [[-40, -70], [-95, -40], [-75, 0], [-50, -12], [-50, 80], [50, 80], [50, -12], [75, 0], [95, -40], [40, -70], [0, -50]], col, 6)); }
+function sdHoodie(c, x, y, s = 1, col = '#3a3f45') { at(c, x, y, s, c => { circ(c, 0, -66, 36, col, 6); sdTee(c, 0, 0, 1, col); rect(c, -32, 20, 64, 34, '#ffffff55', 4); }); }
+function sdJacket(c, x, y, s = 1) { at(c, x, y, s, c => { sdTee(c, 0, 0, 1, '#a07a4a'); line(c, [[0, -50], [0, 80]], 5); rect(c, 22, 10, 30, 22, ORANGE, 3); }); }
+function sdHanger(c, x, y, s = 1) { at(c, x, y, s, c => { line(c, [[0, -40], [0, -18], [-70, 20], [70, 20], [0, -18]], 6); }); }
+function sdTote(c, x, y, s = 1) { at(c, x, y, s, c => { c.beginPath(); c.arc(0, -70, 45, Math.PI, 0); c.lineWidth = 9; c.strokeStyle = INK; c.stroke(); rect(c, -95, -70, 190, 200, ORANGE, 6); text(c, 'EDISI', 0, 0, 40, '#fff'); text(c, 'TERBATAS', 0, 46, 36, '#fff'); }); }
+function sdStar(c, x, y, s = 1, col = YEL) { const p = []; for (let i = 0; i < 10; i++) { const r = i % 2 ? 26 : 62, a = -Math.PI / 2 + i * Math.PI / 5; p.push([Math.cos(a) * r, Math.sin(a) * r]); } at(c, x, y, s, c => shape(c, p, col, 6)); }
+function sdGift(c, x, y, s = 1) { at(c, x, y, s, c => { rect(c, -60, -30, 120, 90, GREEN, 6); rect(c, -70, -56, 140, 30, GREEN, 6); rect(c, -10, -56, 20, 116, RED, 4); }); }
+function sdMonth(c, x, y, n, on) { rect(c, x - 62, y - 80, 124, 160, '#fff', 6); rect(c, x - 62, y - 80, 124, 44, on ? ORANGE : '#d9d2c5', 6); text(c, String(n), x, y + 52, 70, on ? INK : MUTED); }
+
+// COVER 0 - LEAD
+scene(0, LEAD, (c, T) => {
+  card(c, 80, 170, 920, 560, 56, BLUE, 8);
+  text(c, 'Toko uji coba', W / 2, 390, 130, '#fff'); text(c, '6 bulan', W / 2, 580, 150, YEL);
+  floor(c, 1600); at(c, 540, 1600, 1, c => sdStore(c, -260, 0, 520, 520, 'TOKO KONSEP', ORANGE));
+  sparkle(c, 820, 1000, 1.4); sparkle(c, 260, 1040, 1.1);
+  person(c, {...YOUNG, x: 160, y: 1600, s: .55}); person(c, {...YOUNG2, x: 930, y: 1600, s: .55});
+});
+sfx(0.05, 'whoosh', .12);
+
+// A s0 : hook pemilik
+scene(LEAD, S(1), (c, T) => {
+  writeOn(c, 'Mau tarik pembeli muda?', W / 2, 260, 92, INK, pe(T, S(0), .9), {under: ORANGE});
+  floor(c, 1600);
+  at(c, 330, 1600, 1, c => sdStore(c, -230, 0, 460, 560, 'TOKOMU', BLUE));
+  const worry = T > S(0) + 1.6;
+  person(c, {...OWNER, x: 330, y: 1600, s: .6, mood: worry ? 'worry' : 'think', la: [.3, .1], ra: [2.5, .6]});
+  const k = clamp((T - S(0) - .3) / 2.6);
+  person(c, {...YOUNG, x: 1000 - 260 * k, y: 1600, s: .5, la: [.3, .1], ra: [.3, .1]});
+  person(c, {...YOUNG2, x: 1120 - 260 * k, y: 1600, s: .5, la: [.3, .1], ra: [.3, .1]});
+  if (worry) { at(c, 760, 720, pop(T, S(0) + 1.6, .35), c => { text(c, 'takut salah konsep?', 0, 0, 74, RED); }); sweat(c, 400, 1080, 1.1); }
+});
+sfx(S(0), 'scribble', .06); sfx(S(0) + 1.6, 'boing', .07);
+
+// B s1 : London, Superdry & Co, toko konsep di King's Road
+scene(S(1), S(2), (c, T) => {
+  sdFlagUK(c, 190, 330, pop(T, S(1), .4)); writeOn(c, 'London', 580, 380, 120, INK, pe(T, S(1), .5), {under: ORANGE});
+  if (T > S(1) + .5) writeOn(c, 'Superdry & Co', W / 2, 600, 130, BLUE, pe(T, S(1) + .5, .7));
+  floor(c, 1640);
+  const s = pe(T, S(1) + 1.3, .5); if (s > 0) at(c, 540, 1640, s, c => sdStore(c, -280, 0, 560, 560, 'TOKO KONSEP', ORANGE));
+  if (T > S(1) + 2.2) at(c, 860, 820, pop(T, S(1) + 2.2, .35), c => { line(c, [[0, 40], [0, 260]], 8); card(c, -190, -50, 380, 100, 16, GREEN, 6); text(c, "King's Road", 0, 18, 54, '#fff'); });
+});
+sfx(S(1), 'pop', .08); sfx(S(1) + .5, 'scribble', .06); sfx(S(1) + 1.3, 'pop', .07); sfx(S(1) + 2.2, 'ding', .06);
+
+// C s2 : uji coba 6 bulan
+scene(S(2), S(3), (c, T) => {
+  writeOn(c, 'Sengaja uji coba', W / 2, 260, 100, INK, pe(T, S(2), .7), {under: ORANGE});
+  const k = pe(T, S(2) + 1.4, 2.0);
+  for (let i = 0; i < 6; i++) { const s = pe(T, S(2) + .9 + i * .12, .35); if (s > 0) at(c, 0, 0, 1, c => sdMonth(c, 160 + i * 152, 700, i + 1, k * 6 > i + .5)); }
+  if (T > S(2) + 2.0) writeOn(c, 'selama 6 bulan', W / 2, 960, 104, BLUE, pe(T, S(2) + 2.0, .6));
+  hourglass(c, 540, 1300, 1.1, T);
+  floor(c, 1640); person(c, {...OWNER, x: 220, y: 1640, s: .55, mood: 'ok', la: [.3, .1], ra: [2.2, .5]});
+});
+sfx(S(2), 'scribble', .06); for (let i = 0; i < 6; i++) sfx(S(2) + .9 + i * .12, 'tap', .05); sfx(S(2) + 2.0, 'pop', .07);
+
+// D s3 : isi toko
+scene(S(3), S(4), (c, T) => {
+  writeOn(c, 'Isinya', W / 2, 240, 110, INK, pe(T, S(3), .5), {under: ORANGE});
+  line(c, [[110, 560], [970, 560]], 10);
+  const items = [[S(3) + .4, c => sdTee(c, 0, 140, 1.1, BLUE), 'Superdry & Co'], [S(3) + 1.7, c => sdHoodie(c, 0, 150, 1.1), 'Bench'], [S(3) + 2.7, c => sdJacket(c, 0, 140, 1.1), 'vintage']];
+  items.forEach(([t0, f, l], i) => { const s = pop(T, t0, .35); if (s <= 0) return; const x = 240 + i * 300; at(c, x, 560, s, c => { sdHanger(c, 0, 20, 1); at(c, 0, Math.sin(T * 2 + i) * 6, 1, f); tag(c, 0, 330, l, 1, '#fff', INK, 46); }); });
+  floor(c, 1640); person(c, {...YOUNG, x: 300, y: 1640, s: .55, la: [.3, .1], ra: [2.0, .8]}); person(c, {...YOUNG2, x: 780, y: 1640, s: .55, mood: 'happy', la: [2.4, .4], ra: [.3, .1]});
+});
+sfx(S(3), 'scribble', .06); sfx(S(3) + .4, 'pop', .08); sfx(S(3) + 1.7, 'pop', .08); sfx(S(3) + 2.7, 'pop', .08);
+
+// E s4 : tas edisi terbatas
+scene(S(4), S(5), (c, T) => {
+  writeOn(c, 'Tas belanja', W / 2, 260, 110, INK, pe(T, S(4), .6), {under: ORANGE});
+  at(c, 540, 760, pop(T, S(4) + .6, .4), c => sdTote(c, 0, Math.sin(T * 2.5) * 8, 1.6));
+  if (T > S(4) + 2.2) at(c, 540, 1130, pop(T, S(4) + 2.2, .35), c => { pill(c, -320, -48, 640, 96, GREEN, 6); text(c, 'cuma di toko ini', 0, 20, 64, '#fff'); });
+  floor(c, 1640); person(c, {...YOUNG, x: 540, y: 1640, s: .6, mood: 'happy', la: [.3, .1], ra: [2.6, .3]});
+});
+sfx(S(4), 'scribble', .06); sfx(S(4) + .6, 'pop', .08); sfx(S(4) + 2.2, 'ding', .07);
+
+// F s5 : acara tiap minggu
+scene(S(5), S(6), (c, T) => {
+  writeOn(c, 'Tiap minggu ada acara', W / 2, 250, 92, INK, pe(T, S(5), .7), {under: ORANGE});
+  const row = (y, t0, icon, l) => { const s = pop(T, t0, .35); if (s <= 0) return; at(c, W / 2, y, s, c => { card(c, -420, -110, 840, 220, 40, '#fff', 6); at(c, -300, 0, 1, icon); text(c, l, 80, 22, 66, INK); }); };
+  row(560, S(5) + 1.2, c => sdStar(c, 0, 0, 1), 'temu influencer');
+  row(840, S(5) + 2.4, c => sdHanger(c, 0, 10, 1.2), 'sesi styling');
+  row(1120, S(5) + 3.4, c => sdGift(c, 0, 0, .9), 'giveaway');
+  floor(c, 1640); [200, 880].forEach((x, i) => person(c, {...(i ? YOUNG2 : YOUNG), x, y: 1640 - (T > S(5) + 3.6 ? Math.abs(Math.sin((T - S(5)) * 7)) * 20 : 0), s: .5, la: [2.6, .3], ra: [2.6, .3]}));
+});
+sfx(S(5), 'scribble', .06); sfx(S(5) + 1.2, 'pop', .08); sfx(S(5) + 2.4, 'pop', .08); sfx(S(5) + 3.4, 'chime', .08);
+
+// G s6 : kalau berhasil, dipakai di toko lain
+scene(S(6), S(7), (c, T) => {
+  writeOn(c, 'Menurut Superdry & Co', W / 2, 240, 84, MUTED, pe(T, S(6), .7), {under: ORANGE});
+  if (T > S(6) + 1.2) writeOn(c, 'kalau berhasil,', W / 2, 380, 96, INK, pe(T, S(6) + 1.2, .6));
+  if (T > S(6) + 2.2) writeOn(c, 'dipakai di toko lain', W / 2, 500, 88, BLUE, pe(T, S(6) + 2.2, .7), {under: ORANGE});
+  at(c, W / 2, 1000, 1, c => { sdStore(c, -170, 160, 340, 300, 'KONSEP', ORANGE); sparkle(c, 200, -160, 1.2); });
+  [[200, 1600], [540, 1660], [880, 1600]].forEach(([x, y], i) => { const k = pe(T, S(6) + 2.6 + i * .25, .5); if (k <= 0) return; c.save(); c.setLineDash([16, 14]); arrow(c, [W / 2, 1180], [x, y - 260], BLUE, 6, k); c.restore();
+    if (k >= 1) sdMini(c, x, y, pop(T, S(6) + 3.0 + i * .25, .35) * .8, 'toko', BLUE); });
+});
+sfx(S(6), 'scribble', .05); sfx(S(6) + 1.2, 'scribble', .05); sfx(S(6) + 2.6, 'whoosh', .06);
+
+// H s7 : PEMBELAJARAN
+scene(S(7), S(8), (c, T) => {
+  at(c, W / 2, 260, pop(T, S(7), .4), c => { card(c, -380, -90, 760, 170, 50, ORANGE, 7); text(c, 'Pembelajaran', 0, 34, 104, '#fff'); });
+  if (T > S(7) + 1.0) writeOn(c, 'Uji konsep baru', W / 2, 500, 96, INK, pe(T, S(7) + 1.0, .6));
+  if (T > S(7) + 2.0) writeOn(c, 'dengan batas waktu', W / 2, 620, 92, BLUE, pe(T, S(7) + 2.0, .7), {under: ORANGE});
+  if (T > S(7) + 2.0) at(c, 290, 1050, pop(T, S(7) + 2.0, .35), c => { card(c, -210, -220, 420, 440, 40, '#fff', 6); hourglass(c, 0, -30, 1, T); text(c, 'batas waktu', 0, 170, 52, INK); });
+  if (T > S(7) + 3.6) at(c, 790, 1050, pop(T, S(7) + 3.6, .35), c => { card(c, -210, -220, 420, 440, 40, '#e9f7ee', 6); sdGift(c, 0, -40, 1.2); text(c, 'alasan datang', 0, 150, 50, GREEN); text(c, 'langsung', 0, 205, 50, GREEN); });
+  floor(c, 1640); person(c, {...OWNER, x: 540, y: 1640, s: .55, mood: 'happy', la: [.3, .1], ra: [2.6, .3]});
+});
+sfx(S(7), 'chime', .09); sfx(S(7) + 1.0, 'scribble', .06); sfx(S(7) + 2.0, 'pop', .08); sfx(S(7) + 3.6, 'pop', .08);
+
+// I s8-s10 : contoh Indonesia
+scene(S(8), S(11), (c, T) => {
+  writeOn(c, 'Punya toko baju atau distro?', W / 2, 230, 80, INK, pe(T, S(8), .7), {under: ORANGE});
+  floor(c, 1500);
+  rect(c, 100, 640, 880, 860, '#fff7e8', 6);
+  sdHanger(c, 260, 720, 1); sdTee(c, 260, 860, .8, BLUE); sdHanger(c, 460, 720, 1); sdTee(c, 460, 860, .8, RED);
+  if (T > S(9)) { const p = pe(T, S(9), .6); c.save(); c.globalAlpha = p; rect(c, 600, 680, 340, 520, '#fde7d4', 6); c.restore();
+    if (p >= 1) { sdHoodie(c, 700, 880, .6); sdJacket(c, 850, 880, .6); }
+    at(c, 770, 610, pop(T, S(9) + .4, .35), c => { pill(c, -230, -44, 460, 88, ORANGE, 5); text(c, 'pojok anak muda', 0, 16, 50, '#fff'); });
+    if (T > S(9) + 1.4) at(c, 770, 1130, pop(T, S(9) + 1.4, .35), c => tag(c, 0, 0, '3 bulan', 1, '#fff', INK, 56)); }
+  person(c, {...OWNER, x: 300, y: 1500, s: .5, mood: T > S(9) ? 'happy' : 'think', la: [.3, .1], ra: [2.4, .5]});
+  if (T > S(10)) { at(c, 170, 1200, pop(T, S(10), .35), c => { sdTote(c, 0, 0, .5); });
+    at(c, W / 2, 1720, pop(T, S(10) + .3, .35), c => { pill(c, -360, -46, 720, 92, GREEN, 6); text(c, 'produk khusus toko', 0, 18, 56, '#fff'); });
+    if (T > S(10) + 2.0) at(c, 600, 1320, pop(T, S(10) + 2.0, .35), c => { rect(c, -110, -90, 220, 180, '#fff', 6); rect(c, -110, -90, 220, 56, RED, 6); text(c, 'SABTU', 0, -46, 44, '#fff'); text(c, 'acara', 0, 50, 54, INK); }); }
+});
+sfx(S(8), 'scribble', .06); sfx(S(9), 'pop', .08); sfx(S(9) + 1.4, 'tap', .06); sfx(S(10), 'pop', .08); sfx(S(10) + 2.0, 'ding', .07);
+
+// J s11-end : dua kubu
+scene(S(11), TOTAL + .1, (c, T) => {
+  writeOn(c, 'Kamu tim mana?', W / 2, 240, 116, INK, pe(T, S(11), .6), {under: ORANGE});
+  floor(c, 1560);
+  const camp = (x0, t0, cheer, title, icon, col, bg) => { const s = pop(T, t0, .4); if (s <= 0) return; const j = T > cheer ? Math.abs(Math.sin((T - cheer) * 7)) * -26 * (1 - P(T, cheer + 1.6, cheer + 2.2)) : 0;
+    at(c, x0, 760, s, c => { card(c, -230, -270, 460, 500, 40, bg, 6); at(c, 0, -80, 1, icon); title.forEach((t, i) => text(c, t, 0, 110 + i * 60, 56, col)); });
+    at(c, x0, 1560, s, c => [-75, 75].forEach((dx, i) => person(c, {hair: i ? 'bun' : 'short', shirt: i ? BLUE : PURPLE, x: dx, y: j * (i ? .7 : 1), s: .5, mood: 'happy', la: T > cheer ? [2.8, .2] : [.3, .1], ra: T > cheer ? [2.8, .2] : [.3, .1]}))); };
+  camp(290, S(11) + .2, S(11) + .9, ['Langsung', 'ubah semua'], c => { [-130, 0, 130].forEach(dx => sdMini(c, dx, 80, .44, '', ORANGE)); }, RED, '#fdecea');
+  camp(790, S(11) + 1.7, S(11) + 2.3, ['Uji coba', 'dulu'], c => { sdMini(c, -130, 80, .44, '', ORANGE); sdMini(c, 0, 80, .44, '', BLUE, true); sdMini(c, 130, 80, .44, '', BLUE, true); }, GREEN, '#e9f7ee');
+  if (T > S(12)) at(c, W / 2, 1720, pop(T, S(12), .35), c => { card(c, -330, -70, 660, 130, 44, ORANGE, 6); text(c, 'Tulis di komentar', -20, 24, 76, '#fff');
+    for (let i = 0; i < 3; i++) circ(c, 250 + i * 26, 0, 7 + 3 * Math.max(0, Math.sin(T * 8 - i)), '#fff', 0); });
+});
+sfx(S(11), 'scribble', .06); sfx(S(11) + .2, 'pop', .09); sfx(S(11) + 1.7, 'pop', .09); sfx(S(12), 'ding', .08);
